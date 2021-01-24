@@ -33,3 +33,16 @@ DNA_STATUS ROM_DEVICE_CLASS::Create(UINT8 *Buffer, UINTN Size) {
   
   return Status;
 }
+
+DNA_STATUS ROM_DEVICE_CLASS::LoadImage(const char *filename) {
+  DNA_STATUS Status;
+
+  Status = DNA_SUCCESS;
+
+  do {
+    this->Buffer = Buffer;
+    this->Size = Size;
+  } while (FALSE);
+
+  return Status;
+}

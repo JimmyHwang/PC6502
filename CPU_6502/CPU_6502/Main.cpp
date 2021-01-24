@@ -1,21 +1,37 @@
 #include "main.h"
 
-//-----------------------------------------------------------------------------
-// Device Functions
-//-----------------------------------------------------------------------------
+PLATFORM_CLASS *gPlatform = NULL;
 
+//-----------------------------------------------------------------------------
+// DLL Functions
+//-----------------------------------------------------------------------------
+int InitializeVM() {
+  DNA_STATUS Status;
+
+  gPlatform = new PLATFORM_CLASS();
+  if (gPlatform != NULL) {
+    Status = DNA_SUCCESS;
+  } else {
+    Status = DNA_OUT_OF_RESOURCES;
+  }
+
+  return Status;
+}
+
+int LoadBIOS(const char *filename) {
+  DNA_STATUS Status;
+  
+  Status = gPlatform->LoadBIOS(filename);
+
+  return Status;
+}
 
 //-----------------------------------------------------------------------------
 // Memory Functions
 //-----------------------------------------------------------------------------
-
-
 int main() {
   PLATFORM_CLASS *Platform = new PLATFORM_CLASS();
-  //Log.Info("CPU_TYPE = MOS6502");
-  //this->u6502 = new CLASS_MOS6502();
-  //this->CpuControl = &this->u6502->CpuControl;
-
+  Platform->LoadBIOS("Startup.bin");
 
   return 0;
 }

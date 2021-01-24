@@ -117,8 +117,6 @@ void PLATFORM_CLASS::AddDeivce(BASE_DEVICE_CLASS *Device, UINTN Address, UINTN S
 PLATFORM_CLASS::PLATFORM_CLASS() {
   int i;
 
-  //printf("<CLASS_MOS6502::CLASS_MOS6502()=0x%lX>", (char*)this - (char*)0);
-
   this->CPU = new CLASS_MOS6502();
   this->CpuControl = &this->CPU->CpuControl;
   this->CPU->MemoryControl = &this->MemoryControl;
@@ -145,6 +143,14 @@ PLATFORM_CLASS::PLATFORM_CLASS() {
   this->AddDeivce(RAM, 0x0000, 0x2000);
 
 
+}
+
+DNA_STATUS PLATFORM_CLASS::LoadBIOS(const char *filename) {
+  DNA_STATUS Status;
+
+  Status = ROM->LoadImage(filename);
+
+  return Status;
 }
 
 PLATFORM_CLASS::~PLATFORM_CLASS() {

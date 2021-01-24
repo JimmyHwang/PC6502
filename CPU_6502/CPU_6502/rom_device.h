@@ -12,6 +12,7 @@ class ROM_DEVICE_CLASS: public BASE_DEVICE_CLASS {
     ~ROM_DEVICE_CLASS();
     
     DNA_STATUS Create(UINT8 *Buffer, UINTN Size);
+    DNA_STATUS LoadImage(const char *filename);
     
     VOID Write8(UINTN Address, UINT8 Data) override;
     VOID Write16(UINTN Address, UINT16 Data) override;

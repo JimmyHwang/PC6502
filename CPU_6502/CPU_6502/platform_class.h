@@ -17,11 +17,15 @@ public:
   MEMORY_CONTROL_PROTOCOL MemoryControl;
   BASE_DEVICE_CLASS *DeviceMappingTable[16];
 
+  ROM_DEVICE_CLASS *ROM;
+  RAM_DEVICE_CLASS *RAM;
+  XIO_DEVICE_CLASS *XIO;
+
   PLATFORM_CLASS();
   ~PLATFORM_CLASS();
 
   void AddDeivce(BASE_DEVICE_CLASS *Device, UINTN Address, UINTN Size);
-
+  DNA_STATUS LoadBIOS(const char *filename);
 };
 
 #endif

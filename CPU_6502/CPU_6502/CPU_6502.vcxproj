@@ -124,7 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="base_device.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="mos6502.cpp" />
     <ClCompile Include="mos6502class.cpp" />
     <ClCompile Include="platform_class.cpp" />
