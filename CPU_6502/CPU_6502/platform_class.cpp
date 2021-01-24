@@ -1,5 +1,9 @@
 #include "main.h"
+#include <assert.h>
 
+//-----------------------------------------------------------------------------
+// Memory Hook for CPU
+//-----------------------------------------------------------------------------
 UINT8
 MemoryRead8(
   MEMORY_CONTROL_PROTOCOL *Protocol,
@@ -16,7 +20,7 @@ MemoryRead8(
   Data = Device->Read8(Ip);
 
 #if DEBUG_ADDRESSS_DECODER  
-  Log.Verbose("R8,0x%lX=0x%08X", Ip, Data);
+  printf("R8,0x%lX=0x%08X", Ip, Data);
 #endif  
   return Data;
 }
@@ -32,7 +36,7 @@ MemoryWrite8(
   BASE_DEVICE_CLASS *Device;
 
 #if DEBUG_ADDRESSS_DECODER  
-  Log.Verbose("W8,0x%lX=0x%08X", Ip, Data);
+  printf("W8,0x%lX=0x%08X", Ip, Data);
 #endif  
   This = _CR(Protocol, PLATFORM_CLASS, MemoryControl);
   Index = (Ip >> ADDRESS_MASK_BITS) & ADDRESS_INDEX_MASK;
@@ -44,21 +48,10 @@ UINT16
 MemoryRead16(
   MEMORY_CONTROL_PROTOCOL *Protocol,
   UINTN Ip
-) {
-  UINT16 Data;
-  int Index;
-  PLATFORM_CLASS *This;
-  BASE_DEVICE_CLASS *Device;
-
-  This = _CR(Protocol, PLATFORM_CLASS, MemoryControl);
-  Index = (Ip >> ADDRESS_MASK_BITS) & ADDRESS_INDEX_MASK;
-  Device = This->DeviceMappingTable[Index];
-  Data = Device->Read8(Ip);
-
-#if DEBUG_ADDRESSS_DECODER  
-  Log.Verbose("R16,0x%lX=0x%08X", Ip, Data);
-#endif  
-  return Data;
+  ) 
+{
+  assert(false);
+  return 0;
 }
 
 VOID
@@ -66,18 +59,9 @@ MemoryWrite16(
   MEMORY_CONTROL_PROTOCOL *Protocol,
   UINTN Ip,
   UINT16 Data
-) {
-  int Index;
-  PLATFORM_CLASS *This;
-  BASE_DEVICE_CLASS *Device;
-
-#if DEBUG_ADDRESSS_DECODER  
-  Log.Verbose("W16,0x%lX=0x%08X", Ip, Data);
-#endif  
-  This = _CR(Protocol, PLATFORM_CLASS, MemoryControl);
-  Index = (Ip >> ADDRESS_MASK_BITS) & ADDRESS_INDEX_MASK;
-  Device = This->DeviceMappingTable[Index];
-  Device->Write16(Ip, Data);
+  )
+{
+  assert(false);
 }
 
 UINT32
@@ -86,6 +70,7 @@ MemoryRead32(
   UINTN Ip
   ) 
 {
+  assert(false);
   return 0;
 }
 
@@ -96,10 +81,12 @@ MemoryWrite32(
   UINT32 Data
   ) 
 {
+  assert(false);
 }
-//
-// Protocol Defination
-//
+
+//-----------------------------------------------------------------------------
+// Public Functions
+//-----------------------------------------------------------------------------
 void PLATFORM_CLASS::AddDeivce(BASE_DEVICE_CLASS *Device, UINTN Address, UINTN Size) {
   int i;
   UINTN addr;
@@ -111,9 +98,18 @@ void PLATFORM_CLASS::AddDeivce(BASE_DEVICE_CLASS *Device, UINTN Address, UINTN S
     }
   }
 }
-//
-// Class Constructor
-//
+
+DNA_STATUS PLATFORM_CLASS::LoadBIOS(UINT8 *buffer, int size) {
+  DNA_STATUS Status;
+
+  Status = this->ROM->LoadImage(buffer, size);
+
+  return Status;
+}
+
+//-----------------------------------------------------------------------------
+// Constructor & Destructor
+//-----------------------------------------------------------------------------
 PLATFORM_CLASS::PLATFORM_CLASS() {
   int i;
 
@@ -135,23 +131,16 @@ PLATFORM_CLASS::PLATFORM_CLASS() {
   //
   // Initialize device and add to mapping table
   //
-  ROM_DEVICE_CLASS *ROM = new ROM_DEVICE_CLASS();
-  this->AddDeivce(ROM, 0xE000, 0x2000);
-  XIO_DEVICE_CLASS *XIO = new XIO_DEVICE_CLASS();
+  this->ROM = new ROM_DEVICE_CLASS(0x2000);
+  this->AddDeivce(this->ROM, 0xE000, 0x2000);
+  this->XIO = new XIO_DEVICE_CLASS();
   this->AddDeivce(XIO, 0xC000, 0x2000);
-  RAM_DEVICE_CLASS *RAM = new RAM_DEVICE_CLASS();
-  this->AddDeivce(RAM, 0x0000, 0x2000);
-
-
-}
-
-DNA_STATUS PLATFORM_CLASS::LoadBIOS(const char *filename) {
-  DNA_STATUS Status;
-
-  Status = ROM->LoadImage(filename);
-
-  return Status;
+  this->RAM = new RAM_DEVICE_CLASS(0x2000);
+  this->AddDeivce(this->RAM, 0x0000, 0x2000);
 }
 
 PLATFORM_CLASS::~PLATFORM_CLASS() {
+  delete this->ROM;
+  delete this->RAM;
+  delete this->XIO;
 }

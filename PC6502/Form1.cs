@@ -14,14 +14,16 @@ namespace PC6502 {
     [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern int InitializeVM();
     [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
-    public static extern unsafe int LoadBIOS(char* filename);
+    public static extern unsafe int LoadBIOS(string filename);
 
     public Form1() {
       InitializeComponent();
     }
 
     private void button_Test_Click(object sender, EventArgs e) {
-
+      InitializeVM();
+      string fn = "BIOS.bin";
+      LoadBIOS(fn);
     }
   }
 }

@@ -25,7 +25,7 @@ public:
   ~PLATFORM_CLASS();
 
   void AddDeivce(BASE_DEVICE_CLASS *Device, UINTN Address, UINTN Size);
-  DNA_STATUS LoadBIOS(const char *filename);
+  DNA_STATUS LoadBIOS(UINT8 *buffer, int size);
 };
 
 #endif
