@@ -156,7 +156,6 @@ namespace PC6502 {
       } else {
         ConfigData = new JObject();
       }
-
     }
 
     void SaveConfig() {
@@ -195,9 +194,8 @@ namespace PC6502 {
       if (ConfigData.ContainsKey("RecentFiles")) {
         dynamic files = ConfigData["RecentFiles"];
         foreach (string file in files) {
-          ToolStripMenuItem tsRecent = new ToolStripMenuItem(file, null, RecentFile_click);
-          //recentFilesToolStripMenuItem.DropDownItems.Add(file);
-          recentFilesToolStripMenuItem.DropDownItems.Add(tsRecent);
+          ToolStripMenuItem item = new ToolStripMenuItem(file, null, RecentFile_click);
+          recentFilesToolStripMenuItem.DropDownItems.Add(item);
         }        
       } else {
         ConfigData["RecentFiles"] = new JArray();
@@ -208,7 +206,7 @@ namespace PC6502 {
       listView_Device.Items.Clear();
       foreach(dynamic item in ProjectData.Device) {
         ListViewItem lvitem = new ListViewItem();
-        lvitem.Tag = item.UUID;
+        lvitem.Tag = (string)item.UUID;
         lvitem.Text = (string)item.Type;
         lvitem.SubItems.Add((string)item.Base);
         lvitem.SubItems.Add((string)item.Size);
@@ -254,5 +252,45 @@ namespace PC6502 {
       }
     }
 
+    dynamic FindDeviceByUUID (string UUID) {
+      dynamic result = null;
+      foreach (dynamic device in ProjectData.Device) {
+        if (device.UUID == UUID) {
+          result = device;
+          break;
+        }
+      }
+      return result;
+    }
+
+    void UpdateDeviceByUUID(string UUID, dynamic Device) {
+      foreach (dynamic device in ProjectData.Device) {
+        if (device.UUID == UUID) {
+          device.Type = Device.Type;
+          device.Base = Device.Base;
+          device.Size = Device.Size;
+          break;
+        }
+      }
+    }
+
+    private void listView_Device_DoubleClick(object sender, EventArgs e) {
+      if (listView_Device.SelectedItems.Count > 0) {
+         var lvitem = listView_Device.SelectedItems[0];
+        string UUID = (string)lvitem.Tag;
+        dynamic device_data = FindDeviceByUUID(UUID);
+        //
+        //
+        //
+        var device_dialog = new DeviceEditor();
+        device_dialog.Data = device_data;
+        var result = device_dialog.ShowDialog();
+        if (result == DialogResult.OK) {
+          //JObject data = json_decode(json_encode(device_dialog.Data));
+          UpdateDeviceByUUID((string)device_dialog.Data.UUID, device_dialog.Data);
+          Config2UI();
+        }
+      }
+    }
   }
 }

@@ -31,6 +31,9 @@
       this.comboBox_Size = new System.Windows.Forms.ComboBox();
       this.button_OK = new System.Windows.Forms.Button();
       this.button_Cancel = new System.Windows.Forms.Button();
+      this.label4 = new System.Windows.Forms.Label();
+      this.textBox_File = new System.Windows.Forms.TextBox();
+      this.button_Browser = new System.Windows.Forms.Button();
       this.SuspendLayout();
       // 
       // comboBox_Type
@@ -91,7 +94,7 @@
       // 
       // button_OK
       // 
-      this.button_OK.Location = new System.Drawing.Point(281, 125);
+      this.button_OK.Location = new System.Drawing.Point(281, 129);
       this.button_OK.Name = "button_OK";
       this.button_OK.Size = new System.Drawing.Size(75, 23);
       this.button_OK.TabIndex = 6;
@@ -101,7 +104,7 @@
       // 
       // button_Cancel
       // 
-      this.button_Cancel.Location = new System.Drawing.Point(200, 125);
+      this.button_Cancel.Location = new System.Drawing.Point(200, 129);
       this.button_Cancel.Name = "button_Cancel";
       this.button_Cancel.Size = new System.Drawing.Size(75, 23);
       this.button_Cancel.TabIndex = 7;
@@ -109,11 +112,40 @@
       this.button_Cancel.UseVisualStyleBackColor = true;
       this.button_Cancel.Click += new System.EventHandler(this.button_Cancel_Click);
       // 
+      // label4
+      // 
+      this.label4.AutoSize = true;
+      this.label4.Location = new System.Drawing.Point(12, 85);
+      this.label4.Name = "label4";
+      this.label4.Size = new System.Drawing.Size(57, 12);
+      this.label4.TabIndex = 8;
+      this.label4.Text = "Binary File";
+      // 
+      // textBox_File
+      // 
+      this.textBox_File.Location = new System.Drawing.Point(12, 100);
+      this.textBox_File.Name = "textBox_File";
+      this.textBox_File.Size = new System.Drawing.Size(315, 22);
+      this.textBox_File.TabIndex = 9;
+      // 
+      // button_Browser
+      // 
+      this.button_Browser.Location = new System.Drawing.Point(333, 100);
+      this.button_Browser.Name = "button_Browser";
+      this.button_Browser.Size = new System.Drawing.Size(22, 23);
+      this.button_Browser.TabIndex = 10;
+      this.button_Browser.Text = "...";
+      this.button_Browser.UseVisualStyleBackColor = true;
+      this.button_Browser.Click += new System.EventHandler(this.button_Browser_Click);
+      // 
       // DeviceEditor
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(368, 160);
+      this.Controls.Add(this.button_Browser);
+      this.Controls.Add(this.textBox_File);
+      this.Controls.Add(this.label4);
       this.Controls.Add(this.button_Cancel);
       this.Controls.Add(this.button_OK);
       this.Controls.Add(this.comboBox_Size);
@@ -140,5 +172,8 @@
     private System.Windows.Forms.ComboBox comboBox_Size;
     private System.Windows.Forms.Button button_OK;
     private System.Windows.Forms.Button button_Cancel;
+    private System.Windows.Forms.Label label4;
+    private System.Windows.Forms.TextBox textBox_File;
+    private System.Windows.Forms.Button button_Browser;
   }
 }

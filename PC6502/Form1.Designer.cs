@@ -174,6 +174,7 @@
       this.listView_Device.TabIndex = 3;
       this.listView_Device.UseCompatibleStateImageBehavior = false;
       this.listView_Device.View = System.Windows.Forms.View.Details;
+      this.listView_Device.DoubleClick += new System.EventHandler(this.listView_Device_DoubleClick);
       // 
       // columnHeader_Type
       // 
