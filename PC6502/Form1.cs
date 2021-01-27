@@ -30,7 +30,7 @@ namespace PC6502 {
 
     public Form1() {
       ConfigData = new ExpandoObject();
-      ProjectData = new ExpandoObject();
+      NewProject();
       InitializeComponent();
     }
 
@@ -57,9 +57,16 @@ namespace PC6502 {
 
     private void button1_Click(object sender, EventArgs e) {
       //recentFilesToolStripMenuItem
-      recentFilesToolStripMenuItem.DropDownItems.Clear();
-      recentFilesToolStripMenuItem.DropDownItems.Add("ABC");
+      //recentFilesToolStripMenuItem.DropDownItems.Clear();
+      //recentFilesToolStripMenuItem.DropDownItems.Add("ABC");
+      dynamic a = new ExpandoObject();
+      a.Base = "0xE000";
+      int a_base = Convert.ToInt32((string)a.Base,16);
+      Console.WriteLine(a_base);
+      //int b_base = Convert.ToInt32((string)b.Base);
 
+      //var form = new XIO_LedClock();
+      //form.Show();
     }
 
     private void loadToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -75,8 +82,8 @@ namespace PC6502 {
       }
       var result = open_dialog.ShowDialog();
       if (result == DialogResult.OK) {
-        LoadProject(open_dialog.FileName);
         ProjectFile = open_dialog.FileName;
+        LoadProject(open_dialog.FileName);
       }
     }
 
@@ -105,16 +112,28 @@ namespace PC6502 {
       }
     }
 
+    void NewProject() {
+      ProjectData = new ExpandoObject();
+      ProjectData.Device = new JArray();
+    }
+    
     void LoadProject(string filename) {
       string json_data = File.ReadAllText(filename);
       ProjectData = json_decode(json_data);
       AddFileToRecentFiles(filename);
+      if (!isset(ConfigData, "Device")) {
+        ConfigData.Device = new JArray();
+      }
+      Config2UI();
+      ProjectFile = filename;
     }
 
     void SaveProject(string filename) {
+      UI2Config();
       string json_data = json_encode(ProjectData);
       File.WriteAllText(filename, json_data);
       AddFileToRecentFiles(filename);
+      ProjectFile = filename;
     }
 
     void AddFileToRecentFiles(string filename) {
@@ -137,6 +156,7 @@ namespace PC6502 {
       } else {
         ConfigData = new JObject();
       }
+
     }
 
     void SaveConfig() {
@@ -148,21 +168,91 @@ namespace PC6502 {
     }
 
     void Config2UI() {
+      //
+      // Sort device
+      //
+      int update_count;
+      if (ProjectData.Device.Count >= 2) {
+        do {
+          update_count = 0;
+          for (int i = 0; i < ProjectData.Device.Count - 1; i++) {
+            dynamic a = ProjectData.Device[i];
+            dynamic b = ProjectData.Device[i + 1];
+            int a_base = Convert.ToInt32((string)a.Base, 16);
+            int b_base = Convert.ToInt32((string)b.Base, 16);
+            if (a_base > b_base) {
+              ProjectData.Device[i] = b;
+              ProjectData.Device[i + 1] = a;
+              update_count++;
+            }
+          }
+        } while (update_count > 0);
+      }
+      //
+      // Update to Recent files 
+      //
       recentFilesToolStripMenuItem.DropDownItems.Clear();
       if (ConfigData.ContainsKey("RecentFiles")) {
         dynamic files = ConfigData["RecentFiles"];
         foreach (string file in files) {
-          recentFilesToolStripMenuItem.DropDownItems.Add(file);
+          ToolStripMenuItem tsRecent = new ToolStripMenuItem(file, null, RecentFile_click);
+          //recentFilesToolStripMenuItem.DropDownItems.Add(file);
+          recentFilesToolStripMenuItem.DropDownItems.Add(tsRecent);
         }        
       } else {
         ConfigData["RecentFiles"] = new JArray();
       }
+      //
+      // Update listView_Device
+      //
+      listView_Device.Items.Clear();
+      foreach(dynamic item in ProjectData.Device) {
+        ListViewItem lvitem = new ListViewItem();
+        lvitem.Tag = item.UUID;
+        lvitem.Text = (string)item.Type;
+        lvitem.SubItems.Add((string)item.Base);
+        lvitem.SubItems.Add((string)item.Size);
+        listView_Device.Items.Add(lvitem);
+      }
+    }
+
+    void RecentFile_click(object sender, EventArgs e) {
+      var menuItem = sender as ToolStripMenuItem;
+      var filename = menuItem.Text;
+      LoadProject(filename);
     }
 
     void UI2Config() {
 
     }
 
+    private void loadROMToolStripMenuItem_Click(object sender, EventArgs e) {
+      var open_dialog = new OpenFileDialog();
+      open_dialog.InitialDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+      open_dialog.FileName = "Default";
+      open_dialog.Filter = "ROM files (*.bin)|*.bin";
+      open_dialog.Title = "Load ROM file";
+      open_dialog.Multiselect = false;
+      if (ProjectFile != null) {
+        open_dialog.FileName = Path.GetFileName(ProjectFile);
+        open_dialog.InitialDirectory = Path.GetDirectoryName(ProjectFile);
+      }
+      var result = open_dialog.ShowDialog();
+      if (result == DialogResult.OK) {
+        LoadProject(open_dialog.FileName);
+        ProjectFile = open_dialog.FileName;
+      }
+    }
+
+    private void button_Add_Click(object sender, EventArgs e) {
+      var device_dialog = new DeviceEditor();
+      device_dialog.Data = new JObject();
+      var result = device_dialog.ShowDialog();
+      if (result == DialogResult.OK) {
+        ProjectData.Device.Add(device_dialog.Data);
+        Config2UI();
+      }
+    }
 
   }
 }
