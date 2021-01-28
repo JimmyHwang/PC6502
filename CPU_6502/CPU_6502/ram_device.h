@@ -8,7 +8,7 @@
 class RAM_DEVICE_CLASS: public BASE_DEVICE_CLASS {
   private:
   public:
-    RAM_DEVICE_CLASS(int size);
+    RAM_DEVICE_CLASS(UINT16 Size);
     ~RAM_DEVICE_CLASS();
 };
 

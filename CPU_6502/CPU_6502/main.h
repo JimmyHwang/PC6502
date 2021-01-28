@@ -13,6 +13,7 @@
 #include "rom_device.h"
 #include "ram_device.h"
 #include "xio_device.h"
+#include "null_device.h"
 
 #include "platform_class.h"
 
@@ -25,7 +26,9 @@ extern "C"
   //typedef void(__stdcall * YourCallback)(int, int);
   //__declspec(dllexport) void __stdcall TakesInCallbackAndDoesStuff(YourCallback yourCallback);
 
-  __declspec(dllexport) int __stdcall InitializeVM();
-  __declspec(dllexport) int __stdcall LoadBIOS(const char *filename);
+  __declspec(dllexport) void * __stdcall CreateVM();
+  __declspec(dllexport) int __stdcall FreeVM(void *vm);
+  
+  //__declspec(dllexport) int __stdcall LoadBIOS(const char *filename);
 }
 #endif

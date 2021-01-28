@@ -7,14 +7,7 @@
 
 class XIO_DEVICE_CLASS: public BASE_DEVICE_CLASS {
   private:
-    //CHROMOSOME *Chromosome;
-    //UINT8 InputBuffer;
-    //UINT8 OutputBuffer;
-    //UINT8 SerialPortStatus;
-    
-    //VOID SerialController();    
-    //CELL_CONTROL_PROTOCOL *GetCellControl();
-    
+
   public:
     XIO_DEVICE_CLASS();
     ~XIO_DEVICE_CLASS();

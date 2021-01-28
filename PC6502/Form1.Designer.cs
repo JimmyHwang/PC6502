@@ -193,16 +193,17 @@
       // 
       // button_Reset
       // 
-      this.button_Reset.Location = new System.Drawing.Point(207, 424);
+      this.button_Reset.Location = new System.Drawing.Point(12, 312);
       this.button_Reset.Name = "button_Reset";
       this.button_Reset.Size = new System.Drawing.Size(75, 23);
       this.button_Reset.TabIndex = 4;
       this.button_Reset.Text = "Reset";
       this.button_Reset.UseVisualStyleBackColor = true;
+      this.button_Reset.Click += new System.EventHandler(this.button_Reset_Click);
       // 
       // button_RunStop
       // 
-      this.button_RunStop.Location = new System.Drawing.Point(126, 424);
+      this.button_RunStop.Location = new System.Drawing.Point(93, 312);
       this.button_RunStop.Name = "button_RunStop";
       this.button_RunStop.Size = new System.Drawing.Size(75, 23);
       this.button_RunStop.TabIndex = 5;
@@ -211,7 +212,7 @@
       // 
       // button_Step
       // 
-      this.button_Step.Location = new System.Drawing.Point(288, 424);
+      this.button_Step.Location = new System.Drawing.Point(174, 312);
       this.button_Step.Name = "button_Step";
       this.button_Step.Size = new System.Drawing.Size(75, 23);
       this.button_Step.TabIndex = 7;

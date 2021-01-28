@@ -1,19 +1,25 @@
-#include "main.h"
+﻿#include "main.h"
 
 PLATFORM_CLASS *gPlatform = NULL;
 
 //-----------------------------------------------------------------------------
 // DLL Functions
 //-----------------------------------------------------------------------------
-int InitializeVM() {
-  DNA_STATUS Status;
+void *CreateVM() {
+  PLATFORM_CLASS *VM;
 
-  gPlatform = new PLATFORM_CLASS();
-  if (gPlatform != NULL) {
-    Status = DNA_SUCCESS;
-  } else {
-    Status = DNA_OUT_OF_RESOURCES;
-  }
+  VM = new PLATFORM_CLASS();
+
+  return VM;
+}
+
+int FreeVM(void *vm) {
+  DNA_STATUS Status;
+  PLATFORM_CLASS *VM;
+
+  VM = (PLATFORM_CLASS *)vm;
+  delete VM;
+  Status = DNA_SUCCESS;
 
   return Status;
 }
@@ -26,7 +32,7 @@ int filesize(FILE *fp) {
   return size;
 }
 
-int LoadBIOS(const char *filename) {    // Get filename from C# "func(string filename)"
+int AddDeviceROM(void *vm, UINT16 Base, UINT16 Size, char *filename) {
   DNA_STATUS Status;
   FILE *fp;
   int fsize;
@@ -42,11 +48,20 @@ int LoadBIOS(const char *filename) {    // Get filename from C# "func(string fil
     //
     // Load BIOS image to ROM
     //
-    Status = gPlatform->LoadBIOS(buffer, fsize);
+    Status = gPlatform->AddDeviceROM(Base, Size, buffer);
+    free(buffer);
   } else {
     printf("%s: [%s] not found", __FUNCTION__, filename);
     Status = DNA_NOT_FOUND;
   }
+
+  return Status;
+}
+
+int AddDeviceRAM(void *vm, UINT16 Base, UINT16 Size) {
+  DNA_STATUS Status;
+
+  Status = gPlatform->AddDeviceRAM(Base, Size);
 
   return Status;
 }
@@ -56,7 +71,7 @@ int LoadBIOS(const char *filename) {    // Get filename from C# "func(string fil
 //-----------------------------------------------------------------------------
 int main() {
   PLATFORM_CLASS *Platform = new PLATFORM_CLASS();
-  LoadBIOS("Startup.bin");
+  //LoadBIOS("Startup.bin");
 
   return 0;
 }

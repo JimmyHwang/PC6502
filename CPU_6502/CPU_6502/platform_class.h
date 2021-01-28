@@ -7,25 +7,28 @@
 
 #define ADDRESS_MASK_BITS   12
 #define ADDRESS_INDEX_MASK  0xF
+#define MAX_DEVICE_COUNT    16
 
 class PLATFORM_CLASS {
 private:
+  void AddDevice(BASE_DEVICE_CLASS *Device, UINTN Address, UINTN Size);
 
 public:
   CLASS_MOS6502 *CPU;
   CPU_CONTROL_PROTOCOL *CpuControl;
   MEMORY_CONTROL_PROTOCOL MemoryControl;
+  BASE_DEVICE_CLASS *DeviceList[16];
+  int DeviceCount;
   BASE_DEVICE_CLASS *DeviceMappingTable[16];
-
-  ROM_DEVICE_CLASS *ROM;
-  RAM_DEVICE_CLASS *RAM;
-  XIO_DEVICE_CLASS *XIO;
 
   PLATFORM_CLASS();
   ~PLATFORM_CLASS();
 
-  void AddDeivce(BASE_DEVICE_CLASS *Device, UINTN Address, UINTN Size);
-  DNA_STATUS LoadBIOS(UINT8 *buffer, int size);
+  DNA_STATUS AddDeviceROM(UINT16 base, UINT16 size, UINT8 *buffer);
+  DNA_STATUS AddDeviceRAM(UINT16 base, UINT16 size);
+  DNA_STATUS AddDeviceXIO(UINT16 base, UINT16 size);
+  DNA_STATUS Reset();
+  DNA_STATUS Run(int count);
 };
 
 #endif

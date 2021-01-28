@@ -19,7 +19,9 @@ using static DNA64.Library.Common;
 namespace PC6502 {
   public partial class Form1 : Form {
     [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
-    public static extern int InitializeVM();
+    public static extern unsafe IntPtr CreateVM();
+    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    public static extern unsafe int FreeVM(IntPtr VM);
     [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe int LoadBIOS(string filename);
 
@@ -27,8 +29,10 @@ namespace PC6502 {
     dynamic ConfigData;
     string ProjectFile;
     dynamic ProjectData;
-
+    IntPtr VM;
+    
     public Form1() {
+      VM = IntPtr.Zero;
       ConfigData = new ExpandoObject();
       NewProject();
       InitializeComponent();
@@ -50,9 +54,9 @@ namespace PC6502 {
     }
 
     private void button_Test_Click(object sender, EventArgs e) {
-      InitializeVM();
-      string fn = "BIOS.bin";
-      LoadBIOS(fn);
+      //InitializeVM();
+      //string fn = "BIOS.bin";
+      //LoadBIOS(fn);
     }
 
     private void button1_Click(object sender, EventArgs e) {
@@ -98,7 +102,7 @@ namespace PC6502 {
     private void saveAsToolStripMenuItem_Click(object sender, EventArgs e) {
       var save_dialog = new SaveFileDialog();
       save_dialog.InitialDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-      save_dialog.FileName = "project";
+      save_dialog.FileName = "Untitled";
       save_dialog.Filter = "Project files (*.prj)|*.prj";
       save_dialog.Title = "Save As";
       if (ProjectFile != null) {
@@ -291,6 +295,15 @@ namespace PC6502 {
           Config2UI();
         }
       }
+    }
+
+    private void button_Reset_Click(object sender, EventArgs e) {
+      if (VM == IntPtr.Zero) {
+        VM = CreateVM();
+        FreeVM(VM);
+      }
+      //InitializeVM();
+
     }
   }
 }

@@ -125,9 +125,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="base_device.cpp" />
+    <ClCompile Include="dis6502.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mos6502.cpp" />
     <ClCompile Include="mos6502class.cpp" />
+    <ClCompile Include="null_device.cpp" />
     <ClCompile Include="platform_class.cpp" />
     <ClCompile Include="ram_device.cpp" />
     <ClCompile Include="rom_device.cpp" />
@@ -136,11 +138,13 @@
   <ItemGroup>
     <ClInclude Include="base_device.h" />
     <ClInclude Include="cpu_control_protocol.h" />
+    <ClInclude Include="dis6502.h" />
     <ClInclude Include="dna_status.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="memory_control_protocol.h" />
     <ClInclude Include="mos6502.h" />
     <ClInclude Include="mos6502class.h" />
+    <ClInclude Include="null_device.h" />
     <ClInclude Include="platform_class.h" />
     <ClInclude Include="ram_device.h" />
     <ClInclude Include="rom_device.h" />
