@@ -29,6 +29,7 @@ extern "C"
 
   __declspec(dllexport) void * __stdcall CreateVM();
   __declspec(dllexport) int __stdcall FreeVM(void *vm);
+  __declspec(dllexport) int __stdcall ResetVM(void *vm);
   
   //__declspec(dllexport) int __stdcall LoadBIOS(const char *filename);
 }
