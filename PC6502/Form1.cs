@@ -23,6 +23,8 @@ namespace PC6502 {
     [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe int FreeVM(IntPtr VM);
     [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    public static extern unsafe int ResetVM(IntPtr VM);
+    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe int LoadBIOS(string filename);
 
     string ConfigFile;
@@ -300,8 +302,10 @@ namespace PC6502 {
     private void button_Reset_Click(object sender, EventArgs e) {
       if (VM == IntPtr.Zero) {
         VM = CreateVM();
-        FreeVM(VM);
+        //FreeVM(VM);
       }
+      ResetVM(VM);
+
       //InitializeVM();
 
     }
