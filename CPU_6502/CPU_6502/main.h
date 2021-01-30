@@ -4,6 +4,7 @@
 
 #include "typedef.h"
 #include "dna_status.h"
+#include "debug.h"
 
 #include "mos6502.h"
 #include "mos6502class.h"

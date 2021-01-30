@@ -45,6 +45,9 @@
     <ClCompile Include="null_device.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mos6502.h">
@@ -87,6 +90,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="null_device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

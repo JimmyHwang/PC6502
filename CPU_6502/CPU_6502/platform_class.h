@@ -30,6 +30,5 @@ public:
   DNA_STATUS Reset();
   DNA_STATUS Run(int count);
 };
-
 #endif
 

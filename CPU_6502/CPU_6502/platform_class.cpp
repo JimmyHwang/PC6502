@@ -1,5 +1,6 @@
 #include "main.h"
-#include <assert.h>
+
+#define DEBUG_ADDRESSS_DECODER
 
 //-----------------------------------------------------------------------------
 // Memory Hook for CPU
@@ -19,8 +20,9 @@ MemoryRead8(
   Device = This->DeviceMappingTable[Index];
   Data = Device->Read8(Ip);
 
-#if DEBUG_ADDRESSS_DECODER  
-  printf("R8,0x%lX=0x%08X", Ip, Data);
+#ifdef DEBUG_ADDRESSS_DECODER
+  DebugOut(L"R8,0x%lX=0x%08X", Ip, Data);
+  //printf("R8,0x%lX=0x%08X", Ip, Data);
 #endif  
   return Data;
 }
@@ -35,8 +37,9 @@ MemoryWrite8(
   PLATFORM_CLASS *This;
   BASE_DEVICE_CLASS *Device;
 
-#if DEBUG_ADDRESSS_DECODER  
-  printf("W8,0x%lX=0x%08X", Ip, Data);
+#ifdef DEBUG_ADDRESSS_DECODER  
+  DebugOut(L"W8,0x%lX=0x%08X", Ip, Data);
+  //printf("W8,0x%lX=0x%08X", Ip, Data);
 #endif  
   This = _CR(Protocol, PLATFORM_CLASS, MemoryControl);
   Index = (Ip >> ADDRESS_MASK_BITS) & ADDRESS_INDEX_MASK;
