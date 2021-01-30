@@ -52,9 +52,9 @@
       // 
       // button_Test
       // 
-      this.button_Test.Location = new System.Drawing.Point(713, 415);
+      this.button_Test.Location = new System.Drawing.Point(713, 450);
       this.button_Test.Name = "button_Test";
-      this.button_Test.Size = new System.Drawing.Size(75, 23);
+      this.button_Test.Size = new System.Drawing.Size(75, 25);
       this.button_Test.TabIndex = 0;
       this.button_Test.Text = "Test";
       this.button_Test.UseVisualStyleBackColor = true;
@@ -83,56 +83,56 @@
             this.toolStripMenuItem2,
             this.exitToolStripMenuItem});
       this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-      this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+      this.fileToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
       this.fileToolStripMenuItem.Text = "File";
       // 
       // loadToolStripMenuItem
       // 
       this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-      this.loadToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+      this.loadToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
       this.loadToolStripMenuItem.Text = "Load";
       this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
       // 
       // saveToolStripMenuItem
       // 
       this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-      this.saveToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+      this.saveToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
       this.saveToolStripMenuItem.Text = "Save";
       this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
       // 
       // saveAsToolStripMenuItem
       // 
       this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-      this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+      this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
       this.saveAsToolStripMenuItem.Text = "Save As";
       this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
       // 
       // toolStripMenuItem1
       // 
       this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-      this.toolStripMenuItem1.Size = new System.Drawing.Size(133, 6);
+      this.toolStripMenuItem1.Size = new System.Drawing.Size(137, 6);
       // 
       // recentFilesToolStripMenuItem
       // 
       this.recentFilesToolStripMenuItem.Name = "recentFilesToolStripMenuItem";
-      this.recentFilesToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+      this.recentFilesToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
       this.recentFilesToolStripMenuItem.Text = "Recent Files";
       // 
       // toolStripMenuItem2
       // 
       this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-      this.toolStripMenuItem2.Size = new System.Drawing.Size(133, 6);
+      this.toolStripMenuItem2.Size = new System.Drawing.Size(137, 6);
       // 
       // exitToolStripMenuItem
       // 
       this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-      this.exitToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+      this.exitToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
       this.exitToolStripMenuItem.Text = "Exit";
       // 
       // editToolStripMenuItem
       // 
       this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-      this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+      this.editToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
       this.editToolStripMenuItem.Text = "Edit";
       // 
       // helpToolStripMenuItem
@@ -140,20 +140,20 @@
       this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
       this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-      this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+      this.helpToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
       this.helpToolStripMenuItem.Text = "Help";
       // 
       // aboutToolStripMenuItem
       // 
       this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-      this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+      this.aboutToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
       this.aboutToolStripMenuItem.Text = "About";
       // 
       // button1
       // 
-      this.button1.Location = new System.Drawing.Point(477, 415);
+      this.button1.Location = new System.Drawing.Point(477, 450);
       this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(75, 23);
+      this.button1.Size = new System.Drawing.Size(75, 25);
       this.button1.TabIndex = 2;
       this.button1.Text = "button1";
       this.button1.UseVisualStyleBackColor = true;
@@ -168,9 +168,9 @@
       this.listView_Device.Cursor = System.Windows.Forms.Cursors.Arrow;
       this.listView_Device.FullRowSelect = true;
       this.listView_Device.HideSelection = false;
-      this.listView_Device.Location = new System.Drawing.Point(12, 27);
+      this.listView_Device.Location = new System.Drawing.Point(12, 29);
       this.listView_Device.Name = "listView_Device";
-      this.listView_Device.Size = new System.Drawing.Size(313, 279);
+      this.listView_Device.Size = new System.Drawing.Size(313, 302);
       this.listView_Device.TabIndex = 3;
       this.listView_Device.UseCompatibleStateImageBehavior = false;
       this.listView_Device.View = System.Windows.Forms.View.Details;
@@ -193,9 +193,9 @@
       // 
       // button_Reset
       // 
-      this.button_Reset.Location = new System.Drawing.Point(12, 312);
+      this.button_Reset.Location = new System.Drawing.Point(12, 338);
       this.button_Reset.Name = "button_Reset";
-      this.button_Reset.Size = new System.Drawing.Size(75, 23);
+      this.button_Reset.Size = new System.Drawing.Size(75, 25);
       this.button_Reset.TabIndex = 4;
       this.button_Reset.Text = "Reset";
       this.button_Reset.UseVisualStyleBackColor = true;
@@ -203,27 +203,27 @@
       // 
       // button_RunStop
       // 
-      this.button_RunStop.Location = new System.Drawing.Point(93, 312);
+      this.button_RunStop.Location = new System.Drawing.Point(93, 338);
       this.button_RunStop.Name = "button_RunStop";
-      this.button_RunStop.Size = new System.Drawing.Size(75, 23);
+      this.button_RunStop.Size = new System.Drawing.Size(75, 25);
       this.button_RunStop.TabIndex = 5;
       this.button_RunStop.Text = "Run";
       this.button_RunStop.UseVisualStyleBackColor = true;
       // 
       // button_Step
       // 
-      this.button_Step.Location = new System.Drawing.Point(174, 312);
+      this.button_Step.Location = new System.Drawing.Point(174, 338);
       this.button_Step.Name = "button_Step";
-      this.button_Step.Size = new System.Drawing.Size(75, 23);
+      this.button_Step.Size = new System.Drawing.Size(75, 25);
       this.button_Step.TabIndex = 7;
       this.button_Step.Text = "Step";
       this.button_Step.UseVisualStyleBackColor = true;
       // 
       // button_Add
       // 
-      this.button_Add.Location = new System.Drawing.Point(331, 27);
+      this.button_Add.Location = new System.Drawing.Point(331, 29);
       this.button_Add.Name = "button_Add";
-      this.button_Add.Size = new System.Drawing.Size(75, 23);
+      this.button_Add.Size = new System.Drawing.Size(75, 25);
       this.button_Add.TabIndex = 9;
       this.button_Add.Text = "Add";
       this.button_Add.UseVisualStyleBackColor = true;
@@ -231,27 +231,28 @@
       // 
       // button_Remove
       // 
-      this.button_Remove.Location = new System.Drawing.Point(331, 56);
+      this.button_Remove.Location = new System.Drawing.Point(331, 61);
       this.button_Remove.Name = "button_Remove";
-      this.button_Remove.Size = new System.Drawing.Size(75, 23);
+      this.button_Remove.Size = new System.Drawing.Size(75, 25);
       this.button_Remove.TabIndex = 10;
       this.button_Remove.Text = "Remove";
       this.button_Remove.UseVisualStyleBackColor = true;
+      this.button_Remove.Click += new System.EventHandler(this.button_Remove_Click);
       // 
       // button_Edit
       // 
-      this.button_Edit.Location = new System.Drawing.Point(331, 85);
+      this.button_Edit.Location = new System.Drawing.Point(331, 92);
       this.button_Edit.Name = "button_Edit";
-      this.button_Edit.Size = new System.Drawing.Size(75, 23);
+      this.button_Edit.Size = new System.Drawing.Size(75, 25);
       this.button_Edit.TabIndex = 11;
       this.button_Edit.Text = "Edit";
       this.button_Edit.UseVisualStyleBackColor = true;
       // 
       // Form1
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(800, 450);
+      this.ClientSize = new System.Drawing.Size(800, 488);
       this.Controls.Add(this.button_Edit);
       this.Controls.Add(this.button_Remove);
       this.Controls.Add(this.button_Add);

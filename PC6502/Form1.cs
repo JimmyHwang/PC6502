@@ -230,6 +230,38 @@ namespace PC6502 {
 
     }
 
+    dynamic FindDeviceByUUID(string UUID) {
+      dynamic result = null;
+      foreach (dynamic device in ProjectData.Device) {
+        if (device.UUID == UUID) {
+          result = device;
+          break;
+        }
+      }
+      return result;
+    }
+
+    bool RemoveDeviceByUUID(string UUID) {
+      dynamic result = null;
+      foreach (dynamic device in ProjectData.Device) {
+        if (device.UUID == UUID) {
+          result = device;
+          break;
+        }
+      }
+      return result;
+    }
+
+    void UpdateDeviceByUUID(string UUID, dynamic Device) {
+      foreach (dynamic device in ProjectData.Device) {
+        if (device.UUID == UUID) {
+          device.Type = Device.Type;
+          device.Base = Device.Base;
+          device.Size = Device.Size;
+          break;
+        }
+      }
+    }
     private void loadROMToolStripMenuItem_Click(object sender, EventArgs e) {
       var open_dialog = new OpenFileDialog();
       open_dialog.InitialDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
@@ -258,24 +290,14 @@ namespace PC6502 {
       }
     }
 
-    dynamic FindDeviceByUUID (string UUID) {
-      dynamic result = null;
-      foreach (dynamic device in ProjectData.Device) {
-        if (device.UUID == UUID) {
-          result = device;
-          break;
-        }
-      }
-      return result;
-    }
+    private void button_Remove_Click(object sender, EventArgs e) {
+      int i;
 
-    void UpdateDeviceByUUID(string UUID, dynamic Device) {
-      foreach (dynamic device in ProjectData.Device) {
-        if (device.UUID == UUID) {
-          device.Type = Device.Type;
-          device.Base = Device.Base;
-          device.Size = Device.Size;
-          break;
+      if (listView_Device.SelectedItems.Count > 0) {
+        for (i = 0; i < listView_Device.SelectedItems.Count; i++) {
+          var lvitem = listView_Device.SelectedItems[i];
+          string UUID = (string)lvitem.Tag;
+          RemoveDeviceByUUID(UUID);
         }
       }
     }
