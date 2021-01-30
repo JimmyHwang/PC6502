@@ -24,6 +24,18 @@ int FreeVM(void *vm) {
   return Status;
 }
 
+int ResetVM(void *vm) {
+  DNA_STATUS Status;
+  PLATFORM_CLASS *VM;
+
+  VM = (PLATFORM_CLASS *)vm;
+  VM->Reset();
+  Status = DNA_SUCCESS;
+
+  return Status;
+}
+
+
 int filesize(FILE *fp) {
   int size;
   fseek(fp, 0L, SEEK_END);
