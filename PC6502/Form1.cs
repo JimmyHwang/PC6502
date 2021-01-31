@@ -307,9 +307,9 @@ namespace PC6502 {
       }
     }
 
-    private void listView_Device_DoubleClick(object sender, EventArgs e) {
+    private void button_Edit_Click(object sender, EventArgs e) {
       if (listView_Device.SelectedItems.Count > 0) {
-         var lvitem = listView_Device.SelectedItems[0];
+        var lvitem = listView_Device.SelectedItems[0];
         string UUID = (string)lvitem.Tag;
         dynamic device_data = FindDeviceByUUID(UUID);
         //
@@ -326,15 +326,16 @@ namespace PC6502 {
       }
     }
 
+    private void listView_Device_DoubleClick(object sender, EventArgs e) {
+      button_Edit_Click(sender, e);
+    }
+
     private void button_Reset_Click(object sender, EventArgs e) {
       if (VM == IntPtr.Zero) {
         VM = CreateVM();
         //FreeVM(VM);
       }
       ResetVM(VM);
-
-      //InitializeVM();
-
     }
   }
 }
