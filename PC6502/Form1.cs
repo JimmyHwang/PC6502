@@ -242,12 +242,16 @@ namespace PC6502 {
     }
 
     bool RemoveDeviceByUUID(string UUID) {
-      dynamic result = null;
+      bool result = false;
+      int index;
+      index = 0;
       foreach (dynamic device in ProjectData.Device) {
         if (device.UUID == UUID) {
-          result = device;
+          result = true;
+          ProjectData.Device.RemoveAt(index);
           break;
         }
+        index++;
       }
       return result;
     }
@@ -298,6 +302,7 @@ namespace PC6502 {
           var lvitem = listView_Device.SelectedItems[i];
           string UUID = (string)lvitem.Tag;
           RemoveDeviceByUUID(UUID);
+          Config2UI();
         }
       }
     }
