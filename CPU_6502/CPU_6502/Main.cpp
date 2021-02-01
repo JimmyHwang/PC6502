@@ -1,5 +1,8 @@
 ﻿#include "main.h"
 
+using json = nlohmann::json;
+VM_Callback gCallback;
+
 //-----------------------------------------------------------------------------
 // DLL Functions
 //-----------------------------------------------------------------------------
@@ -27,6 +30,14 @@ int VM_Reset(void *vm) {
 
   VM->Reset();
   Status = DNA_SUCCESS;
+  
+  // create an empty structure (null)
+  json j;
+  j["pi"] = 3.141;
+  j["happy"] = true;
+  string s = j.dump();    // {"happy":true,"pi":3.141}
+
+  gCallback(1, 2, (char *)s.c_str());
 
   return Status;
 }
@@ -109,6 +120,9 @@ int AddDeviceXIO(void *vm, UINT16 Base, UINT16 Size) {
   return Status;
 }
 
+void VM_SetCallback(VM_Callback Callback) {
+  gCallback = Callback;
+}
 
 //-----------------------------------------------------------------------------
 // Memory Functions

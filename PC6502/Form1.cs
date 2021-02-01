@@ -32,6 +32,10 @@ namespace PC6502 {
     public static extern unsafe int AddDeviceROM(IntPtr VM, UInt16 Base, UInt16 Size, string filename);
     [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe int AddDeviceXIO(IntPtr VM, UInt16 Base, UInt16 Size);
+    [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+    public delegate void VM_Callback(int x, int y, string jstr);
+    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll")]
+    public static extern int VM_SetCallback([MarshalAs(UnmanagedType.FunctionPtr)] VM_Callback callbackPointer);
 
     string ConfigFile;
     dynamic ConfigData;
@@ -364,7 +368,8 @@ namespace PC6502 {
           }
         }
       }
-      VM_Reset(VM);
+      VM_SetCallback(callback);
+      VM_Reset(VM);      
     }
 
     private void button_XIO_Screen_Click(object sender, EventArgs e) {
@@ -379,5 +384,10 @@ namespace PC6502 {
         MessageBox.Show("VM not found", "Information");
       }
     }
+
+    static VM_Callback callback = (intParam1, intParam2, jstr) => {
+      Console.WriteLine("The result of the C++ function is {0} and {1} {2}", intParam1, intParam2, jstr);
+      //button_RunStop.Text = "@";
+    };
   }
 }
