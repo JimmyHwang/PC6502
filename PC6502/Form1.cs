@@ -23,9 +23,15 @@ namespace PC6502 {
     [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe int FreeVM(IntPtr VM);
     [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
-    public static extern unsafe int ResetVM(IntPtr VM);
+    public static extern unsafe int VM_Reset(IntPtr VM);
     [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
-    public static extern unsafe int LoadBIOS(string filename);
+    public static extern unsafe int VM_Run(IntPtr VM, int Count);
+    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    public static extern unsafe int AddDeviceRAM(IntPtr VM, UInt16 Base, UInt16 Size);
+    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    public static extern unsafe int AddDeviceROM(IntPtr VM, UInt16 Base, UInt16 Size, string filename);
+    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    public static extern unsafe int AddDeviceXIO(IntPtr VM, UInt16 Base, UInt16 Size);
 
     string ConfigFile;
     dynamic ConfigData;
@@ -330,12 +336,48 @@ namespace PC6502 {
       button_Edit_Click(sender, e);
     }
 
+    UInt16 StringToUInt16(string hex_string) {
+      UInt16 hex;
+      hex = (UInt16)Convert.ToInt16(hex_string, 16);
+      return hex;
+    }
+
     private void button_Reset_Click(object sender, EventArgs e) {
+      if (VM != IntPtr.Zero) {
+        FreeVM(VM);
+        VM = IntPtr.Zero;
+      }
+
       if (VM == IntPtr.Zero) {
         VM = CreateVM();
-        //FreeVM(VM);
+        foreach (dynamic device in ProjectData.Device) {
+          switch ((string)device.Type) {
+            case "ROM":
+              AddDeviceROM(VM, StringToUInt16((string)device.Base), StringToUInt16((string)device.Size), (string)device.File);
+              break;
+            case "RAM":
+              AddDeviceRAM(VM, StringToUInt16((string)device.Base), StringToUInt16((string)device.Size));
+              break;
+            case "XIO":
+              AddDeviceXIO(VM, StringToUInt16((string)device.Base), StringToUInt16((string)device.Size));
+              break;
+          }
+        }
       }
-      ResetVM(VM);
+      VM_Reset(VM);
+    }
+
+    private void button_XIO_Screen_Click(object sender, EventArgs e) {
+      var f = new XIO_Screen();
+      f.Show();
+    }
+
+    private void button_Step_Click(object sender, EventArgs e) {
+      if (VM != IntPtr.Zero) {
+        VM_Run(VM, 1);
+      } else {
+        MessageBox.Show("VM not found", "Information");
+      }
     }
   }
 }

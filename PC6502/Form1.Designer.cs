@@ -47,6 +47,7 @@
       this.button_Add = new System.Windows.Forms.Button();
       this.button_Remove = new System.Windows.Forms.Button();
       this.button_Edit = new System.Windows.Forms.Button();
+      this.button_XIO_Screen = new System.Windows.Forms.Button();
       this.menuStrip1.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -218,6 +219,7 @@
       this.button_Step.TabIndex = 7;
       this.button_Step.Text = "Step";
       this.button_Step.UseVisualStyleBackColor = true;
+      this.button_Step.Click += new System.EventHandler(this.button_Step_Click);
       // 
       // button_Add
       // 
@@ -249,11 +251,22 @@
       this.button_Edit.UseVisualStyleBackColor = true;
       this.button_Edit.Click += new System.EventHandler(this.button_Edit_Click);
       // 
+      // button_XIO_Screen
+      // 
+      this.button_XIO_Screen.Location = new System.Drawing.Point(477, 372);
+      this.button_XIO_Screen.Name = "button_XIO_Screen";
+      this.button_XIO_Screen.Size = new System.Drawing.Size(75, 21);
+      this.button_XIO_Screen.TabIndex = 12;
+      this.button_XIO_Screen.Text = "XIO_Screen";
+      this.button_XIO_Screen.UseVisualStyleBackColor = true;
+      this.button_XIO_Screen.Click += new System.EventHandler(this.button_XIO_Screen_Click);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(800, 450);
+      this.Controls.Add(this.button_XIO_Screen);
       this.Controls.Add(this.button_Edit);
       this.Controls.Add(this.button_Remove);
       this.Controls.Add(this.button_Add);
@@ -302,6 +315,7 @@
     private System.Windows.Forms.Button button_Add;
     private System.Windows.Forms.Button button_Remove;
     private System.Windows.Forms.Button button_Edit;
+    private System.Windows.Forms.Button button_XIO_Screen;
   }
 }
 

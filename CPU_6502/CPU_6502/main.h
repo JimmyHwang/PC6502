@@ -31,7 +31,10 @@ extern "C"
   __declspec(dllexport) int __stdcall FreeVM(void *vm);
   __declspec(dllexport) int __stdcall VM_Reset(void *vm);
   __declspec(dllexport) int __stdcall VM_Run(void *vm, int count);
-  
+  __declspec(dllexport) int __stdcall AddDeviceRAM(void *vm, UINT16 Base, UINT16 Size);
+  __declspec(dllexport) int __stdcall AddDeviceROM(void *vm, UINT16 Base, UINT16 Size, char *filename);
+  __declspec(dllexport) int __stdcall AddDeviceXIO(void *vm, UINT16 Base, UINT16 Size);
+
   //__declspec(dllexport) int __stdcall LoadBIOS(const char *filename);
 }
 #endif

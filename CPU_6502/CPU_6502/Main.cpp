@@ -1,7 +1,5 @@
 ﻿#include "main.h"
 
-PLATFORM_CLASS *gPlatform = NULL;
-
 //-----------------------------------------------------------------------------
 // DLL Functions
 //-----------------------------------------------------------------------------
@@ -15,9 +13,8 @@ void *CreateVM() {
 
 int FreeVM(void *vm) {
   DNA_STATUS Status;
-  PLATFORM_CLASS *VM;
+  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
 
-  VM = (PLATFORM_CLASS *)vm;
   delete VM;
   Status = DNA_SUCCESS;
 
@@ -26,9 +23,8 @@ int FreeVM(void *vm) {
 
 int VM_Reset(void *vm) {
   DNA_STATUS Status;
-  PLATFORM_CLASS *VM;
+  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
 
-  VM = (PLATFORM_CLASS *)vm;
   VM->Reset();
   Status = DNA_SUCCESS;
 
@@ -37,15 +33,13 @@ int VM_Reset(void *vm) {
 
 int VM_Run(void *vm, int count) {
   DNA_STATUS Status;
-  PLATFORM_CLASS *VM;
+  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
 
-  VM = (PLATFORM_CLASS *)vm;
   VM->Run(count);
   Status = DNA_SUCCESS;
 
   return Status;
 }
-
 
 int filesize(FILE *fp) {
   int size;
@@ -61,20 +55,26 @@ int AddDeviceROM(void *vm, UINT16 Base, UINT16 Size, char *filename) {
   int fsize;
   UINT8 *buffer;
   size_t ret;
+  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
 
-  fp = fopen(filename, "rb");
-  if (fp) {
-    fsize = filesize(fp);
-    buffer = (UINT8 *)malloc(fsize);      // 動態配置記憶體給Array
-    ret = fread(buffer, 1, fsize, fp);    // fread回傳讀取的byte數
-    fclose(fp);
-    //
-    // Load BIOS image to ROM
-    //
-    Status = gPlatform->AddDeviceROM(Base, Size, buffer);
-    free(buffer);
+  if (VM) {
+    fp = fopen(filename, "rb");
+    if (fp) {
+      fsize = filesize(fp);
+      buffer = (UINT8 *)malloc(fsize);      // 動態配置記憶體給Array
+      ret = fread(buffer, 1, fsize, fp);    // fread回傳讀取的byte數
+      fclose(fp);
+      //
+      // Load BIOS image to ROM
+      //
+      Status = VM->AddDeviceROM(Base, Size, buffer);
+      free(buffer);
+    } else {
+      DebugOut(L"%s: file [%s] not found", __FUNCTION__, filename);
+      Status = DNA_NOT_FOUND;
+    }
   } else {
-    printf("%s: [%s] not found", __FUNCTION__, filename);
+    DebugOut(L"%s: VM not found", __FUNCTION__);
     Status = DNA_NOT_FOUND;
   }
 
@@ -83,11 +83,32 @@ int AddDeviceROM(void *vm, UINT16 Base, UINT16 Size, char *filename) {
 
 int AddDeviceRAM(void *vm, UINT16 Base, UINT16 Size) {
   DNA_STATUS Status;
+  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
 
-  Status = gPlatform->AddDeviceRAM(Base, Size);
+  if (VM) {
+    Status = VM->AddDeviceRAM(Base, Size);
+  } else {
+    DebugOut(L"%s: VM not found", __FUNCTION__);
+    Status = DNA_NOT_FOUND;
+  }
 
   return Status;
 }
+
+int AddDeviceXIO(void *vm, UINT16 Base, UINT16 Size) {
+  DNA_STATUS Status;
+  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
+
+  if (VM) {
+    Status = VM->AddDeviceXIO(Base, Size);
+  } else {
+    DebugOut(L"%s: VM not found", __FUNCTION__);
+    Status = DNA_NOT_FOUND;
+  }
+
+  return Status;
+}
+
 
 //-----------------------------------------------------------------------------
 // Memory Functions

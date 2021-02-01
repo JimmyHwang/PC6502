@@ -15,7 +15,7 @@ class BASE_DEVICE_CLASS {
     UINT8 *Buffer;
     UINTN Size;
     
-    BASE_DEVICE_CLASS();
+    BASE_DEVICE_CLASS(UINT16 Size);
     ~BASE_DEVICE_CLASS();
     
     virtual UINT8 Read8(UINTN Address);

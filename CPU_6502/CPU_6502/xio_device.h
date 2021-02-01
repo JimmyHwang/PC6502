@@ -9,7 +9,7 @@ class XIO_DEVICE_CLASS: public BASE_DEVICE_CLASS {
   private:
 
   public:
-    XIO_DEVICE_CLASS();
+    XIO_DEVICE_CLASS(UINT16 Size);
     ~XIO_DEVICE_CLASS();
 
     UINT8 Read8(UINTN Address) override;

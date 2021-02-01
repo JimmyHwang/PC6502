@@ -120,8 +120,9 @@ void PLATFORM_CLASS::AddDevice(BASE_DEVICE_CLASS *Device, UINTN Address, UINTN S
 //-----------------------------------------------------------------------------
 DNA_STATUS PLATFORM_CLASS::AddDeviceROM(UINT16 base, UINT16 size, UINT8 *buffer) {
   DNA_STATUS Status;
-  ROM_DEVICE_CLASS *ROM = new ROM_DEVICE_CLASS(size);
+  ROM_DEVICE_CLASS *ROM;
 
+  ROM = new ROM_DEVICE_CLASS(size);
   ROM->LoadImage(buffer, size);
   this->AddDevice(ROM, base, size);
   Status = DNA_SUCCESS;
@@ -144,7 +145,7 @@ DNA_STATUS PLATFORM_CLASS::AddDeviceXIO(UINT16 base, UINT16 size) {
   DNA_STATUS Status;
   XIO_DEVICE_CLASS *XIO;
 
-  XIO = new XIO_DEVICE_CLASS();
+  XIO = new XIO_DEVICE_CLASS(size);
   this->AddDevice(XIO, base, size);
   Status = DNA_SUCCESS;
 

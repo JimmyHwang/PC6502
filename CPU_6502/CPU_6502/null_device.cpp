@@ -30,7 +30,7 @@ VOID NULL_DEVICE_CLASS::Write32(UINTN Address, UINT32 Data) {
 //-----------------------------------------------------------------------------
 // Class Constructor and Destructor
 //-----------------------------------------------------------------------------
-NULL_DEVICE_CLASS::NULL_DEVICE_CLASS() :BASE_DEVICE_CLASS() {
+NULL_DEVICE_CLASS::NULL_DEVICE_CLASS() :BASE_DEVICE_CLASS(0) {
   //
   // NULL_DEVICE_CLASS() -> NULL_DEVICE_CLASS()
   //

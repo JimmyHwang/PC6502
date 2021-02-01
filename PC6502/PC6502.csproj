@@ -92,6 +92,12 @@
     <Compile Include="XIO_LedClock.Designer.cs">
       <DependentUpon>XIO_LedClock.cs</DependentUpon>
     </Compile>
+    <Compile Include="XIO_TextScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XIO_TextScreen.Designer.cs">
+      <DependentUpon>XIO_TextScreen.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="DeviceEditor.resx">
       <DependentUpon>DeviceEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -112,6 +118,9 @@
     </Compile>
     <EmbeddedResource Include="XIO_LedClock.resx">
       <DependentUpon>XIO_LedClock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XIO_TextScreen.resx">
+      <DependentUpon>XIO_TextScreen.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
