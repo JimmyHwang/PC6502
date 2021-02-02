@@ -51,20 +51,6 @@ class mos6502
 {
 private:
 	
-	// registers
-	uint8_t A; // accumulator
-	uint8_t X; // X-index
-	uint8_t Y; // Y-index
-	
-	// stack pointer
-	uint8_t sp;
-	
-	// program counter
-	uint16_t pc;
-	
-	// status register
-	uint8_t status;
-	
 	// consumed clock cycles 
 	uint32_t cycles;
 	
@@ -175,7 +161,20 @@ private:
 	inline uint8_t StackPop();
 	
 public:
-	
+  // registers
+  uint8_t A; // accumulator
+  uint8_t X; // X-index
+  uint8_t Y; // Y-index
+
+  // stack pointer
+  uint8_t sp;
+
+  // program counter
+  uint16_t pc;
+
+  // status register
+  uint8_t status;
+
 	mos6502();
 	void NMI();
 	void IRQ();

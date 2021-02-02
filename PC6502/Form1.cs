@@ -33,7 +33,7 @@ namespace PC6502 {
     [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe int AddDeviceXIO(IntPtr VM, UInt16 Base, UInt16 Size);
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    public delegate void VM_Callback(int x, int y, string jstr);
+    public delegate void VM_Callback(string jstr);
     [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll")]
     public static extern int VM_SetCallback([MarshalAs(UnmanagedType.FunctionPtr)] VM_Callback callbackPointer);
 
@@ -42,7 +42,9 @@ namespace PC6502 {
     string ProjectFile;
     dynamic ProjectData;
     IntPtr VM;
-    
+    static Queue<string> CallbackQueue = new Queue<string>();
+    CpuWindow CPU;
+
     public Form1() {
       VM = IntPtr.Zero;
       ConfigData = new ExpandoObject();
@@ -369,7 +371,11 @@ namespace PC6502 {
         }
       }
       VM_SetCallback(callback);
-      VM_Reset(VM);      
+      VM_Reset(VM);
+      timer1.Enabled = true;
+      CPU = new CpuWindow();
+      CPU.VM = VM;
+      CPU.Show();
     }
 
     private void button_XIO_Screen_Click(object sender, EventArgs e) {
@@ -385,9 +391,21 @@ namespace PC6502 {
       }
     }
 
-    static VM_Callback callback = (intParam1, intParam2, jstr) => {
-      Console.WriteLine("The result of the C++ function is {0} and {1} {2}", intParam1, intParam2, jstr);
+    static VM_Callback callback = (jstr) => {
+      Console.WriteLine("The result of the C++ function is {0}", jstr);
+      CallbackQueue.Enqueue(jstr);
       //button_RunStop.Text = "@";
     };
+
+    private void timer1_Tick(object sender, EventArgs e) {
+      if (CallbackQueue.Count > 0) {
+        var jstr = CallbackQueue.Dequeue();
+        Console.WriteLine("timer1=" + jstr);
+        var data = json_decode(jstr);
+        if (data.Target == "CpuWindow") {
+          CPU.Callback(data);
+        }
+      }
+    }
   }
 }

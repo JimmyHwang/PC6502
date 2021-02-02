@@ -12,6 +12,10 @@ VOID ROM_DEVICE_CLASS::Write32(UINTN Address, UINT32 Data) {
 ROM_DEVICE_CLASS::ROM_DEVICE_CLASS(UINT16 Size):BASE_DEVICE_CLASS(Size) {
   UINT8 *buffer;
   //
+  // Set ReadOnly flag
+  //
+  this->ReadOnly = true;
+  //
   // BASE_DEVICE_CLASS() -> ROM_DEVICE_CLASS()
   //
   buffer = (UINT8 *)malloc(Size);

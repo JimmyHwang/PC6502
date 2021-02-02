@@ -23,6 +23,7 @@
     /// the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent() {
+      this.components = new System.ComponentModel.Container();
       this.button_Test = new System.Windows.Forms.Button();
       this.menuStrip1 = new System.Windows.Forms.MenuStrip();
       this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,6 +49,10 @@
       this.button_Remove = new System.Windows.Forms.Button();
       this.button_Edit = new System.Windows.Forms.Button();
       this.button_XIO_Screen = new System.Windows.Forms.Button();
+      this.systemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.memoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.cPUToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.timer1 = new System.Windows.Forms.Timer(this.components);
       this.menuStrip1.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -66,6 +71,7 @@
       this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
+            this.systemToolStripMenuItem,
             this.helpToolStripMenuItem});
       this.menuStrip1.Location = new System.Drawing.Point(0, 0);
       this.menuStrip1.Name = "menuStrip1";
@@ -147,7 +153,7 @@
       // aboutToolStripMenuItem
       // 
       this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-      this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+      this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.aboutToolStripMenuItem.Text = "About";
       // 
       // button1
@@ -261,6 +267,31 @@
       this.button_XIO_Screen.UseVisualStyleBackColor = true;
       this.button_XIO_Screen.Click += new System.EventHandler(this.button_XIO_Screen_Click);
       // 
+      // systemToolStripMenuItem
+      // 
+      this.systemToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cPUToolStripMenuItem,
+            this.memoryToolStripMenuItem});
+      this.systemToolStripMenuItem.Name = "systemToolStripMenuItem";
+      this.systemToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+      this.systemToolStripMenuItem.Text = "System";
+      // 
+      // memoryToolStripMenuItem
+      // 
+      this.memoryToolStripMenuItem.Name = "memoryToolStripMenuItem";
+      this.memoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.memoryToolStripMenuItem.Text = "Memory";
+      // 
+      // cPUToolStripMenuItem
+      // 
+      this.cPUToolStripMenuItem.Name = "cPUToolStripMenuItem";
+      this.cPUToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.cPUToolStripMenuItem.Text = "CPU";
+      // 
+      // timer1
+      // 
+      this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -316,6 +347,10 @@
     private System.Windows.Forms.Button button_Remove;
     private System.Windows.Forms.Button button_Edit;
     private System.Windows.Forms.Button button_XIO_Screen;
+    private System.Windows.Forms.ToolStripMenuItem systemToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem cPUToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem memoryToolStripMenuItem;
+    private System.Windows.Forms.Timer timer1;
   }
 }
 

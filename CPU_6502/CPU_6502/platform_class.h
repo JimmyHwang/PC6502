@@ -20,6 +20,7 @@ public:
   BASE_DEVICE_CLASS *DeviceList[16];
   int DeviceCount;
   BASE_DEVICE_CLASS *DeviceMappingTable[16];
+  UINT8 *ShadowMemory;
 
   PLATFORM_CLASS();
   ~PLATFORM_CLASS();

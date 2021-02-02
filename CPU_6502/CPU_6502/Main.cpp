@@ -33,13 +33,34 @@ int VM_Reset(void *vm) {
   
   // create an empty structure (null)
   json j;
+  j["Command"] = "RESET";
   j["pi"] = 3.141;
   j["happy"] = true;
   string s = j.dump();    // {"happy":true,"pi":3.141}
 
-  gCallback(1, 2, (char *)s.c_str());
+  gCallback((char *)s.c_str());
 
   return Status;
+}
+
+string Hex02(UINT8 data) {
+  char buffer[8];
+  string result = "";
+
+  sprintf(buffer, "%02X", data);
+  result = buffer;
+
+  return result;
+}
+
+string Hex04(UINT16 data) {
+  char buffer[8];
+  string result = "";
+
+  sprintf(buffer, "%04X", data);
+  result = buffer;
+
+  return result;
 }
 
 int VM_Run(void *vm, int count) {
@@ -50,6 +71,66 @@ int VM_Run(void *vm, int count) {
   Status = DNA_SUCCESS;
 
   return Status;
+}
+
+char * VM_GetRegisters(void *vm) {
+  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
+  string hexcode_buffer;
+  char *result;
+  int rlen;
+  json j;
+
+  j["Registers"] = {};
+  j["Registers"]["A"] = Hex02(VM->CPU->A);
+  j["Registers"]["X"] = Hex02(VM->CPU->X);
+  j["Registers"]["Y"] = Hex02(VM->CPU->Y);
+  j["Registers"]["PC"] = Hex04(VM->CPU->pc);
+  j["Registers"]["SP"] = Hex02(VM->CPU->sp);
+  string jstr = j.dump();
+  rlen = strlen(jstr.c_str()) + 1;
+  result = (char *)malloc(rlen);
+  strcpy(result, jstr.c_str());
+
+  return result;
+}
+
+char * VM_Disassembly(void *vm, UINT16 base, int lines) {
+  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
+  char opcode_buffer[64];
+  string hexcode_buffer;
+  int i;
+  json j;
+  int pc;
+  int opcode_bytes;
+  UINT8 value;
+  int rlen;
+  char *result;
+
+  j["Lines"] = json::array();
+  pc = VM->CPU->pc;
+  for (i = 0; i < lines; i++) {
+    opcode_bytes = Disassemble6502(VM->ShadowMemory, pc, opcode_buffer);
+    json line = json::object();
+    hexcode_buffer = "";
+    for (int c = 0; c < opcode_bytes; c++) {
+      if (hexcode_buffer != "") {
+        hexcode_buffer += " ";
+      }
+      value = VM->ShadowMemory[pc + c];
+      hexcode_buffer += Hex02(value);
+    }
+    line["Address"] = Hex04(pc);
+    line["Opcode"] = hexcode_buffer;
+    line["Disassembly"] = opcode_buffer;
+    j["Lines"].push_back(line);
+    pc += opcode_bytes;
+  }  
+  string jstr = j.dump();
+  rlen = strlen(jstr.c_str()) + 1;
+  result = (char *)malloc(rlen);
+  strcpy(result, jstr.c_str());
+
+  return result;
 }
 
 int filesize(FILE *fp) {

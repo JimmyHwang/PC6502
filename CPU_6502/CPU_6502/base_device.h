@@ -14,6 +14,7 @@ class BASE_DEVICE_CLASS {
     UINTN AddressMask;
     UINT8 *Buffer;
     UINTN Size;
+    BOOLEAN ReadOnly;
     
     BASE_DEVICE_CLASS(UINT16 Size);
     ~BASE_DEVICE_CLASS();

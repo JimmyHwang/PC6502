@@ -6,6 +6,7 @@
 #include "dna_status.h"
 #include "debug.h"
 #include "nlohmann/json.hpp"
+#include "dis6502.h"
 
 #include "mos6502.h"
 #include "mos6502class.h"
@@ -24,12 +25,7 @@
 //-----------------------------------------------------------------------------
 extern "C"
 {
-  // YourCallback is now a function that takes in 2 ints and returns void
-  //typedef void(__stdcall * YourCallback)(int, int);
-  //__declspec(dllexport) void __stdcall TakesInCallbackAndDoesStuff(YourCallback yourCallback);
-  
-  // VM_Callback is now a function that takes in 2 ints and returns void
-  typedef void(__stdcall * VM_Callback)(int, int, char *);
+  typedef void(__stdcall * VM_Callback)(char *);
 
   __declspec(dllexport) void * __stdcall CreateVM();
   __declspec(dllexport) int __stdcall FreeVM(void *vm);
@@ -39,7 +35,8 @@ extern "C"
   __declspec(dllexport) int __stdcall AddDeviceROM(void *vm, UINT16 Base, UINT16 Size, char *filename);
   __declspec(dllexport) int __stdcall AddDeviceXIO(void *vm, UINT16 Base, UINT16 Size);
   __declspec(dllexport) void __stdcall VM_SetCallback(VM_Callback Callback);
-    
-  //__declspec(dllexport) int __stdcall LoadBIOS(const char *filename);
+
+  __declspec(dllexport) char * __stdcall VM_GetRegisters(void *vm);  
+  __declspec(dllexport) char * __stdcall VM_Disassembly(void *vm, UINT16 base, int lines);
 }
 #endif

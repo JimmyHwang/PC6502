@@ -8,8 +8,6 @@ using namespace std;
 #include "mos6502class.h"
 #include "cpu_control_protocol.h"
 
-//CLASS_MOS6502 *m6502;
-
 //
 // Protocol Defination
 //
@@ -67,20 +65,12 @@ MOS6502_NMI (
 uint8_t CLASS_MOS6502::Read(uint16_t ip) {
   UINT8 Data;
   
-  //printf("<6502_DNA_CPU=0x%lX>", (char*)this->DnaCpu - (char*)0);
-  
-  //printf("<CLASS_MOS6502::Read>");
-  //printf("<6502,CHROMOSOME=0x%lX>", (char*)this->DnaCpu - (char*)0 );
-  //Data = this->DnaCpu->Read(ip);
-  //printf("<CLASS_MOS6502::Read()=0x%lX>", (char*)this - (char*)0);
   Data = this->MemoryControl->Read8(this->MemoryControl, (UINTN)ip);
-  //printf("CLASS_MOS6502::Read=0x%X(0x%X)", ip, Data); 
   
   return Data;
 }
 
 void CLASS_MOS6502::Write(uint16_t ip, uint8_t data) {
-  //this->DnaCpu->Write(ip, data);
   this->MemoryControl->Write8(this->MemoryControl, (UINTN)ip, (UINT8)data);
 }
 

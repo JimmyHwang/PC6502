@@ -19,6 +19,9 @@ MemoryRead8(
   Index = (Ip >> ADDRESS_MASK_BITS) & ADDRESS_INDEX_MASK;
   Device = This->DeviceMappingTable[Index];
   Data = Device->Read8(Ip);
+  if (This->ShadowMemory) {
+    This->ShadowMemory[Ip] = Data;
+  }
 
 #ifdef DEBUG_ADDRESSS_DECODER
   DebugOut(L"R8,0x%lX=0x%08X", Ip, Data);
@@ -44,7 +47,12 @@ MemoryWrite8(
   This = _CR(Protocol, PLATFORM_CLASS, MemoryControl);
   Index = (Ip >> ADDRESS_MASK_BITS) & ADDRESS_INDEX_MASK;
   Device = This->DeviceMappingTable[Index];
-  Device->Write8(Ip, Data);
+  if (Device->ReadOnly == false) {
+    if (This->ShadowMemory) {
+      This->ShadowMemory[Ip] = Data;
+    }
+    Device->Write8(Ip, Data);
+  }
 }
 
 UINT16
@@ -125,6 +133,9 @@ DNA_STATUS PLATFORM_CLASS::AddDeviceROM(UINT16 base, UINT16 size, UINT8 *buffer)
   ROM = new ROM_DEVICE_CLASS(size);
   ROM->LoadImage(buffer, size);
   this->AddDevice(ROM, base, size);
+  if (this->ShadowMemory) {
+    memcpy(this->ShadowMemory + base, buffer, size);
+  }
   Status = DNA_SUCCESS;
 
   return Status;
@@ -188,11 +199,17 @@ PLATFORM_CLASS::PLATFORM_CLASS() {
   this->MemoryControl.Write32 = MemoryWrite32;
   
   //
+  // Initialize Shadow Memory
+  //
+  this->ShadowMemory = (UINT8 *)malloc(0x10000);
+
+  //
   // Initialize Device List
   //
   for (i = 0; i < MAX_DEVICE_COUNT; i++) {
     this->DeviceList[i] = NULL;
   }
+
   //
   // Initialize Mapping Table
   //
@@ -204,6 +221,14 @@ PLATFORM_CLASS::~PLATFORM_CLASS() {
   int i;
   BASE_DEVICE_CLASS *device;
 
+  //
+  // Free Shadow Memory
+  //
+  free (this->ShadowMemory);
+
+  //
+  // Free Device
+  //
   for (i = 0; i < MAX_DEVICE_COUNT; i++) {
     device = this->DeviceList[i];
     if (device != NULL) {

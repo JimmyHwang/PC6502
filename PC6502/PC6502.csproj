@@ -71,11 +71,11 @@
     <Compile Include="DeviceEditor.Designer.cs">
       <DependentUpon>DeviceEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Emulator.cs">
+    <Compile Include="CpuWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Emulator.Designer.cs">
-      <DependentUpon>Emulator.cs</DependentUpon>
+    <Compile Include="CpuWindow.Designer.cs">
+      <DependentUpon>CpuWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -101,8 +101,8 @@
     <EmbeddedResource Include="DeviceEditor.resx">
       <DependentUpon>DeviceEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Emulator.resx">
-      <DependentUpon>Emulator.cs</DependentUpon>
+    <EmbeddedResource Include="CpuWindow.resx">
+      <DependentUpon>CpuWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
