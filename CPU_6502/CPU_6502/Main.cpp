@@ -94,7 +94,7 @@ char * VM_GetRegisters(void *vm) {
   return result;
 }
 
-char * VM_Disassembly(void *vm, UINT16 base, int lines) {
+char * VM_Disassembly(void *vm, UINT16 address, int lines) {
   PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
   char opcode_buffer[64];
   string hexcode_buffer;
@@ -107,7 +107,7 @@ char * VM_Disassembly(void *vm, UINT16 base, int lines) {
   char *result;
 
   j["Lines"] = json::array();
-  pc = VM->CPU->pc;
+  pc = address;
   for (i = 0; i < lines; i++) {
     opcode_bytes = Disassemble6502(VM->ShadowMemory, pc, opcode_buffer);
     json line = json::object();

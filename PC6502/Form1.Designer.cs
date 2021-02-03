@@ -35,6 +35,9 @@
       this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
       this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.systemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.cPUToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.memoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.button1 = new System.Windows.Forms.Button();
@@ -42,16 +45,13 @@
       this.columnHeader_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_Base = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.button_Reset = new System.Windows.Forms.Button();
+      this.button_Launch = new System.Windows.Forms.Button();
       this.button_RunStop = new System.Windows.Forms.Button();
       this.button_Step = new System.Windows.Forms.Button();
       this.button_Add = new System.Windows.Forms.Button();
       this.button_Remove = new System.Windows.Forms.Button();
       this.button_Edit = new System.Windows.Forms.Button();
       this.button_XIO_Screen = new System.Windows.Forms.Button();
-      this.systemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.memoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.cPUToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.timer1 = new System.Windows.Forms.Timer(this.components);
       this.menuStrip1.SuspendLayout();
       this.SuspendLayout();
@@ -142,6 +142,27 @@
       this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
       this.editToolStripMenuItem.Text = "Edit";
       // 
+      // systemToolStripMenuItem
+      // 
+      this.systemToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cPUToolStripMenuItem,
+            this.memoryToolStripMenuItem});
+      this.systemToolStripMenuItem.Name = "systemToolStripMenuItem";
+      this.systemToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+      this.systemToolStripMenuItem.Text = "System";
+      // 
+      // cPUToolStripMenuItem
+      // 
+      this.cPUToolStripMenuItem.Name = "cPUToolStripMenuItem";
+      this.cPUToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+      this.cPUToolStripMenuItem.Text = "CPU";
+      // 
+      // memoryToolStripMenuItem
+      // 
+      this.memoryToolStripMenuItem.Name = "memoryToolStripMenuItem";
+      this.memoryToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+      this.memoryToolStripMenuItem.Text = "Memory";
+      // 
       // helpToolStripMenuItem
       // 
       this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -153,7 +174,7 @@
       // aboutToolStripMenuItem
       // 
       this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-      this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
       this.aboutToolStripMenuItem.Text = "About";
       // 
       // button1
@@ -198,15 +219,15 @@
       this.columnHeader_Size.Text = "Size";
       this.columnHeader_Size.Width = 100;
       // 
-      // button_Reset
+      // button_Launch
       // 
-      this.button_Reset.Location = new System.Drawing.Point(12, 312);
-      this.button_Reset.Name = "button_Reset";
-      this.button_Reset.Size = new System.Drawing.Size(75, 23);
-      this.button_Reset.TabIndex = 4;
-      this.button_Reset.Text = "Reset";
-      this.button_Reset.UseVisualStyleBackColor = true;
-      this.button_Reset.Click += new System.EventHandler(this.button_Reset_Click);
+      this.button_Launch.Location = new System.Drawing.Point(331, 283);
+      this.button_Launch.Name = "button_Launch";
+      this.button_Launch.Size = new System.Drawing.Size(75, 23);
+      this.button_Launch.TabIndex = 4;
+      this.button_Launch.Text = "Launch";
+      this.button_Launch.UseVisualStyleBackColor = true;
+      this.button_Launch.Click += new System.EventHandler(this.button_Reset_Click);
       // 
       // button_RunStop
       // 
@@ -267,27 +288,6 @@
       this.button_XIO_Screen.UseVisualStyleBackColor = true;
       this.button_XIO_Screen.Click += new System.EventHandler(this.button_XIO_Screen_Click);
       // 
-      // systemToolStripMenuItem
-      // 
-      this.systemToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cPUToolStripMenuItem,
-            this.memoryToolStripMenuItem});
-      this.systemToolStripMenuItem.Name = "systemToolStripMenuItem";
-      this.systemToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
-      this.systemToolStripMenuItem.Text = "System";
-      // 
-      // memoryToolStripMenuItem
-      // 
-      this.memoryToolStripMenuItem.Name = "memoryToolStripMenuItem";
-      this.memoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-      this.memoryToolStripMenuItem.Text = "Memory";
-      // 
-      // cPUToolStripMenuItem
-      // 
-      this.cPUToolStripMenuItem.Name = "cPUToolStripMenuItem";
-      this.cPUToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-      this.cPUToolStripMenuItem.Text = "CPU";
-      // 
       // timer1
       // 
       this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
@@ -303,7 +303,7 @@
       this.Controls.Add(this.button_Add);
       this.Controls.Add(this.button_Step);
       this.Controls.Add(this.button_RunStop);
-      this.Controls.Add(this.button_Reset);
+      this.Controls.Add(this.button_Launch);
       this.Controls.Add(this.listView_Device);
       this.Controls.Add(this.button1);
       this.Controls.Add(this.button_Test);
@@ -337,7 +337,7 @@
     private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
     private System.Windows.Forms.ListView listView_Device;
-    private System.Windows.Forms.Button button_Reset;
+    private System.Windows.Forms.Button button_Launch;
     private System.Windows.Forms.Button button_RunStop;
     private System.Windows.Forms.Button button_Step;
     private System.Windows.Forms.ColumnHeader columnHeader_Type;

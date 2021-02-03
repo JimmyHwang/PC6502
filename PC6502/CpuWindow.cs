@@ -22,9 +22,16 @@ namespace PC6502 {
     public static extern unsafe IntPtr VM_Disassembly(IntPtr VM, UInt16 Base, int lines);
 
     public IntPtr VM;
+    UInt16 DisassemblyBase;
+    int DisassemblyCursor;
+    List<UInt16> InstructionAddress = new List<UInt16>();
 
     public CpuWindow() {
       InitializeComponent();
+    }
+
+    private void CpuWindow_Load(object sender, EventArgs e) {
+      RefreshCpuStatus();
     }
 
     public void Callback(dynamic cmd) {
@@ -41,31 +48,91 @@ namespace PC6502 {
       //Console.WriteLine("CPU Form:"+jstr);      
     }
 
-    private void button_Step_Click(object sender, EventArgs e) {
-      VM_Run(VM, 1);
+    UInt16 FindBestDisassemblyAddress(UInt16 pc, int count) {
+      UInt16 result = 0;
+      int index;
+
+      index = InstructionAddress.IndexOf(pc);
+      if (index < 0) {
+        InstructionAddress.Add(pc);
+        InstructionAddress.Sort();
+        result = pc;
+      }
+      index = InstructionAddress.IndexOf(pc);
+      do {
+        if (index == 0 || count == 0) {
+          result = pc;
+          break;
+        }
+        index--;
+        if (InstructionAddress[index] >= pc - 3) {
+          pc = InstructionAddress[index];
+          count--;
+        } else {
+          result = pc;
+          break;
+        }
+      } while (true);
+
+      return result;
+    }
+
+    void RefreshCpuStatus() {
       String jstr;
+      UInt16 disasm_base = 0;
+      UInt16 addr;
+      string regs_str;
+      byte A;
+      byte X;
+      byte Y;
+      UInt16 PC;
+      byte SP;
 
       jstr = Marshal.PtrToStringAnsi(VM_GetRegisters(VM));
-      //Marshal.FreeHGlobal(t);
-      Console.WriteLine(jstr);
-      dynamic regs_data = json_decode(jstr);
-      string pc_str = regs_data.Registers.PC;
-      UInt16 pc = Convert.ToUInt16(pc_str, 16);
-      Console.WriteLine(pc);
+      dynamic jdata = json_decode(jstr);
+      A = Convert.ToByte((string)jdata.Registers.A, 16);
+      X = Convert.ToByte((string)jdata.Registers.X, 16);
+      Y = Convert.ToByte((string)jdata.Registers.Y, 16);
+      PC = Convert.ToUInt16((string)jdata.Registers.PC, 16);
+      SP = Convert.ToByte((string)jdata.Registers.SP, 16);
+      regs_str = string.Format("A={0:X2}, X={1:X2}, Y={2:X2}, PC={3:X4}, SP={4:X2}", A, X, Y, PC, SP);
+      textBox_Registers.Text = regs_str;
 
-      jstr = Marshal.PtrToStringAnsi(VM_Disassembly(VM, pc, 10));
+      string pc_str = jdata.Registers.PC;
+      UInt16 pc = Convert.ToUInt16(pc_str, 16);
+      disasm_base = FindBestDisassemblyAddress(pc, 10);
+      jstr = Marshal.PtrToStringAnsi(VM_Disassembly(VM, disasm_base, 20));
       dynamic lines_data = json_decode(jstr);
       listView_Opcode.Items.Clear();
+      int index = 0;
       foreach (dynamic line in lines_data.Lines) {
         ListViewItem lvitem = new ListViewItem();
+        addr = Convert.ToUInt16((string)line.Address, 16);
+        if (addr == pc) {
+          DisassemblyCursor = index;
+        }
         lvitem.Text = line.Address;
         lvitem.SubItems.Add((string)line.Opcode);
         lvitem.SubItems.Add((string)line.Disassembly);
         listView_Opcode.Items.Add(lvitem);
+        index++;
       }
-      //Marshal.FreeHGlobal(t);
-      //Console.WriteLine(jstr);
+      listView_Opcode.Items[DisassemblyCursor].Selected = true;
+      listView_Opcode.Select();
+    }
+
+    private void button_Step_Click(object sender, EventArgs e) {
+      VM_Run(VM, 1);
+      RefreshCpuStatus();
+    }
+
+    private void button_Reset_Click(object sender, EventArgs e) {
+      VM_Reset(VM);
+    }
+
+    private void button_Run_Click(object sender, EventArgs e) {
 
     }
+
   }
 }
