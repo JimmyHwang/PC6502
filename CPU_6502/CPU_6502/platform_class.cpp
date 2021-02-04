@@ -1,6 +1,6 @@
 #include "main.h"
 
-#define DEBUG_ADDRESSS_DECODER
+//#define DEBUG_ADDRESSS_DECODER
 
 //-----------------------------------------------------------------------------
 // Memory Hook for CPU
@@ -19,8 +19,24 @@ MemoryRead8(
   Index = (Ip >> ADDRESS_MASK_BITS) & ADDRESS_INDEX_MASK;
   Device = This->DeviceMappingTable[Index];
   Data = Device->Read8(Ip);
+  //
+  // Update ShadowMemory for Disassembly
+  //
   if (This->ShadowMemory) {
     This->ShadowMemory[Ip] = Data;
+  }
+  //
+  // Record memory action
+  //
+  int wp = This->MemoryAccessIndex;
+  MEMORY_ACCESS *record = &This->MemoryAccessHistory[wp];
+  record->Mode = MEMORY_ACCESS_READ;
+  record->Address = Ip;
+  record->Data = Data;
+  wp = (wp + 1) & MEMORY_ACCESS_MASK;
+  This->MemoryAccessIndex = wp;
+  if (This->MemoryAccessIndex < MEMORY_ACCESS_MAX) {
+    This->MemoryAccessCount++;
   }
 
 #ifdef DEBUG_ADDRESSS_DECODER
@@ -47,11 +63,27 @@ MemoryWrite8(
   This = _CR(Protocol, PLATFORM_CLASS, MemoryControl);
   Index = (Ip >> ADDRESS_MASK_BITS) & ADDRESS_INDEX_MASK;
   Device = This->DeviceMappingTable[Index];
+  //
+  // Update ShadowMemory for Disassembly
+  //
   if (Device->ReadOnly == false) {
     if (This->ShadowMemory) {
       This->ShadowMemory[Ip] = Data;
     }
     Device->Write8(Ip, Data);
+  }
+  //
+  // Record memory action
+  //
+  int wp = This->MemoryAccessIndex;
+  MEMORY_ACCESS *record = &This->MemoryAccessHistory[wp];
+  record->Mode = MEMORY_ACCESS_WRITE;
+  record->Address = Ip;
+  record->Data = Data;
+  wp = (wp + 1) & MEMORY_ACCESS_MASK;
+  This->MemoryAccessIndex = wp;
+  if (This->MemoryAccessIndex < MEMORY_ACCESS_MAX) {
+    This->MemoryAccessCount++;
   }
 }
 

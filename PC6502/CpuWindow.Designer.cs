@@ -32,12 +32,12 @@
       this.button_Reset = new System.Windows.Forms.Button();
       this.textBox_Registers = new System.Windows.Forms.TextBox();
       this.listView_MemoryHistory = new System.Windows.Forms.ListView();
-      this.listView_Registers = new System.Windows.Forms.ListView();
-      this.columnHeader_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_RW = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_Address = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_Data = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.listView_Registers = new System.Windows.Forms.ListView();
+      this.columnHeader_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.SuspendLayout();
       // 
       // listView_Opcode
@@ -116,13 +116,30 @@
             this.columnHeader_Address,
             this.columnHeader_Data});
       this.listView_MemoryHistory.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.listView_MemoryHistory.FullRowSelect = true;
       this.listView_MemoryHistory.HideSelection = false;
-      this.listView_MemoryHistory.Location = new System.Drawing.Point(420, 174);
+      this.listView_MemoryHistory.Location = new System.Drawing.Point(582, 12);
       this.listView_MemoryHistory.Name = "listView_MemoryHistory";
-      this.listView_MemoryHistory.Size = new System.Drawing.Size(156, 255);
+      this.listView_MemoryHistory.Scrollable = false;
+      this.listView_MemoryHistory.Size = new System.Drawing.Size(156, 389);
       this.listView_MemoryHistory.TabIndex = 9;
       this.listView_MemoryHistory.UseCompatibleStateImageBehavior = false;
       this.listView_MemoryHistory.View = System.Windows.Forms.View.Details;
+      // 
+      // columnHeader_RW
+      // 
+      this.columnHeader_RW.Text = "R/W";
+      this.columnHeader_RW.Width = 36;
+      // 
+      // columnHeader_Address
+      // 
+      this.columnHeader_Address.Text = "Address";
+      this.columnHeader_Address.Width = 61;
+      // 
+      // columnHeader_Data
+      // 
+      this.columnHeader_Data.Text = "Data";
+      this.columnHeader_Data.Width = 48;
       // 
       // listView_Registers
       // 
@@ -130,6 +147,7 @@
             this.columnHeader_Name,
             this.columnHeader_Value});
       this.listView_Registers.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.listView_Registers.FullRowSelect = true;
       this.listView_Registers.HideSelection = false;
       this.listView_Registers.Location = new System.Drawing.Point(420, 12);
       this.listView_Registers.Name = "listView_Registers";
@@ -147,21 +165,6 @@
       // 
       this.columnHeader_Value.Text = "Value";
       this.columnHeader_Value.Width = 95;
-      // 
-      // columnHeader_RW
-      // 
-      this.columnHeader_RW.Text = "R/W";
-      this.columnHeader_RW.Width = 36;
-      // 
-      // columnHeader_Address
-      // 
-      this.columnHeader_Address.Text = "Address";
-      this.columnHeader_Address.Width = 61;
-      // 
-      // columnHeader_Data
-      // 
-      this.columnHeader_Data.Text = "Data";
-      this.columnHeader_Data.Width = 48;
       // 
       // CpuWindow
       // 

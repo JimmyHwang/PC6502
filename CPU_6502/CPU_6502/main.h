@@ -38,5 +38,6 @@ extern "C"
 
   __declspec(dllexport) char * __stdcall VM_GetRegisters(void *vm);  
   __declspec(dllexport) char * __stdcall VM_Disassembly(void *vm, UINT16 base, int lines);
+  __declspec(dllexport) char * __stdcall VM_GetMemoryHistory(void *vm);
 }
 #endif

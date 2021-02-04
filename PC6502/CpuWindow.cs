@@ -21,10 +21,10 @@ namespace PC6502 {
     public static extern unsafe IntPtr VM_GetRegisters(IntPtr VM);
     [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe IntPtr VM_Disassembly(IntPtr VM, UInt16 Base, int lines);
+    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    public static extern unsafe IntPtr VM_GetMemoryHistory(IntPtr VM);
 
     public IntPtr VM;
-    UInt16 DisassemblyBase;
-    int DisassemblyCursor;
     List<UInt16> InstructionAddress = new List<UInt16>();
 
     public CpuWindow() {
@@ -78,6 +78,44 @@ namespace PC6502 {
       return result;
     }
 
+    void RefreshMemoryHistory(dynamic history) {
+      string mode;
+      int skip_count = 0;
+      int rows;
+      int index;
+      int cursor;
+
+      //rows = listView_MemoryHistory.ClientSize.Height / listView_MemoryHistory.Font.Height;
+      rows = 20;
+      int total = history.Count;
+      if (total > rows) {
+        skip_count = total - rows;
+      }
+
+      listView_MemoryHistory.Items.Clear();
+      index = 0;
+      cursor = 0;
+      foreach (var record in history) {
+        if (skip_count > 0) {
+          skip_count--;
+          continue;
+        }
+        ListViewItem lvitem = new ListViewItem();
+        if (record.Mode == 0) {
+          mode = "R";
+        } else {
+          mode = "W";
+        }
+        lvitem.Text = mode;
+        lvitem.SubItems.Add(record.Address.ToString("X2"));
+        lvitem.SubItems.Add(record.Data.ToString("X2"));
+        listView_MemoryHistory.Items.Add(lvitem);
+        cursor = index;
+        index++;
+      }
+      listView_MemoryHistory.Items[cursor].Selected = true;
+    }
+
     void RefreshRegisterStatus(dynamic regs) {
       listView_Registers.Items.Clear();
       foreach(var reg in regs) {
@@ -96,9 +134,11 @@ namespace PC6502 {
       UInt16 addr;
       string regs_str;
       dynamic regs = new ExpandoObject();
+      dynamic jdata;
+      int cursor;
 
       jstr = Marshal.PtrToStringAnsi(VM_GetRegisters(VM));
-      dynamic jdata = json_decode(jstr);
+      jdata = json_decode(jstr);
       regs.A = Convert.ToByte((string)jdata.Registers.A, 16);
       regs.X = Convert.ToByte((string)jdata.Registers.X, 16);
       regs.Y = Convert.ToByte((string)jdata.Registers.Y, 16);
@@ -106,8 +146,7 @@ namespace PC6502 {
       regs.SP = Convert.ToByte((string)jdata.Registers.SP, 16);
       regs_str = string.Format("A={0:X2}, X={1:X2}, Y={2:X2}, PC={3:X4}, SP={4:X2}", regs.A, regs.X, regs.Y, regs.PC, regs.SP);
       textBox_Registers.Text = regs_str;
-      RefreshRegisterStatus(regs);
-
+      
       string pc_str = jdata.Registers.PC;
       UInt16 pc = Convert.ToUInt16(pc_str, 16);
       disasm_base = FindBestDisassemblyAddress(pc, 10);
@@ -115,11 +154,12 @@ namespace PC6502 {
       dynamic lines_data = json_decode(jstr);
       listView_Opcode.Items.Clear();
       int index = 0;
+      cursor = 0;
       foreach (dynamic line in lines_data.Lines) {
         ListViewItem lvitem = new ListViewItem();
         addr = Convert.ToUInt16((string)line.Address, 16);
         if (addr == pc) {
-          DisassemblyCursor = index;
+          cursor = index;
         }
         lvitem.Text = line.Address;
         lvitem.SubItems.Add((string)line.Opcode);
@@ -127,8 +167,18 @@ namespace PC6502 {
         listView_Opcode.Items.Add(lvitem);
         index++;
       }
-      listView_Opcode.Items[DisassemblyCursor].Selected = true;
+      listView_Opcode.Items[cursor].Selected = true;
       listView_Opcode.Select();
+      //
+      // Update Register Pane
+      //
+      RefreshRegisterStatus(regs);
+      //
+      // Update Memory History Pane
+      //
+      jstr = Marshal.PtrToStringAnsi(VM_GetMemoryHistory(VM));
+      jdata = json_decode(jstr);
+      RefreshMemoryHistory(jdata.History);
     }
 
     private void button_Step_Click(object sender, EventArgs e) {

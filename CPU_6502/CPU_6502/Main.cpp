@@ -63,6 +63,18 @@ string Hex04(UINT16 data) {
   return result;
 }
 
+char *ExportJsonString(json j) {
+  int rlen;
+  char *result;
+
+  string jstr = j.dump();
+  rlen = strlen(jstr.c_str()) + 1;
+  result = (char *)malloc(rlen);
+  strcpy(result, jstr.c_str());
+
+  return result;
+}
+
 int VM_Run(void *vm, int count) {
   DNA_STATUS Status;
   PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
@@ -76,8 +88,6 @@ int VM_Run(void *vm, int count) {
 char * VM_GetRegisters(void *vm) {
   PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
   string hexcode_buffer;
-  char *result;
-  int rlen;
   json j;
 
   j["Registers"] = {};
@@ -86,12 +96,8 @@ char * VM_GetRegisters(void *vm) {
   j["Registers"]["Y"] = Hex02(VM->CPU->Y);
   j["Registers"]["PC"] = Hex04(VM->CPU->pc);
   j["Registers"]["SP"] = Hex02(VM->CPU->sp);
-  string jstr = j.dump();
-  rlen = strlen(jstr.c_str()) + 1;
-  result = (char *)malloc(rlen);
-  strcpy(result, jstr.c_str());
 
-  return result;
+  return ExportJsonString(j);
 }
 
 char * VM_Disassembly(void *vm, UINT16 address, int lines) {
@@ -103,9 +109,7 @@ char * VM_Disassembly(void *vm, UINT16 address, int lines) {
   int pc;
   int opcode_bytes;
   UINT8 value;
-  int rlen;
-  char *result;
-
+  
   j["Lines"] = json::array();
   pc = address;
   for (i = 0; i < lines; i++) {
@@ -125,12 +129,32 @@ char * VM_Disassembly(void *vm, UINT16 address, int lines) {
     j["Lines"].push_back(line);
     pc += opcode_bytes;
   }  
-  string jstr = j.dump();
-  rlen = strlen(jstr.c_str()) + 1;
-  result = (char *)malloc(rlen);
-  strcpy(result, jstr.c_str());
+  
+  return ExportJsonString(j);
+}
 
-  return result;
+char *VM_GetMemoryHistory(void *vm) {
+  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
+  json j;
+  int rp;
+  int count;
+  MEMORY_ACCESS *record;
+
+  j["History"] = json::array();  
+  rp = (VM->MemoryAccessIndex - VM->MemoryAccessCount) & MEMORY_ACCESS_MASK;
+  count = VM->MemoryAccessCount;
+  while (count > 0) {
+    json memory_access = json::object();
+    record = &VM->MemoryAccessHistory[rp];
+    memory_access["Mode"] = record->Mode;
+    memory_access["Address"] = record->Address;
+    memory_access["Data"] = record->Data;
+    j["History"].push_back(memory_access);
+    rp = (rp + 1) & MEMORY_ACCESS_MASK;
+    count--;
+  }
+  
+  return ExportJsonString(j);
 }
 
 int filesize(FILE *fp) {
