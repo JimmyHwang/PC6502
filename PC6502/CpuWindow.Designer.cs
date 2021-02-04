@@ -31,6 +31,13 @@
       this.button_Step = new System.Windows.Forms.Button();
       this.button_Reset = new System.Windows.Forms.Button();
       this.textBox_Registers = new System.Windows.Forms.TextBox();
+      this.listView_MemoryHistory = new System.Windows.Forms.ListView();
+      this.listView_Registers = new System.Windows.Forms.ListView();
+      this.columnHeader_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_RW = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Address = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_Data = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.SuspendLayout();
       // 
       // listView_Opcode
@@ -102,11 +109,67 @@
       this.textBox_Registers.Size = new System.Drawing.Size(321, 22);
       this.textBox_Registers.TabIndex = 8;
       // 
+      // listView_MemoryHistory
+      // 
+      this.listView_MemoryHistory.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_RW,
+            this.columnHeader_Address,
+            this.columnHeader_Data});
+      this.listView_MemoryHistory.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.listView_MemoryHistory.HideSelection = false;
+      this.listView_MemoryHistory.Location = new System.Drawing.Point(420, 174);
+      this.listView_MemoryHistory.Name = "listView_MemoryHistory";
+      this.listView_MemoryHistory.Size = new System.Drawing.Size(156, 255);
+      this.listView_MemoryHistory.TabIndex = 9;
+      this.listView_MemoryHistory.UseCompatibleStateImageBehavior = false;
+      this.listView_MemoryHistory.View = System.Windows.Forms.View.Details;
+      // 
+      // listView_Registers
+      // 
+      this.listView_Registers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_Name,
+            this.columnHeader_Value});
+      this.listView_Registers.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.listView_Registers.HideSelection = false;
+      this.listView_Registers.Location = new System.Drawing.Point(420, 12);
+      this.listView_Registers.Name = "listView_Registers";
+      this.listView_Registers.Size = new System.Drawing.Size(156, 156);
+      this.listView_Registers.TabIndex = 10;
+      this.listView_Registers.UseCompatibleStateImageBehavior = false;
+      this.listView_Registers.View = System.Windows.Forms.View.Details;
+      // 
+      // columnHeader_Name
+      // 
+      this.columnHeader_Name.Text = "Name";
+      this.columnHeader_Name.Width = 51;
+      // 
+      // columnHeader_Value
+      // 
+      this.columnHeader_Value.Text = "Value";
+      this.columnHeader_Value.Width = 95;
+      // 
+      // columnHeader_RW
+      // 
+      this.columnHeader_RW.Text = "R/W";
+      this.columnHeader_RW.Width = 36;
+      // 
+      // columnHeader_Address
+      // 
+      this.columnHeader_Address.Text = "Address";
+      this.columnHeader_Address.Width = 61;
+      // 
+      // columnHeader_Data
+      // 
+      this.columnHeader_Data.Text = "Data";
+      this.columnHeader_Data.Width = 48;
+      // 
       // CpuWindow
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(800, 540);
+      this.Controls.Add(this.listView_Registers);
+      this.Controls.Add(this.listView_MemoryHistory);
       this.Controls.Add(this.textBox_Registers);
       this.Controls.Add(this.button_Reset);
       this.Controls.Add(this.button_Step);
@@ -130,5 +193,12 @@
     private System.Windows.Forms.ColumnHeader columnHeader_Instruction;
     private System.Windows.Forms.Button button_Reset;
     private System.Windows.Forms.TextBox textBox_Registers;
+    private System.Windows.Forms.ListView listView_MemoryHistory;
+    private System.Windows.Forms.ColumnHeader columnHeader_RW;
+    private System.Windows.Forms.ColumnHeader columnHeader_Address;
+    private System.Windows.Forms.ColumnHeader columnHeader_Data;
+    private System.Windows.Forms.ListView listView_Registers;
+    private System.Windows.Forms.ColumnHeader columnHeader_Name;
+    private System.Windows.Forms.ColumnHeader columnHeader_Value;
   }
 }

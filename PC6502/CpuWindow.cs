@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Dynamic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -77,26 +78,35 @@ namespace PC6502 {
       return result;
     }
 
+    void RefreshRegisterStatus(dynamic regs) {
+      listView_Registers.Items.Clear();
+      foreach(var reg in regs) {
+        var key = reg.Key;
+        var data = reg.Value;
+        ListViewItem lvitem = new ListViewItem();
+        lvitem.Text = (string)key;
+        lvitem.SubItems.Add(data.ToString("X2"));        
+        listView_Registers.Items.Add(lvitem);
+      }
+    }
+
     void RefreshCpuStatus() {
       String jstr;
       UInt16 disasm_base = 0;
       UInt16 addr;
       string regs_str;
-      byte A;
-      byte X;
-      byte Y;
-      UInt16 PC;
-      byte SP;
+      dynamic regs = new ExpandoObject();
 
       jstr = Marshal.PtrToStringAnsi(VM_GetRegisters(VM));
       dynamic jdata = json_decode(jstr);
-      A = Convert.ToByte((string)jdata.Registers.A, 16);
-      X = Convert.ToByte((string)jdata.Registers.X, 16);
-      Y = Convert.ToByte((string)jdata.Registers.Y, 16);
-      PC = Convert.ToUInt16((string)jdata.Registers.PC, 16);
-      SP = Convert.ToByte((string)jdata.Registers.SP, 16);
-      regs_str = string.Format("A={0:X2}, X={1:X2}, Y={2:X2}, PC={3:X4}, SP={4:X2}", A, X, Y, PC, SP);
+      regs.A = Convert.ToByte((string)jdata.Registers.A, 16);
+      regs.X = Convert.ToByte((string)jdata.Registers.X, 16);
+      regs.Y = Convert.ToByte((string)jdata.Registers.Y, 16);
+      regs.PC = Convert.ToUInt16((string)jdata.Registers.PC, 16);
+      regs.SP = Convert.ToByte((string)jdata.Registers.SP, 16);
+      regs_str = string.Format("A={0:X2}, X={1:X2}, Y={2:X2}, PC={3:X4}, SP={4:X2}", regs.A, regs.X, regs.Y, regs.PC, regs.SP);
       textBox_Registers.Text = regs_str;
+      RefreshRegisterStatus(regs);
 
       string pc_str = jdata.Registers.PC;
       UInt16 pc = Convert.ToUInt16(pc_str, 16);
