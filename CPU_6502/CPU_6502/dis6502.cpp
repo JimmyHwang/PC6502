@@ -4,6 +4,14 @@
 #include <stdint.h>
 #include <malloc.h>
 
+uint16_t BranchIP(int pc, int8_t offset) {
+  int addr;
+
+  addr = (pc+2) + offset;
+
+  return addr;
+}
+
 int Disassemble6502(unsigned char *codebuffer, int pc, char *output_buffer) {
   char opstr[256];
   uint8_t *opcodes = &codebuffer[pc];
@@ -19,7 +27,7 @@ int Disassemble6502(unsigned char *codebuffer, int pc, char *output_buffer) {
   case 0x0a: sprintf(opstr, "ASL A"); break;
   case 0x0d: sprintf(opstr, "ORA $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
   case 0x0e: sprintf(opstr, "ASL $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
-  case 0x10: sprintf(opstr, "BPL $%02X", opcodes[1]); count = 2; break;
+  case 0x10: sprintf(opstr, "BPL $%02X", BranchIP(pc,opcodes[1])); count = 2; break;
   case 0x11: sprintf(opstr, "ORA ($%02X),Y", opcodes[1]); count = 2; break;
   case 0x15: sprintf(opstr, "ORA $%02X,X", opcodes[1]); count = 2; break;
   case 0x16: sprintf(opstr, "ASL $%02X,X", opcodes[1]); count = 2; break;
@@ -38,7 +46,7 @@ int Disassemble6502(unsigned char *codebuffer, int pc, char *output_buffer) {
   case 0x2c: sprintf(opstr, "BIT $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
   case 0x2d: sprintf(opstr, "AND $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
   case 0x2e: sprintf(opstr, "ROL $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
-  case 0x30: sprintf(opstr, "BMI $%02X", opcodes[1]); count = 2; break;
+  case 0x30: sprintf(opstr, "BMI $%02X", BranchIP(pc,opcodes[1])); count = 2; break;
   case 0x31: sprintf(opstr, "AND ($%02X),Y", opcodes[1]); count = 2; break;
   case 0x35: sprintf(opstr, "AND $%02X,X", opcodes[1]); count = 2; break;
   case 0x36: sprintf(opstr, "ROL $%02X,X", opcodes[1]); count = 2; break;
@@ -56,7 +64,7 @@ int Disassemble6502(unsigned char *codebuffer, int pc, char *output_buffer) {
   case 0x4c: sprintf(opstr, "JMP $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
   case 0x4d: sprintf(opstr, "EOR $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
   case 0x4e: sprintf(opstr, "LSR $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
-  case 0x50: sprintf(opstr, "BVC $%02X", opcodes[1]); count = 2; break;
+  case 0x50: sprintf(opstr, "BVC $%02X", BranchIP(pc,opcodes[1])); count = 2; break;
   case 0x51: sprintf(opstr, "EOR ($%02X),Y", opcodes[1]); count = 2; break;
   case 0x55: sprintf(opstr, "EOR $%02X,X", opcodes[1]); count = 2; break;
   case 0x56: sprintf(opstr, "LSR $%02X,X", opcodes[1]); count = 2; break;
@@ -74,7 +82,7 @@ int Disassemble6502(unsigned char *codebuffer, int pc, char *output_buffer) {
   case 0x6c: sprintf(opstr, "JMP ($%02X%02X)", opcodes[2], opcodes[1]); count = 3; break;
   case 0x6d: sprintf(opstr, "ADC $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
   case 0x6e: sprintf(opstr, "ROR $%02X%02X,X", opcodes[2], opcodes[1]); count = 3; break;
-  case 0x70: sprintf(opstr, "BVS $%02X", opcodes[1]); count = 2; break;
+  case 0x70: sprintf(opstr, "BVS $%02X", BranchIP(pc,opcodes[1])); count = 2; break;
   case 0x71: sprintf(opstr, "ADC ($%02X),Y", opcodes[1]); count = 2; break;
   case 0x75: sprintf(opstr, "ADC $%02X,X", opcodes[1]); count = 2; break;
   case 0x76: sprintf(opstr, "ROR $%02X,X", opcodes[1]); count = 2; break;
@@ -91,7 +99,7 @@ int Disassemble6502(unsigned char *codebuffer, int pc, char *output_buffer) {
   case 0x8c: sprintf(opstr, "STY $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
   case 0x8d: sprintf(opstr, "STA $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
   case 0x8e: sprintf(opstr, "STX $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
-  case 0x90: sprintf(opstr, "BCC $%02X", opcodes[1]); count = 2; break;
+  case 0x90: sprintf(opstr, "BCC $%02X", BranchIP(pc,opcodes[1])); count = 2; break;
   case 0x91: sprintf(opstr, "STA ($%02X),Y", opcodes[1]); count = 2; break;
   case 0x94: sprintf(opstr, "STY $%02X,X", opcodes[1]); count = 2; break;
   case 0x95: sprintf(opstr, "STA $%02X,X", opcodes[1]); count = 2; break;
@@ -112,7 +120,7 @@ int Disassemble6502(unsigned char *codebuffer, int pc, char *output_buffer) {
   case 0xac: sprintf(opstr, "LDY $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
   case 0xad: sprintf(opstr, "LDA $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
   case 0xae: sprintf(opstr, "LDX $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
-  case 0xb0: sprintf(opstr, "BCS $%02X", opcodes[1]); count = 2; break;
+  case 0xb0: sprintf(opstr, "BCS $%02X", BranchIP(pc,opcodes[1])); count = 2; break;
   case 0xb1: sprintf(opstr, "LDA ($%02X),Y", opcodes[1]); count = 2; break;
   case 0xb4: sprintf(opstr, "LDY $%02X,X", opcodes[1]); count = 2; break;
   case 0xb5: sprintf(opstr, "LDA $%02X,X", opcodes[1]); count = 2; break;
@@ -134,7 +142,7 @@ int Disassemble6502(unsigned char *codebuffer, int pc, char *output_buffer) {
   case 0xcc: sprintf(opstr, "CPY $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
   case 0xcd: sprintf(opstr, "CMP $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
   case 0xce: sprintf(opstr, "DEC $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
-  case 0xd0: sprintf(opstr, "BNE $%02X", opcodes[1]); count = 2; break;
+  case 0xd0: sprintf(opstr, "BNE $%02X", BranchIP(pc,opcodes[1])); count = 2; break;
   case 0xd1: sprintf(opstr, "CMP ($%02X),Y", opcodes[1]); count = 2; break;
   case 0xd5: sprintf(opstr, "CMP $%02X,X", opcodes[1]); count = 2; break;
   case 0xd6: sprintf(opstr, "DEC $%02X,X", opcodes[1]); count = 2; break;
@@ -153,7 +161,7 @@ int Disassemble6502(unsigned char *codebuffer, int pc, char *output_buffer) {
   case 0xec: sprintf(opstr, "CPX $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
   case 0xed: sprintf(opstr, "SBC $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
   case 0xee: sprintf(opstr, "INC $%02X%02X", opcodes[2], opcodes[1]); count = 3; break;
-  case 0xf0: sprintf(opstr, "BEQ $%02X", opcodes[1]); count = 2; break;
+  case 0xf0: sprintf(opstr, "BEQ $%02X", BranchIP(pc, opcodes[1])); count = 2; break;
   case 0xf1: sprintf(opstr, "SBC ($%02X),Y", opcodes[1]); count = 2; break;
   case 0xf5: sprintf(opstr, "SBC $%02X,X", opcodes[1]); count = 2; break;
   case 0xf6: sprintf(opstr, "INC $%02X,X", opcodes[1]); count = 2; break;
@@ -165,31 +173,6 @@ int Disassemble6502(unsigned char *codebuffer, int pc, char *output_buffer) {
     sprintf(opstr, ".db $%02X", opcodes[0]); break;
   }
   strcpy(output_buffer, opstr);
-  /*
-  printf("%04X %02X ", 0x5000 + pc, opcodes[0]);
-  if (count > 1)
-    printf("%02X ", opcodes[1]);
-  else
-    printf("   ");
-  if (count > 2)
-    printf("%02X ", opcodes[2]);
-  else
-    printf("   ");
-  printf("%-s", opstr);
-  switch (opcodes[0]) {
-  case 0x90:
-  case 0xB0:
-  case 0xF0:
-  case 0x30:
-  case 0xD0:
-  case 0x10:
-  case 0x50:
-  case 0x70:
-    // print branch target
-    printf("\t\t; $%04x", 0x5000 + pc + 2 + (int8_t)opcodes[1]);
-  }
-  printf("\n");
-  */
   return count;
 }
 
