@@ -143,7 +143,8 @@ namespace PC6502 {
       regs.Y = Convert.ToByte((string)jdata.Registers.Y, 16);
       regs.PC = Convert.ToUInt16((string)jdata.Registers.PC, 16);
       regs.SP = Convert.ToByte((string)jdata.Registers.SP, 16);
-      
+      regs.Flags = Convert.ToByte((string)jdata.Registers.Flags, 16);
+
       string pc_str = jdata.Registers.PC;
       UInt16 pc = Convert.ToUInt16(pc_str, 16);
       disasm_base = FindBestDisassemblyAddress(pc, 10);

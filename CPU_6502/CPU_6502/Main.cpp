@@ -61,6 +61,7 @@ char * VM_GetRegisters(void *vm) {
   j["Registers"]["A"] = Hex02(VM->CPU->A);
   j["Registers"]["X"] = Hex02(VM->CPU->X);
   j["Registers"]["Y"] = Hex02(VM->CPU->Y);
+  j["Registers"]["Flags"] = Hex02(VM->CPU->status);
   j["Registers"]["PC"] = Hex04(VM->CPU->pc);
   j["Registers"]["SP"] = Hex02(VM->CPU->sp);
 
