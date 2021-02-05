@@ -1,6 +1,5 @@
 import re
 
-
 class asm6502():
     def __init__(self, debug=0):
         # print "65C02 Assembler"
@@ -36,10 +35,11 @@ class asm6502():
         self.allstuff = list()
         self.line = 1
 
-    def clear_state(self):
-        self.text_of_lines = list()  # of strings
-        self.lines = list()  # parsed lines (symbol, opcode, addrmode, value
-        self.symbols = list()  # of (name,line#) tuples
+    def clear_state(self, build_pass):
+        self.text_of_lines = list()   # of strings
+        self.lines = list()           # parsed lines (symbol, opcode, addrmode, value
+        if build_pass == 0:           # Only clear symbols at first pass
+          self.symbols = list()       # of (name,line#) tuples
 
         self.labeldict = dict()
         self.labellist = list()
@@ -456,6 +456,9 @@ class asm6502():
         if (s[0] in self.decimal_digits):
             ns = int(s)
             return ns
+
+        if (s in self.symbols):
+          return self.symbols[s]
 
         return (-1)
 
@@ -1133,7 +1136,12 @@ class asm6502():
 
     # Perform the three passes of the assembly    
     def assemble(self, lines):
-        self.clear_state()
+        self.assemble_ex(lines, 0)            # 1st pass
+        self.assemble_ex(lines, 1)            # 2nd pass (Get label value but address value may incorrect)
+        return self.assemble_ex(lines, 2)     # 3rd pass (Re-compilter after correct instruction length)
+        
+    def assemble_ex(self, lines, build_pass):
+        self.clear_state(build_pass)
 
         # First pass, parse each line for label, opcode, operand and comments
         self.debug(1, "First Pass")
