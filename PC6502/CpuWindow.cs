@@ -132,7 +132,6 @@ namespace PC6502 {
       String jstr;
       UInt16 disasm_base = 0;
       UInt16 addr;
-      string regs_str;
       dynamic regs = new ExpandoObject();
       dynamic jdata;
       int cursor;
@@ -144,8 +143,6 @@ namespace PC6502 {
       regs.Y = Convert.ToByte((string)jdata.Registers.Y, 16);
       regs.PC = Convert.ToUInt16((string)jdata.Registers.PC, 16);
       regs.SP = Convert.ToByte((string)jdata.Registers.SP, 16);
-      regs_str = string.Format("A={0:X2}, X={1:X2}, Y={2:X2}, PC={3:X4}, SP={4:X2}", regs.A, regs.X, regs.Y, regs.PC, regs.SP);
-      textBox_Registers.Text = regs_str;
       
       string pc_str = jdata.Registers.PC;
       UInt16 pc = Convert.ToUInt16(pc_str, 16);

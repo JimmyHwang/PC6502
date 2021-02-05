@@ -35,7 +35,7 @@ namespace PC6502 {
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
     public delegate void VM_Callback(string jstr);
     [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll")]
-    public static extern int VM_SetCallback([MarshalAs(UnmanagedType.FunctionPtr)] VM_Callback callbackPointer);
+    public static extern int VM_SetCallback(IntPtr VM, [MarshalAs(UnmanagedType.FunctionPtr)] VM_Callback callbackPointer);
 
     string ConfigFile;
     dynamic ConfigData;
@@ -43,7 +43,8 @@ namespace PC6502 {
     dynamic ProjectData;
     IntPtr VM;
     static Queue<string> CallbackQueue = new Queue<string>();
-    CpuWindow CPU;
+    CpuWindow CPU_Form;
+    XIO_LedClock XIO_Form;
 
     public Form1() {
       VM = IntPtr.Zero;
@@ -370,12 +371,14 @@ namespace PC6502 {
           }
         }
       }
-      VM_SetCallback(callback);
+      VM_SetCallback(VM, callback);
       VM_Reset(VM);
       timer1.Enabled = true;
-      CPU = new CpuWindow();
-      CPU.VM = VM;
-      CPU.Show();
+      CPU_Form = new CpuWindow();
+      CPU_Form.VM = VM;
+      CPU_Form.Show();
+      XIO_Form = new XIO_LedClock();
+      XIO_Form.Show();
     }
 
     private void button_XIO_Screen_Click(object sender, EventArgs e) {
@@ -403,7 +406,9 @@ namespace PC6502 {
         Console.WriteLine("timer1=" + jstr);
         var data = json_decode(jstr);
         if (data.Target == "CpuWindow") {
-          CPU.Callback(data);
+          CPU_Form.Callback(data);
+        } else if (data.Target == "XioWindow") {
+          XIO_Form.Callback(data);
         }
       }
     }

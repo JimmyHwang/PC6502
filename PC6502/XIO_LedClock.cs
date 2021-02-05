@@ -33,5 +33,22 @@ namespace PC6502 {
     private void button_StartStop_Click(object sender, EventArgs e) {
       SystemSounds.Beep.Play();
     }
+
+    public void Callback(dynamic cmd) {
+      /*
+      if (cmd == "Running") {
+        listView_Opcode.Items.Clear();
+        foreach (dynamic line in cmd.Lines) {
+          ListViewItem lvitem = new ListViewItem();
+          lvitem.Text = line.Address;
+          lvitem.SubItems.Add(line.Opcode);
+          lvitem.SubItems.Add(line.Disassembly);
+          listView_Opcode.Items.Add(lvitem);
+        }
+      }
+      */
+      //Console.WriteLine("XIO Form:"+jstr);      
+    }
+
   }
 }

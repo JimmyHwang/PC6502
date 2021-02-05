@@ -12,10 +12,10 @@ MemoryRead8(
 ) {
   UINT8 Data;
   int Index;
-  PLATFORM_CLASS *This;
+  VM_CLASS *This;
   BASE_DEVICE_CLASS *Device;
 
-  This = _CR(Protocol, PLATFORM_CLASS, MemoryControl);
+  This = _CR(Protocol, VM_CLASS, MemoryControl);
   Index = (Ip >> ADDRESS_MASK_BITS) & ADDRESS_INDEX_MASK;
   Device = This->DeviceMappingTable[Index];
   Data = Device->Read8(Ip);
@@ -53,14 +53,14 @@ MemoryWrite8(
   UINT8 Data
 ) {
   int Index;
-  PLATFORM_CLASS *This;
+  VM_CLASS *This;
   BASE_DEVICE_CLASS *Device;
 
 #ifdef DEBUG_ADDRESSS_DECODER  
   DebugOut(L"W8,0x%lX=0x%08X", Ip, Data);
   //printf("W8,0x%lX=0x%08X", Ip, Data);
 #endif  
-  This = _CR(Protocol, PLATFORM_CLASS, MemoryControl);
+  This = _CR(Protocol, VM_CLASS, MemoryControl);
   Index = (Ip >> ADDRESS_MASK_BITS) & ADDRESS_INDEX_MASK;
   Device = This->DeviceMappingTable[Index];
   //
@@ -130,7 +130,7 @@ MemoryWrite32(
 //-----------------------------------------------------------------------------
 // Private Functions
 //-----------------------------------------------------------------------------
-void PLATFORM_CLASS::AddDevice(BASE_DEVICE_CLASS *Device, UINTN Address, UINTN Size) {
+void VM_CLASS::AddDevice(BASE_DEVICE_CLASS *Device, UINTN Address, UINTN Size) {
   int i;
   UINTN addr;
 
@@ -158,7 +158,7 @@ void PLATFORM_CLASS::AddDevice(BASE_DEVICE_CLASS *Device, UINTN Address, UINTN S
 //-----------------------------------------------------------------------------
 // Public Functions
 //-----------------------------------------------------------------------------
-DNA_STATUS PLATFORM_CLASS::AddDeviceROM(UINT16 base, UINT16 size, UINT8 *buffer) {
+DNA_STATUS VM_CLASS::AddDeviceROM(UINT16 base, UINT16 size, UINT8 *buffer) {
   DNA_STATUS Status;
   ROM_DEVICE_CLASS *ROM;
 
@@ -173,7 +173,7 @@ DNA_STATUS PLATFORM_CLASS::AddDeviceROM(UINT16 base, UINT16 size, UINT8 *buffer)
   return Status;
 }
 
-DNA_STATUS PLATFORM_CLASS::AddDeviceRAM(UINT16 base, UINT16 size) {
+DNA_STATUS VM_CLASS::AddDeviceRAM(UINT16 base, UINT16 size) {
   DNA_STATUS Status;
   RAM_DEVICE_CLASS *RAM;
 
@@ -184,7 +184,7 @@ DNA_STATUS PLATFORM_CLASS::AddDeviceRAM(UINT16 base, UINT16 size) {
   return Status;
 }
 
-DNA_STATUS PLATFORM_CLASS::AddDeviceXIO(UINT16 base, UINT16 size) {
+DNA_STATUS VM_CLASS::AddDeviceXIO(UINT16 base, UINT16 size) {
   DNA_STATUS Status;
   XIO_DEVICE_CLASS *XIO;
 
@@ -195,7 +195,7 @@ DNA_STATUS PLATFORM_CLASS::AddDeviceXIO(UINT16 base, UINT16 size) {
   return Status;
 }
 
-DNA_STATUS PLATFORM_CLASS::Reset() {
+DNA_STATUS VM_CLASS::Reset() {
   DNA_STATUS Status;
 
   this->CpuControl->Reset(this->CpuControl);
@@ -204,7 +204,7 @@ DNA_STATUS PLATFORM_CLASS::Reset() {
   return Status;
 }
 
-DNA_STATUS PLATFORM_CLASS::Run(int count) {
+DNA_STATUS VM_CLASS::Run(int count) {
   DNA_STATUS Status;
 
   this->CpuControl->Run(this->CpuControl, count);
@@ -216,7 +216,7 @@ DNA_STATUS PLATFORM_CLASS::Run(int count) {
 //-----------------------------------------------------------------------------
 // Constructor & Destructor
 //-----------------------------------------------------------------------------
-PLATFORM_CLASS::PLATFORM_CLASS() {
+VM_CLASS::VM_CLASS() {
   int i;
   NULL_DEVICE_CLASS *NUL;
 
@@ -249,7 +249,7 @@ PLATFORM_CLASS::PLATFORM_CLASS() {
   this->AddDevice (NUL, 0x0000, 0x10000);
 }
 
-PLATFORM_CLASS::~PLATFORM_CLASS() {
+VM_CLASS::~VM_CLASS() {
   int i;
   BASE_DEVICE_CLASS *device;
 

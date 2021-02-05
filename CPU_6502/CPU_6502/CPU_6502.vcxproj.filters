@@ -33,9 +33,6 @@
     <ClCompile Include="base_device.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="platform_class.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -46,6 +43,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vm_class.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,9 +83,6 @@
     <ClInclude Include="base_device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="platform_class.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="dis6502.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -93,6 +90,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vm_class.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

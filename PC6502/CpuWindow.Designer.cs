@@ -30,7 +30,6 @@
       this.button_Run = new System.Windows.Forms.Button();
       this.button_Step = new System.Windows.Forms.Button();
       this.button_Reset = new System.Windows.Forms.Button();
-      this.textBox_Registers = new System.Windows.Forms.TextBox();
       this.listView_MemoryHistory = new System.Windows.Forms.ListView();
       this.columnHeader_RW = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_Address = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -101,14 +100,6 @@
       this.button_Reset.UseVisualStyleBackColor = true;
       this.button_Reset.Click += new System.EventHandler(this.button_Reset_Click);
       // 
-      // textBox_Registers
-      // 
-      this.textBox_Registers.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.textBox_Registers.Location = new System.Drawing.Point(12, 407);
-      this.textBox_Registers.Name = "textBox_Registers";
-      this.textBox_Registers.Size = new System.Drawing.Size(321, 22);
-      this.textBox_Registers.TabIndex = 8;
-      // 
       // listView_MemoryHistory
       // 
       this.listView_MemoryHistory.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -173,16 +164,14 @@
       this.ClientSize = new System.Drawing.Size(800, 540);
       this.Controls.Add(this.listView_Registers);
       this.Controls.Add(this.listView_MemoryHistory);
-      this.Controls.Add(this.textBox_Registers);
       this.Controls.Add(this.button_Reset);
       this.Controls.Add(this.button_Step);
       this.Controls.Add(this.button_Run);
       this.Controls.Add(this.listView_Opcode);
       this.Name = "CpuWindow";
-      this.Text = "Emulator";
+      this.Text = "CPU";
       this.Load += new System.EventHandler(this.CpuWindow_Load);
       this.ResumeLayout(false);
-      this.PerformLayout();
 
     }
 
@@ -195,7 +184,6 @@
     private System.Windows.Forms.ColumnHeader columnHeader_Opcode;
     private System.Windows.Forms.ColumnHeader columnHeader_Instruction;
     private System.Windows.Forms.Button button_Reset;
-    private System.Windows.Forms.TextBox textBox_Registers;
     private System.Windows.Forms.ListView listView_MemoryHistory;
     private System.Windows.Forms.ColumnHeader columnHeader_RW;
     private System.Windows.Forms.ColumnHeader columnHeader_Address;

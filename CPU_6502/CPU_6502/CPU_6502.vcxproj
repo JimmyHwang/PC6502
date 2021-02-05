@@ -131,7 +131,7 @@
     <ClCompile Include="mos6502.cpp" />
     <ClCompile Include="mos6502class.cpp" />
     <ClCompile Include="null_device.cpp" />
-    <ClCompile Include="platform_class.cpp" />
+    <ClCompile Include="vm_class.cpp" />
     <ClCompile Include="ram_device.cpp" />
     <ClCompile Include="rom_device.cpp" />
     <ClCompile Include="xio_device.cpp" />
@@ -147,7 +147,7 @@
     <ClInclude Include="mos6502.h" />
     <ClInclude Include="mos6502class.h" />
     <ClInclude Include="null_device.h" />
-    <ClInclude Include="platform_class.h" />
+    <ClInclude Include="vm_class.h" />
     <ClInclude Include="ram_device.h" />
     <ClInclude Include="rom_device.h" />
     <ClInclude Include="typedef.h" />

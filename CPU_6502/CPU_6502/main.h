@@ -18,14 +18,14 @@
 #include "xio_device.h"
 #include "null_device.h"
 
-#include "platform_class.h"
+#include "vm_class.h"
 
 //-----------------------------------------------------------------------------
 // Export DLL Functions
 //-----------------------------------------------------------------------------
 extern "C"
 {
-  typedef void(__stdcall * VM_Callback)(char *);
+  
 
   __declspec(dllexport) void * __stdcall CreateVM();
   __declspec(dllexport) int __stdcall FreeVM(void *vm);
@@ -34,7 +34,7 @@ extern "C"
   __declspec(dllexport) int __stdcall AddDeviceRAM(void *vm, UINT16 Base, UINT16 Size);
   __declspec(dllexport) int __stdcall AddDeviceROM(void *vm, UINT16 Base, UINT16 Size, char *filename);
   __declspec(dllexport) int __stdcall AddDeviceXIO(void *vm, UINT16 Base, UINT16 Size);
-  __declspec(dllexport) void __stdcall VM_SetCallback(VM_Callback Callback);
+  __declspec(dllexport) void __stdcall VM_SetCallback(void *vm, VM_Callback Callback);
 
   __declspec(dllexport) char * __stdcall VM_GetRegisters(void *vm);  
   __declspec(dllexport) char * __stdcall VM_Disassembly(void *vm, UINT16 base, int lines);

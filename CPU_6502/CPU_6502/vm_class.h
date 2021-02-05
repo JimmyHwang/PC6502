@@ -1,9 +1,11 @@
 #pragma once
-#ifndef __PLATFORM_CLASS_H__
-#define __PLATFORM_CLASS_H__
+#ifndef __VM_CLASS_H__
+#define __VM_CLASS_H__
 
 #include "typedef.h"
 #include "dna_status.h"
+
+typedef void(__stdcall * VM_Callback)(char *);
 
 #define ADDRESS_MASK_BITS   12
 #define ADDRESS_INDEX_MASK  0xF
@@ -19,7 +21,7 @@ typedef struct {
   UINT8 Data;
 } MEMORY_ACCESS;
 
-class PLATFORM_CLASS {
+class VM_CLASS {
 private:
   void AddDevice(BASE_DEVICE_CLASS *Device, UINTN Address, UINTN Size);
 
@@ -35,9 +37,10 @@ public:
   MEMORY_ACCESS MemoryAccessHistory[MEMORY_ACCESS_MAX];
   int MemoryAccessIndex = 0;
   int MemoryAccessCount = 0;
+  VM_Callback Callback;
 
-  PLATFORM_CLASS();
-  ~PLATFORM_CLASS();
+  VM_CLASS();
+  ~VM_CLASS();
 
   DNA_STATUS AddDeviceROM(UINT16 base, UINT16 size, UINT8 *buffer);
   DNA_STATUS AddDeviceRAM(UINT16 base, UINT16 size);

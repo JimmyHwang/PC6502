@@ -1,22 +1,21 @@
 ﻿#include "main.h"
 
 using json = nlohmann::json;
-VM_Callback gCallback;
 
 //-----------------------------------------------------------------------------
 // DLL Functions
 //-----------------------------------------------------------------------------
 void *CreateVM() {
-  PLATFORM_CLASS *VM;
+  VM_CLASS *VM;
 
-  VM = new PLATFORM_CLASS();
+  VM = new VM_CLASS();
 
   return VM;
 }
 
 int FreeVM(void *vm) {
   DNA_STATUS Status;
-  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
+  VM_CLASS *VM = (VM_CLASS *)vm;
 
   delete VM;
   Status = DNA_SUCCESS;
@@ -26,7 +25,7 @@ int FreeVM(void *vm) {
 
 int VM_Reset(void *vm) {
   DNA_STATUS Status;
-  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
+  VM_CLASS *VM = (VM_CLASS *)vm;
 
   VM->Reset();
   Status = DNA_SUCCESS;
@@ -38,7 +37,7 @@ int VM_Reset(void *vm) {
   j["happy"] = true;
   string s = j.dump();    // {"happy":true,"pi":3.141}
 
-  gCallback((char *)s.c_str());
+  //gCallback((char *)s.c_str());
 
   return Status;
 }
@@ -77,7 +76,7 @@ char *ExportJsonString(json j) {
 
 int VM_Run(void *vm, int count) {
   DNA_STATUS Status;
-  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
+  VM_CLASS *VM = (VM_CLASS *)vm;
 
   VM->Run(count);
   Status = DNA_SUCCESS;
@@ -86,7 +85,7 @@ int VM_Run(void *vm, int count) {
 }
 
 char * VM_GetRegisters(void *vm) {
-  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
+  VM_CLASS *VM = (VM_CLASS *)vm;
   string hexcode_buffer;
   json j;
 
@@ -101,7 +100,7 @@ char * VM_GetRegisters(void *vm) {
 }
 
 char * VM_Disassembly(void *vm, UINT16 address, int lines) {
-  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
+  VM_CLASS *VM = (VM_CLASS *)vm;
   char opcode_buffer[64];
   string hexcode_buffer;
   int i;
@@ -134,7 +133,7 @@ char * VM_Disassembly(void *vm, UINT16 address, int lines) {
 }
 
 char *VM_GetMemoryHistory(void *vm) {
-  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
+  VM_CLASS *VM = (VM_CLASS *)vm;
   json j;
   int rp;
   int count;
@@ -171,7 +170,7 @@ int AddDeviceROM(void *vm, UINT16 Base, UINT16 Size, char *filename) {
   int fsize;
   UINT8 *buffer;
   size_t ret;
-  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
+  VM_CLASS *VM = (VM_CLASS *)vm;
 
   if (VM) {
     fp = fopen(filename, "rb");
@@ -199,7 +198,7 @@ int AddDeviceROM(void *vm, UINT16 Base, UINT16 Size, char *filename) {
 
 int AddDeviceRAM(void *vm, UINT16 Base, UINT16 Size) {
   DNA_STATUS Status;
-  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
+  VM_CLASS *VM = (VM_CLASS *)vm;
 
   if (VM) {
     Status = VM->AddDeviceRAM(Base, Size);
@@ -213,7 +212,7 @@ int AddDeviceRAM(void *vm, UINT16 Base, UINT16 Size) {
 
 int AddDeviceXIO(void *vm, UINT16 Base, UINT16 Size) {
   DNA_STATUS Status;
-  PLATFORM_CLASS *VM = (PLATFORM_CLASS *)vm;
+  VM_CLASS *VM = (VM_CLASS *)vm;
 
   if (VM) {
     Status = VM->AddDeviceXIO(Base, Size);
@@ -225,15 +224,16 @@ int AddDeviceXIO(void *vm, UINT16 Base, UINT16 Size) {
   return Status;
 }
 
-void VM_SetCallback(VM_Callback Callback) {
-  gCallback = Callback;
+void VM_SetCallback(void *vm, VM_Callback Callback) {
+  VM_CLASS *VM = (VM_CLASS *)vm;
+  VM->Callback = Callback;
 }
 
 //-----------------------------------------------------------------------------
 // Memory Functions
 //-----------------------------------------------------------------------------
 int main() {
-  PLATFORM_CLASS *Platform = new PLATFORM_CLASS();
+  VM_CLASS *Platform = new VM_CLASS();
   //LoadBIOS("Startup.bin");
 
   return 0;
