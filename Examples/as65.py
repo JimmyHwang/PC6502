@@ -4,6 +4,7 @@ import getopt
 import sys
 import copy
 from asm6502 import asm6502
+from dis6502 import dis6502
 
 def ReadTextFileToArray(filename):
   fp = open(filename, "r")        # opens the file in read mode
@@ -24,9 +25,10 @@ def Main():
   OutputBase = 0
   OutputSize = 0x10000
   AutoScan = True
+  DisassembleFlag = False
   
   try:
-    opts, args = getopt.getopt(sys.argv[1:], "i:o:b:s:thvl:", ["help", "input=", "output=", "base=", "size="])
+    opts, args = getopt.getopt(sys.argv[1:], "i:o:b:s:thvd", ["help", "input=", "output=", "base=", "size="])
   except getopt.GetoptError as err:
     print(str(err))     # will print something like "option -a not recognized"
     Usage()
@@ -38,6 +40,8 @@ def Main():
       SourceFile = arg
     elif command in ("-o", "--output"):
       OutputFile = arg
+    elif command in ("-d"):
+      DisassembleFlag = True
     elif command in ("--base"):
       OutputBase = int(arg, 16)
       AutoScan = False
@@ -69,6 +73,11 @@ def Main():
     lines = ReadTextFileToArray(SourceFile)
     aobj = asm6502(debug=0)
     aobj.assemble(lines)
+    if DisassembleFlag:
+      dobj = dis6502(aobj.object_code)
+      lines = dobj.disassemble(0xE000, 0x20)
+      for line in lines:
+        print(line)
   else:
     print("Error: [%s] not found" % (SourceFile));
     sys.exit(2)
