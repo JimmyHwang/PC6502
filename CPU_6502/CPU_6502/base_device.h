@@ -7,6 +7,8 @@
 
 #define SPACE_FLAG_SHARED       0x0001        // 0:Allocated, 1:Shared
 
+class VM_CLASS;
+
 class BASE_DEVICE_CLASS {
   private:    
   public:
@@ -15,7 +17,8 @@ class BASE_DEVICE_CLASS {
     UINT8 *Buffer;
     UINTN Size;
     BOOLEAN ReadOnly;
-    
+    VM_CLASS *VM;
+
     BASE_DEVICE_CLASS(UINT16 Size);
     ~BASE_DEVICE_CLASS();
     

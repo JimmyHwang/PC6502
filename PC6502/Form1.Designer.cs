@@ -46,8 +46,6 @@
       this.columnHeader_Base = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.button_Launch = new System.Windows.Forms.Button();
-      this.button_RunStop = new System.Windows.Forms.Button();
-      this.button_Step = new System.Windows.Forms.Button();
       this.button_Add = new System.Windows.Forms.Button();
       this.button_Remove = new System.Windows.Forms.Button();
       this.button_Edit = new System.Windows.Forms.Button();
@@ -229,25 +227,6 @@
       this.button_Launch.UseVisualStyleBackColor = true;
       this.button_Launch.Click += new System.EventHandler(this.button_Reset_Click);
       // 
-      // button_RunStop
-      // 
-      this.button_RunStop.Location = new System.Drawing.Point(93, 312);
-      this.button_RunStop.Name = "button_RunStop";
-      this.button_RunStop.Size = new System.Drawing.Size(75, 23);
-      this.button_RunStop.TabIndex = 5;
-      this.button_RunStop.Text = "Run";
-      this.button_RunStop.UseVisualStyleBackColor = true;
-      // 
-      // button_Step
-      // 
-      this.button_Step.Location = new System.Drawing.Point(174, 312);
-      this.button_Step.Name = "button_Step";
-      this.button_Step.Size = new System.Drawing.Size(75, 23);
-      this.button_Step.TabIndex = 7;
-      this.button_Step.Text = "Step";
-      this.button_Step.UseVisualStyleBackColor = true;
-      this.button_Step.Click += new System.EventHandler(this.button_Step_Click);
-      // 
       // button_Add
       // 
       this.button_Add.Location = new System.Drawing.Point(331, 27);
@@ -301,8 +280,6 @@
       this.Controls.Add(this.button_Edit);
       this.Controls.Add(this.button_Remove);
       this.Controls.Add(this.button_Add);
-      this.Controls.Add(this.button_Step);
-      this.Controls.Add(this.button_RunStop);
       this.Controls.Add(this.button_Launch);
       this.Controls.Add(this.listView_Device);
       this.Controls.Add(this.button1);
@@ -338,8 +315,6 @@
     private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
     private System.Windows.Forms.ListView listView_Device;
     private System.Windows.Forms.Button button_Launch;
-    private System.Windows.Forms.Button button_RunStop;
-    private System.Windows.Forms.Button button_Step;
     private System.Windows.Forms.ColumnHeader columnHeader_Type;
     private System.Windows.Forms.ColumnHeader columnHeader_Base;
     private System.Windows.Forms.ColumnHeader columnHeader_Size;

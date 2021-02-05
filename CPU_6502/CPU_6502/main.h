@@ -3,9 +3,13 @@
 #define __MAIN_H__
 
 #include "typedef.h"
+#include "nlohmann/json.hpp"
+using json = nlohmann::json;
+using namespace std;
+
+#include "common.h"
 #include "dna_status.h"
 #include "debug.h"
-#include "nlohmann/json.hpp"
 #include "dis6502.h"
 
 #include "mos6502.h"
@@ -25,8 +29,6 @@
 //-----------------------------------------------------------------------------
 extern "C"
 {
-  
-
   __declspec(dllexport) void * __stdcall CreateVM();
   __declspec(dllexport) int __stdcall FreeVM(void *vm);
   __declspec(dllexport) int __stdcall VM_Reset(void *vm);

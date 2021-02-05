@@ -34,20 +34,20 @@ namespace PC6502 {
       SystemSounds.Beep.Play();
     }
 
-    public void Callback(dynamic cmd) {
-      /*
-      if (cmd == "Running") {
-        listView_Opcode.Items.Clear();
-        foreach (dynamic line in cmd.Lines) {
-          ListViewItem lvitem = new ListViewItem();
-          lvitem.Text = line.Address;
-          lvitem.SubItems.Add(line.Opcode);
-          lvitem.SubItems.Add(line.Disassembly);
-          listView_Opcode.Items.Add(lvitem);
-        }
+    public void Callback(dynamic args) {
+      int reg;
+      reg = (int)args.Address & 0xF;
+
+      if (reg == 0) {
+        sevenSegment1.CustomPattern = (int)args.Data;
+      } else if (reg == 1) {
+        sevenSegment2.CustomPattern = (int)args.Data;
+      } else if (reg == 2) {
+        sevenSegment3.CustomPattern = (int)args.Data;
+      } else if (reg == 3) {
+        sevenSegment4.CustomPattern = (int)args.Data;
       }
-      */
-      //Console.WriteLine("XIO Form:"+jstr);      
+      //Console.WriteLine("XIO Window:"+jstr);
     }
 
   }

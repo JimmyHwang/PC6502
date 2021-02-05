@@ -125,6 +125,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="base_device.cpp" />
+    <ClCompile Include="common.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="dis6502.cpp" />
     <ClCompile Include="main.cpp" />
@@ -138,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base_device.h" />
+    <ClInclude Include="common.h" />
     <ClInclude Include="cpu_control_protocol.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="dis6502.h" />

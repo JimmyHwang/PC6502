@@ -134,6 +134,7 @@ void VM_CLASS::AddDevice(BASE_DEVICE_CLASS *Device, UINTN Address, UINTN Size) {
   int i;
   UINTN addr;
 
+  Device->VM = this;
   //
   // Add to device list for manager device resources
   //

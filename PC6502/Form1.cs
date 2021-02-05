@@ -405,9 +405,9 @@ namespace PC6502 {
         var jstr = CallbackQueue.Dequeue();
         Console.WriteLine("timer1=" + jstr);
         var data = json_decode(jstr);
-        if (data.Target == "CpuWindow") {
+        if (data.Target == "CPU") {
           CPU_Form.Callback(data);
-        } else if (data.Target == "XioWindow") {
+        } else if (data.Target == "XIO") {
           XIO_Form.Callback(data);
         }
       }
