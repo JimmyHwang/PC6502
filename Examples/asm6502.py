@@ -460,6 +460,15 @@ class asm6502():
         if (s in self.symbols):
           return self.symbols[s]
 
+        if (s[0] == '<'):
+            s = s[1:]
+            if (s in self.symbols):
+              return self.symbols[s] & 0xFF
+        if (s[0] == '>'):
+            s = s[1:]
+            if (s in self.symbols):
+              return self.symbols[s] >> 8
+
         return (-1)
 
     #   Address mode        format                    name applied
