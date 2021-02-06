@@ -44,7 +44,7 @@ namespace PC6502 {
     IntPtr VM;
     static Queue<string> CallbackQueue = new Queue<string>();
     CpuWindow CPU_Form;
-    XIO_LedClock XIO_Form;
+    XIO_LED7Sx4 XIO_Form;
 
     public Form1() {
       VM = IntPtr.Zero;
@@ -377,7 +377,7 @@ namespace PC6502 {
       CPU_Form = new CpuWindow();
       CPU_Form.VM = VM;
       CPU_Form.Show();
-      XIO_Form = new XIO_LedClock();
+      XIO_Form = new XIO_LED7Sx4();
       XIO_Form.VM = VM;
       XIO_Form.Show();
     }
@@ -388,7 +388,7 @@ namespace PC6502 {
     }
 
     static VM_Callback callback = (jstr) => {
-      Console.WriteLine("The result of the C++ function is {0}", jstr);
+      //Console.WriteLine("The result of the C++ function is {0}", jstr);
       CallbackQueue.Enqueue(jstr);
     };
 

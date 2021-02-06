@@ -86,11 +86,11 @@
     <Compile Include="LibraryCommon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XIO_LedClock.cs">
+    <Compile Include="XIO_LED7Sx4.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="XIO_LedClock.Designer.cs">
-      <DependentUpon>XIO_LedClock.cs</DependentUpon>
+    <Compile Include="XIO_LED7Sx4.Designer.cs">
+      <DependentUpon>XIO_LED7Sx4.cs</DependentUpon>
     </Compile>
     <Compile Include="XIO_TextScreen.cs">
       <SubType>Form</SubType>
@@ -116,8 +116,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="XIO_LedClock.resx">
-      <DependentUpon>XIO_LedClock.cs</DependentUpon>
+    <EmbeddedResource Include="XIO_LED7Sx4.resx">
+      <DependentUpon>XIO_LED7Sx4.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="XIO_TextScreen.resx">
       <DependentUpon>XIO_TextScreen.cs</DependentUpon>

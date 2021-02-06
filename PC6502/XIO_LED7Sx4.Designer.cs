@@ -1,5 +1,5 @@
 ﻿namespace PC6502 {
-  partial class XIO_LedClock {
+  partial class XIO_LED7Sx4 {
     /// <summary>
     /// Required designer variable.
     /// </summary>
@@ -164,7 +164,7 @@
       this.button_Mode.UseVisualStyleBackColor = true;
       this.button_Mode.Click += new System.EventHandler(this.button_Mode_Click);
       // 
-      // XIO_LedClock
+      // XIO_LED7Sx4
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -178,8 +178,8 @@
       this.Controls.Add(this.sevenSegment3);
       this.Controls.Add(this.sevenSegment2);
       this.Controls.Add(this.sevenSegment1);
-      this.Name = "XIO_LedClock";
-      this.Text = "XIO_LedClock";
+      this.Name = "XIO_LED7Sx4";
+      this.Text = "XIO_LED7Sx4";
       this.ResumeLayout(false);
 
     }
