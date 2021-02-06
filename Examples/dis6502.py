@@ -369,12 +369,11 @@ class dis6502:
             operandtext = "($%04X)" % operand16
             length = 3
         elif addrmode == "relative":
-            if operand8 < 128:
-                operandtext = "$%04X (+$%02X)" % (address+operand8, operand8)
-            else:
-                offset = (operand8 & 0x7f) - 128
-                offset = -offset
-                operandtext = "$%04X (-$%02X)" % (address+offset, offset)
+            base = address + 2
+            offset = operand8
+            if offset & 0x80:
+              offset = offset - 0x100
+            operandtext = "$%04X ($%02X)" % (base+offset, offset)
             length = 2
         elif addrmode == "accumulator":
             operandtext = "A"
