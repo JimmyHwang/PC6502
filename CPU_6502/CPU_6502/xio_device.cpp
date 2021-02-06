@@ -15,9 +15,9 @@ UINT8 XIO_DEVICE_CLASS::Read8(UINTN Address) {
   } else {
     Data = this->Regs[0x08];
   }
-  DebugOut(L"XIO:R8,0x%X=0x%02X", Index, Data);
+  //DebugOut(L"XIO:R8,0x%X=0x%02X", Index, Data);
 
-  return 0;
+  return Data;
 }
 
 UINT16 XIO_DEVICE_CLASS::Read16(UINTN Address) {
@@ -33,7 +33,7 @@ VOID XIO_DEVICE_CLASS::Write8(UINTN Address, UINT8 Data) {
   UINT8 Mask;
 
   Index = Address & 0x0F;
-  DebugOut(L"XIO:W8,0x%X=0x%02X", Index, Data);
+  //DebugOut(L"XIO:W8,0x%X=0x%02X", Index, Data);
   if (Index < 8) {
     this->Regs[Index & 3] = Data;
   } else {
@@ -74,7 +74,7 @@ json XIO_DEVICE_CLASS::Talk(json args) {
     }
   }
   result["Status"] = "Success";
-  DebugOut(L"XIO::Regs[0x08]=0x%X", this->Regs[0x08]);
+  //DebugOut(L"XIO::Regs[0x08]=0x%X", this->Regs[0x08]);
 
   return result;
 }

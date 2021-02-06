@@ -49,7 +49,6 @@
       this.button_Add = new System.Windows.Forms.Button();
       this.button_Remove = new System.Windows.Forms.Button();
       this.button_Edit = new System.Windows.Forms.Button();
-      this.button_XIO_Screen = new System.Windows.Forms.Button();
       this.timer1 = new System.Windows.Forms.Timer(this.components);
       this.menuStrip1.SuspendLayout();
       this.SuspendLayout();
@@ -177,7 +176,7 @@
       // 
       // button1
       // 
-      this.button1.Location = new System.Drawing.Point(477, 415);
+      this.button1.Location = new System.Drawing.Point(713, 386);
       this.button1.Name = "button1";
       this.button1.Size = new System.Drawing.Size(75, 23);
       this.button1.TabIndex = 2;
@@ -257,16 +256,6 @@
       this.button_Edit.UseVisualStyleBackColor = true;
       this.button_Edit.Click += new System.EventHandler(this.button_Edit_Click);
       // 
-      // button_XIO_Screen
-      // 
-      this.button_XIO_Screen.Location = new System.Drawing.Point(477, 372);
-      this.button_XIO_Screen.Name = "button_XIO_Screen";
-      this.button_XIO_Screen.Size = new System.Drawing.Size(75, 21);
-      this.button_XIO_Screen.TabIndex = 12;
-      this.button_XIO_Screen.Text = "XIO_Screen";
-      this.button_XIO_Screen.UseVisualStyleBackColor = true;
-      this.button_XIO_Screen.Click += new System.EventHandler(this.button_XIO_Screen_Click);
-      // 
       // timer1
       // 
       this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
@@ -276,7 +265,6 @@
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(800, 450);
-      this.Controls.Add(this.button_XIO_Screen);
       this.Controls.Add(this.button_Edit);
       this.Controls.Add(this.button_Remove);
       this.Controls.Add(this.button_Add);
@@ -321,7 +309,6 @@
     private System.Windows.Forms.Button button_Add;
     private System.Windows.Forms.Button button_Remove;
     private System.Windows.Forms.Button button_Edit;
-    private System.Windows.Forms.Button button_XIO_Screen;
     private System.Windows.Forms.ToolStripMenuItem systemToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem cPUToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem memoryToolStripMenuItem;

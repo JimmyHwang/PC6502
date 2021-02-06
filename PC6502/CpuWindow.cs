@@ -26,6 +26,7 @@ namespace PC6502 {
 
     public IntPtr VM;
     List<UInt16> InstructionAddress = new List<UInt16>();
+    bool Running = false;
 
     public CpuWindow() {
       InitializeComponent();
@@ -189,8 +190,20 @@ namespace PC6502 {
     }
 
     private void button_Run_Click(object sender, EventArgs e) {
-
+      if (Running) {
+        Running = false;
+        button_Run.Text = "Run";
+        RefreshCpuStatus();
+      } else {
+        Running = true;
+        button_Run.Text = "Stop";
+      }
     }
 
+    public void Timer() {
+      if (Running) {
+        VM_Run(VM, 10);
+      }      
+    }
   }
 }

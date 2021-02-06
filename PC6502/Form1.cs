@@ -395,13 +395,16 @@ namespace PC6502 {
     private void timer1_Tick(object sender, EventArgs e) {
       if (CallbackQueue.Count > 0) {
         var jstr = CallbackQueue.Dequeue();
-        Console.WriteLine("timer1=" + jstr);
+        //Console.WriteLine("timer1=" + jstr);
         var data = json_decode(jstr);
         if (data.Target == "CPU") {
           CPU_Form.Callback(data);
         } else if (data.Target == "XIO") {
           XIO_Form.Callback(data);
         }
+      }
+      if (CPU_Form != null) {
+        CPU_Form.Timer();
       }
     }
   }
