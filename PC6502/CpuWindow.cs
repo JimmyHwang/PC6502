@@ -185,6 +185,11 @@ namespace PC6502 {
       RefreshCpuStatus();
     }
 
+    private void button_StepOver_Click(object sender, EventArgs e) {
+      VM_Run(VM, 0x1000000+1);
+      RefreshCpuStatus();
+    }
+
     private void button_Reset_Click(object sender, EventArgs e) {
       VM_Reset(VM);
     }
@@ -205,5 +210,6 @@ namespace PC6502 {
         VM_Run(VM, 10);
       }      
     }
+
   }
 }

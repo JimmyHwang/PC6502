@@ -37,6 +37,11 @@
       this.listView_Registers = new System.Windows.Forms.ListView();
       this.columnHeader_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.button_StepOver = new System.Windows.Forms.Button();
+      this.listView_BPs = new System.Windows.Forms.ListView();
+      this.columnHeader_BPA = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_BPT = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_BPE = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.SuspendLayout();
       // 
       // listView_Opcode
@@ -82,11 +87,11 @@
       // 
       // button_Step
       // 
-      this.button_Step.Location = new System.Drawing.Point(339, 70);
+      this.button_Step.Location = new System.Drawing.Point(339, 378);
       this.button_Step.Name = "button_Step";
       this.button_Step.Size = new System.Drawing.Size(75, 23);
       this.button_Step.TabIndex = 3;
-      this.button_Step.Text = "Step";
+      this.button_Step.Text = "Step Into";
       this.button_Step.UseVisualStyleBackColor = true;
       this.button_Step.Click += new System.EventHandler(this.button_Step_Click);
       // 
@@ -157,11 +162,54 @@
       this.columnHeader_Value.Text = "Value";
       this.columnHeader_Value.Width = 95;
       // 
+      // button_StepOver
+      // 
+      this.button_StepOver.Location = new System.Drawing.Point(339, 349);
+      this.button_StepOver.Name = "button_StepOver";
+      this.button_StepOver.Size = new System.Drawing.Size(75, 23);
+      this.button_StepOver.TabIndex = 11;
+      this.button_StepOver.Text = "Step Over";
+      this.button_StepOver.UseVisualStyleBackColor = true;
+      this.button_StepOver.Click += new System.EventHandler(this.button_StepOver_Click);
+      // 
+      // listView_BPs
+      // 
+      this.listView_BPs.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_BPA,
+            this.columnHeader_BPT,
+            this.columnHeader_BPE});
+      this.listView_BPs.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.listView_BPs.FullRowSelect = true;
+      this.listView_BPs.HideSelection = false;
+      this.listView_BPs.Location = new System.Drawing.Point(420, 174);
+      this.listView_BPs.Name = "listView_BPs";
+      this.listView_BPs.Size = new System.Drawing.Size(156, 227);
+      this.listView_BPs.TabIndex = 12;
+      this.listView_BPs.UseCompatibleStateImageBehavior = false;
+      this.listView_BPs.View = System.Windows.Forms.View.Details;
+      // 
+      // columnHeader_BPA
+      // 
+      this.columnHeader_BPA.Text = "Address";
+      this.columnHeader_BPA.Width = 66;
+      // 
+      // columnHeader_BPT
+      // 
+      this.columnHeader_BPT.Text = "Type";
+      this.columnHeader_BPT.Width = 41;
+      // 
+      // columnHeader_BPE
+      // 
+      this.columnHeader_BPE.Text = "En";
+      this.columnHeader_BPE.Width = 37;
+      // 
       // CpuWindow
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(800, 540);
+      this.Controls.Add(this.listView_BPs);
+      this.Controls.Add(this.button_StepOver);
       this.Controls.Add(this.listView_Registers);
       this.Controls.Add(this.listView_MemoryHistory);
       this.Controls.Add(this.button_Reset);
@@ -191,5 +239,10 @@
     private System.Windows.Forms.ListView listView_Registers;
     private System.Windows.Forms.ColumnHeader columnHeader_Name;
     private System.Windows.Forms.ColumnHeader columnHeader_Value;
+    private System.Windows.Forms.Button button_StepOver;
+    private System.Windows.Forms.ListView listView_BPs;
+    private System.Windows.Forms.ColumnHeader columnHeader_BPA;
+    private System.Windows.Forms.ColumnHeader columnHeader_BPE;
+    private System.Windows.Forms.ColumnHeader columnHeader_BPT;
   }
 }

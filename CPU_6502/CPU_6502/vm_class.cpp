@@ -127,6 +127,26 @@ MemoryWrite32(
   assert(false);
 }
 
+char *VM_CLASS::Talk(char *message) {
+  string jstr;
+  BASE_DEVICE_CLASS *dev;
+  DNA_STATUS status;
+  json jst;
+
+  jst = {};
+  jstr = message;
+  auto j = json::parse(jstr);
+  string target = j["Target"];
+  if (target == "XIO") {
+    status = this->FindDevice("XIO", &dev);
+    jst = dev->Talk(j);
+  } else {
+    jst["Status"] = "Failed";
+    jst["Message"] = "Target not found";
+  }
+
+  return ExportJsonString(jst);
+}
 //-----------------------------------------------------------------------------
 // Private Functions
 //-----------------------------------------------------------------------------
@@ -225,10 +245,34 @@ DNA_STATUS VM_CLASS::Reset() {
   return Status;
 }
 
+//
+// flag.0 (count.24)   
+//    Run with Step Over
+//
 DNA_STATUS VM_CLASS::Run(int count) {
   DNA_STATUS Status;
+  int flag;
 
-  this->CpuControl->Run(this->CpuControl, count);
+  flag = (count >> 24);
+  count &= 0xFFFFFF;
+
+  if (flag & 1) {
+    UINT16 pc;
+    UINT16 target_pc;
+    UINT8 opcode;
+    pc = CPU->pc;
+    opcode = this->ShadowMemory[pc];
+    if (opcode == 0x20) {     // is JSR instruction
+      target_pc = pc + 3;
+      do {
+        this->CpuControl->Run(this->CpuControl, 1);
+      } while (CPU->pc != target_pc);
+    } else {
+      this->CpuControl->Run(this->CpuControl, 1);
+    }
+  } else {
+    this->CpuControl->Run(this->CpuControl, count);
+  }
   Status = DNA_SUCCESS;
 
   return Status;

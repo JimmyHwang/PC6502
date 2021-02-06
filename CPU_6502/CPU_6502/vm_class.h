@@ -48,6 +48,7 @@ public:
   DNA_STATUS FindDevice(string Type, BASE_DEVICE_CLASS **Device);
   DNA_STATUS Reset();
   DNA_STATUS Run(int count);
+  char *Talk(char *message);
 };
 #endif
 

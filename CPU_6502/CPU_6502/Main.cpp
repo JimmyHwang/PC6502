@@ -50,7 +50,7 @@ int VM_Run(void *vm, int count) {
   return Status;
 }
 
-char * VM_GetRegisters(void *vm) {
+char *VM_GetRegisters(void *vm) {
   VM_CLASS *VM = (VM_CLASS *)vm;
   string hexcode_buffer;
   json j;
@@ -198,24 +198,7 @@ void VM_SetCallback(void *vm, VM_Callback Callback) {
 
 char *VM_Talk(void *vm, char *msg) {
   VM_CLASS *VM = (VM_CLASS *)vm;
-  string jstr;
-  BASE_DEVICE_CLASS *dev;
-  DNA_STATUS status;
-  json jst;
-
-  jst = {};
-  jstr = msg;
-  auto j = json::parse(jstr);
-  string target = j["Target"];
-  if (target == "XIO") {
-    status = VM->FindDevice("XIO", &dev);
-    jst = dev->Talk(j);
-  } else {
-    jst["Status"] = "Failed";
-    jst["Message"] = "Target not found";
-  }
-
-  return ExportJsonString(jst);
+  return VM->Talk(msg);
 }
 
 //-----------------------------------------------------------------------------
