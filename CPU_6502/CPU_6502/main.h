@@ -5,7 +5,6 @@
 #include "typedef.h"
 #include "nlohmann/json.hpp"
 using json = nlohmann::json;
-using namespace std;
 
 #include "common.h"
 #include "dna_status.h"
@@ -38,6 +37,7 @@ extern "C"
   __declspec(dllexport) int __stdcall AddDeviceXIO(void *vm, UINT16 Base, UINT16 Size);
   __declspec(dllexport) void __stdcall VM_SetCallback(void *vm, VM_Callback Callback);
 
+  __declspec(dllexport) char * __stdcall VM_Talk(void *vm, char *msg);
   __declspec(dllexport) char * __stdcall VM_GetRegisters(void *vm);  
   __declspec(dllexport) char * __stdcall VM_Disassembly(void *vm, UINT16 base, int lines);
   __declspec(dllexport) char * __stdcall VM_GetMemoryHistory(void *vm);

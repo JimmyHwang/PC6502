@@ -378,6 +378,7 @@ namespace PC6502 {
       CPU_Form.VM = VM;
       CPU_Form.Show();
       XIO_Form = new XIO_LedClock();
+      XIO_Form.VM = VM;
       XIO_Form.Show();
     }
 
@@ -386,18 +387,9 @@ namespace PC6502 {
       f.Show();
     }
 
-    private void button_Step_Click(object sender, EventArgs e) {
-      if (VM != IntPtr.Zero) {
-        VM_Run(VM, 1);
-      } else {
-        MessageBox.Show("VM not found", "Information");
-      }
-    }
-
     static VM_Callback callback = (jstr) => {
       Console.WriteLine("The result of the C++ function is {0}", jstr);
       CallbackQueue.Enqueue(jstr);
-      //button_RunStop.Text = "@";
     };
 
     private void timer1_Tick(object sender, EventArgs e) {

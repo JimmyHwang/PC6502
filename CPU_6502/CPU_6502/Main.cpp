@@ -1,7 +1,5 @@
 ﻿#include "main.h"
 
-using json = nlohmann::json;
-
 //-----------------------------------------------------------------------------
 // DLL Functions
 //-----------------------------------------------------------------------------
@@ -196,6 +194,28 @@ int AddDeviceXIO(void *vm, UINT16 Base, UINT16 Size) {
 void VM_SetCallback(void *vm, VM_Callback Callback) {
   VM_CLASS *VM = (VM_CLASS *)vm;
   VM->Callback = Callback;
+}
+
+char *VM_Talk(void *vm, char *msg) {
+  VM_CLASS *VM = (VM_CLASS *)vm;
+  string jstr;
+  BASE_DEVICE_CLASS *dev;
+  DNA_STATUS status;
+  json jst;
+
+  jst = {};
+  jstr = msg;
+  auto j = json::parse(jstr);
+  string target = j["Target"];
+  if (target == "XIO") {
+    status = VM->FindDevice("XIO", &dev);
+    jst = dev->Talk(j);
+  } else {
+    jst["Status"] = "Failed";
+    jst["Message"] = "Target not found";
+  }
+
+  return ExportJsonString(jst);
 }
 
 //-----------------------------------------------------------------------------

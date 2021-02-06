@@ -10,6 +10,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Dynamic;
+using static DNA64.Library.Common;
 
 public enum PlaySoundFlags : int {
   SND_SYNC = 0x0000,
@@ -26,6 +28,10 @@ namespace PC6502 {
   public partial class XIO_LedClock : Form {
     [DllImport("winmm.DLL", EntryPoint = "PlaySound", SetLastError = true, CharSet = CharSet.Unicode, ThrowOnUnmappableChar = true)]
     private static extern bool PlaySound(string szSound, System.IntPtr hMod, PlaySoundFlags flags);
+    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    public static extern unsafe IntPtr VM_Talk(IntPtr VM, string msg);
+
+    public IntPtr VM;
 
     public XIO_LedClock() {
       InitializeComponent();
@@ -38,21 +44,38 @@ namespace PC6502 {
       PlaySound(wave_fn, new System.IntPtr(), PlaySoundFlags.SND_FILENAME | PlaySoundFlags.SND_SYNC | PlaySoundFlags.SND_NOSTOP);
     }
 
+    dynamic XIO_SendClickMessage(string Name) {
+      dynamic args;
+      string jstr;
+      dynamic result;
+
+      args = new ExpandoObject();
+      args.Target = "XIO";
+      args.Command = "Click";
+      args.Name = Name;
+      jstr = json_encode(args);
+      jstr = Marshal.PtrToStringAnsi(VM_Talk(VM, jstr));
+      result = json_decode(jstr);
+      return result;
+    }
+
     private void button_Minute_Click(object sender, EventArgs e) {
-      //sevenSegment1.Value = "1";
-      sevenSegment1.CustomPattern = 0x11;
+      XIO_SendClickMessage("Minute");
       ButtonClickSound();
     }
 
     private void button_Second_Click(object sender, EventArgs e) {
+      XIO_SendClickMessage("Second");
       ButtonClickSound();
     }
 
     private void button_Reset_Click(object sender, EventArgs e) {
+      XIO_SendClickMessage("Reset");
       ButtonClickSound();
     }
 
     private void button_StartStop_Click(object sender, EventArgs e) {
+      XIO_SendClickMessage("Start");
       ButtonClickSound();
     }
 
@@ -61,16 +84,15 @@ namespace PC6502 {
       reg = (int)args.Address & 0xF;
 
       if (reg == 0) {
-        sevenSegment1.CustomPattern = (int)args.Data;
-      } else if (reg == 1) {
-        sevenSegment2.CustomPattern = (int)args.Data;
-      } else if (reg == 2) {
-        sevenSegment3.CustomPattern = (int)args.Data;
-      } else if (reg == 3) {
         sevenSegment4.CustomPattern = (int)args.Data;
+      } else if (reg == 1) {
+        sevenSegment3.CustomPattern = (int)args.Data;
+      } else if (reg == 2) {
+        sevenSegment2.CustomPattern = (int)args.Data;
+      } else if (reg == 3) {
+        sevenSegment1.CustomPattern = (int)args.Data;
       }
       //Console.WriteLine("XIO Window:"+jstr);
     }
-
   }
 }

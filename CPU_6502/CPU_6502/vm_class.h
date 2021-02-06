@@ -5,7 +5,7 @@
 #include "typedef.h"
 #include "dna_status.h"
 
-typedef void(__stdcall * VM_Callback)(char *);
+typedef void(__stdcall *VM_Callback)(char *);
 
 #define ADDRESS_MASK_BITS   12
 #define ADDRESS_INDEX_MASK  0xF
@@ -42,9 +42,10 @@ public:
   VM_CLASS();
   ~VM_CLASS();
 
-  DNA_STATUS AddDeviceROM(UINT16 base, UINT16 size, UINT8 *buffer);
-  DNA_STATUS AddDeviceRAM(UINT16 base, UINT16 size);
-  DNA_STATUS AddDeviceXIO(UINT16 base, UINT16 size);
+  DNA_STATUS AddDeviceROM(UINT16 Base, UINT16 Size, UINT8 *Buffer);
+  DNA_STATUS AddDeviceRAM(UINT16 Base, UINT16 Size);
+  DNA_STATUS AddDeviceXIO(UINT16 Base, UINT16 Size);
+  DNA_STATUS FindDevice(string Type, BASE_DEVICE_CLASS **Device);
   DNA_STATUS Reset();
   DNA_STATUS Run(int count);
 };

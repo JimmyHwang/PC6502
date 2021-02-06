@@ -7,6 +7,7 @@
 
 class XIO_DEVICE_CLASS: public BASE_DEVICE_CLASS {
   private:
+    UINT8 Regs[0x10];
 
   public:
     XIO_DEVICE_CLASS(UINT16 Size);
@@ -18,6 +19,7 @@ class XIO_DEVICE_CLASS: public BASE_DEVICE_CLASS {
     VOID Write8(UINTN Address, UINT8 Data) override;
     VOID Write16(UINTN Address, UINT16 Data) override;
     VOID Write32(UINTN Address, UINT32 Data) override;    
+    json Talk(json Message) override;
 };
 
 #endif

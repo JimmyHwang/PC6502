@@ -62,7 +62,16 @@ VOID BASE_DEVICE_CLASS::Write32(UINTN Address, UINT32 Data) {
   }
 }
 
-BASE_DEVICE_CLASS::BASE_DEVICE_CLASS(UINT16 Size) {
+json BASE_DEVICE_CLASS::Talk(json Message) {
+  json result;
+
+  result = {};
+
+  return result;
+}
+
+BASE_DEVICE_CLASS::BASE_DEVICE_CLASS(string Type, UINT16 Size) {
+  this->Type = Type;
   this->AddressMask = Size - 1;
   this->ReadOnly = false;
 }

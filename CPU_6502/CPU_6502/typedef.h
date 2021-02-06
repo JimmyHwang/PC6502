@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+using namespace std;
 
 #define CHAR8                   char
 

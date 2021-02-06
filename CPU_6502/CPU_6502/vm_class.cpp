@@ -196,6 +196,26 @@ DNA_STATUS VM_CLASS::AddDeviceXIO(UINT16 base, UINT16 size) {
   return Status;
 }
 
+DNA_STATUS VM_CLASS::FindDevice(string Type, BASE_DEVICE_CLASS **Device) {
+  DNA_STATUS status;
+  BASE_DEVICE_CLASS *dev;
+  int i;
+
+  status = DNA_NOT_FOUND;
+  for (i = 0; i < MAX_DEVICE_COUNT; i++) {
+    if (this->DeviceList[i] != NULL) {
+      dev = this->DeviceList[i];
+      if (dev->Type == Type) {
+        *Device = dev;
+        status = DNA_SUCCESS;
+        break;
+      }
+    }
+  }
+
+  return status;
+}
+
 DNA_STATUS VM_CLASS::Reset() {
   DNA_STATUS Status;
 
