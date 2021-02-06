@@ -31,6 +31,7 @@
       this.button_Minute = new System.Windows.Forms.Button();
       this.button_Second = new System.Windows.Forms.Button();
       this.button_StartStop = new System.Windows.Forms.Button();
+      this.button_Mode = new System.Windows.Forms.Button();
       this.SuspendLayout();
       // 
       // sevenSegment1
@@ -153,11 +154,22 @@
       this.button_StartStop.UseVisualStyleBackColor = true;
       this.button_StartStop.Click += new System.EventHandler(this.button_StartStop_Click);
       // 
+      // button_Mode
+      // 
+      this.button_Mode.Location = new System.Drawing.Point(12, 211);
+      this.button_Mode.Name = "button_Mode";
+      this.button_Mode.Size = new System.Drawing.Size(75, 23);
+      this.button_Mode.TabIndex = 8;
+      this.button_Mode.Text = "Mode";
+      this.button_Mode.UseVisualStyleBackColor = true;
+      this.button_Mode.Click += new System.EventHandler(this.button_Mode_Click);
+      // 
       // XIO_LedClock
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(600, 244);
+      this.Controls.Add(this.button_Mode);
       this.Controls.Add(this.button_StartStop);
       this.Controls.Add(this.button_Second);
       this.Controls.Add(this.button_Minute);
@@ -182,5 +194,6 @@
     private System.Windows.Forms.Button button_Minute;
     private System.Windows.Forms.Button button_Second;
     private System.Windows.Forms.Button button_StartStop;
+    private System.Windows.Forms.Button button_Mode;
   }
 }

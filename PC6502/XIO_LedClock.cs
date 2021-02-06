@@ -79,6 +79,11 @@ namespace PC6502 {
       ButtonClickSound();
     }
 
+    private void button_Mode_Click(object sender, EventArgs e) {
+      XIO_SendClickMessage("Mode");
+      ButtonClickSound();
+    }
+
     public void Callback(dynamic args) {
       int reg;
       reg = (int)args.Address & 0xF;
@@ -94,5 +99,7 @@ namespace PC6502 {
       }
       //Console.WriteLine("XIO Window:"+jstr);
     }
+
+
   }
 }

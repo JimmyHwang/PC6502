@@ -71,6 +71,8 @@ json XIO_DEVICE_CLASS::Talk(json args) {
       this->Regs[0x08] |= 0x02;
     } else if (name == "Second") {
       this->Regs[0x08] |= 0x01;
+    } else if (name == "Mode") {
+      this->Regs[0x08] |= 0x10;
     }
   }
   result["Status"] = "Success";
