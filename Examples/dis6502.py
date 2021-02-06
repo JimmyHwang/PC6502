@@ -318,6 +318,7 @@ class dis6502:
 
         # print "OPCODE_HEX = %x" % opcode_hex
         opcode, addrmode = self.hexcodes[opcode_hex]
+        opcode = opcode.upper()
         # print "DISASSEMBLER OPCD: %02X" % opcode_hex
         # print "DISASSMBLER OPCD TXT:"+str(opcode)+" "+str(addrmode)
         if address in self.labels:
