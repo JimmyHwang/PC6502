@@ -1208,7 +1208,7 @@ class asm6502():
              comment, extrabytes, num_extrabytes, linetext) = tuple
 
             # Compute the offset for relative branches
-            if (lowbyte == -1) and (addressmode == "relative"):
+            if (addressmode == "relative"):
                 destination = self.symbols[value]
                 start = offset + 2  # Delta is relative to the first byte after the branch instruction
                 delta = destination - start
