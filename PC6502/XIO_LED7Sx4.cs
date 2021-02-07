@@ -35,6 +35,20 @@ namespace PC6502 {
 
     public XIO_LED7Sx4() {
       InitializeComponent();
+      sevenSegment1.ColorLight = Color.LightGreen;
+      sevenSegment1.ColorDark = Color.Gray;
+      sevenSegment1.ColorBackground = Color.Gray;
+      sevenSegment2.ColorLight = Color.LightGreen;
+      sevenSegment2.ColorDark = Color.Gray;
+      sevenSegment2.ColorBackground = Color.Gray;
+      sevenSegment3.ColorLight = Color.LightGreen;
+      sevenSegment3.ColorDark = Color.Gray;
+      sevenSegment3.ColorBackground = Color.Gray;
+      sevenSegment4.ColorLight = Color.LightGreen;
+      sevenSegment4.ColorDark = Color.Gray;
+      sevenSegment4.ColorBackground = Color.Gray;
+      //sevenSegment4.DecimalOn = true;                 // Dot  .
+      //sevenSegment4.ColonOn = true;                   // Colon :
     }
 
     void ButtonClickSound() {
@@ -99,7 +113,5 @@ namespace PC6502 {
       }
       //Console.WriteLine("XIO Window:"+jstr);
     }
-
-
   }
 }
