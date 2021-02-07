@@ -192,6 +192,7 @@ namespace PC6502 {
 
     private void button_Reset_Click(object sender, EventArgs e) {
       VM_Reset(VM);
+      RefreshCpuStatus();
     }
 
     private void button_Run_Click(object sender, EventArgs e) {

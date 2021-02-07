@@ -147,6 +147,7 @@ char *VM_CLASS::Talk(char *message) {
 
   return ExportJsonString(jst);
 }
+
 //-----------------------------------------------------------------------------
 // Private Functions
 //-----------------------------------------------------------------------------
@@ -239,6 +240,14 @@ DNA_STATUS VM_CLASS::FindDevice(string Type, BASE_DEVICE_CLASS **Device) {
 DNA_STATUS VM_CLASS::Reset() {
   DNA_STATUS Status;
 
+  //
+  // Clear Memory History
+  //
+  this->MemoryAccessIndex = 0;
+  this->MemoryAccessCount = 0;
+  //
+  // Reset Processor
+  //
   this->CpuControl->Reset(this->CpuControl);
   Status = DNA_SUCCESS;
 
