@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BreakPointClass.cs" />
     <Compile Include="DeviceEditor.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,10 +24,13 @@ namespace PC6502 {
     public static extern unsafe IntPtr VM_Disassembly(IntPtr VM, UInt16 Base, int lines);
     [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe IntPtr VM_GetMemoryHistory(IntPtr VM);
+    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    public static extern unsafe IntPtr VM_Talk(IntPtr VM, string msg);
 
     public IntPtr VM;
     List<UInt16> InstructionAddress = new List<UInt16>();
     bool Running = false;
+    BREAK_POINT_CLASS BpObj = new BREAK_POINT_CLASS(); 
 
     public CpuWindow() {
       InitializeComponent();
@@ -48,6 +52,10 @@ namespace PC6502 {
         }
       }
       //Console.WriteLine("CPU Form:"+jstr);      
+    }
+
+    void ClearBreakPointBitmap() {
+      BpObj.Clear();
     }
 
     UInt16 FindBestDisassemblyAddress(UInt16 pc, int count) {
@@ -136,6 +144,7 @@ namespace PC6502 {
       dynamic regs = new ExpandoObject();
       dynamic jdata;
       int cursor;
+      string tag;
 
       jstr = Marshal.PtrToStringAnsi(VM_GetRegisters(VM));
       jdata = json_decode(jstr);
@@ -160,7 +169,13 @@ namespace PC6502 {
         if (addr == pc) {
           cursor = index;
         }
-        lvitem.Text = line.Address;
+        if (BpObj.IsExists(addr)) {
+          tag = "B";
+        } else {
+          tag = " ";
+        }
+        lvitem.Text = tag;
+        lvitem.SubItems.Add((string)line.Address);
         lvitem.SubItems.Add((string)line.Opcode);
         lvitem.SubItems.Add((string)line.Disassembly);
         listView_Opcode.Items.Add(lvitem);
@@ -212,5 +227,62 @@ namespace PC6502 {
       }      
     }
 
+    private void listView_Opcode_MouseClick(object sender, MouseEventArgs e) {
+      if (e.Button == MouseButtons.Right) {
+        if (listView_Opcode.FocusedItem.Bounds.Contains(e.Location)) {
+          contextMenuStrip_Opcode.Show(Cursor.Position);
+        }
+      }
+    }
+
+    void BpObj2UI() {
+      int i;
+      listView_BPs.Items.Clear();
+      for (i=0; i<BpObj.Items.Count; i++) {
+        BREAK_POINT bp = BpObj.Items[i];
+        ListViewItem lvitem = new ListViewItem();
+        lvitem.Text = bp.Address.ToString("X");
+        lvitem.SubItems.Add(bp.Type.ToString());
+        lvitem.SubItems.Add(bp.Enabled.ToString());
+        listView_BPs.Items.Add(lvitem);
+      }
+    }
+
+    dynamic VM_UpdateBPs() {
+      dynamic args;
+      string jstr;
+      dynamic result;
+
+      var items = new JArray();
+      for (int i = 0; i < BpObj.Items.Count; i++) {
+        var bp_item = BpObj.Items[i];
+        JObject item = new JObject();
+        item["Address"] = bp_item.Address;
+        item["Type"] = bp_item.Type;
+        item["Enabled"] = bp_item.Enabled;
+        items.Add(item);
+      }
+
+      args = new ExpandoObject();
+      args.Target = "CPU";
+      args.Command = "UpdateBPs";
+      args.Items = items;
+      jstr = json_encode(args);
+      jstr = Marshal.PtrToStringAnsi(VM_Talk(VM, jstr));
+      result = json_decode(jstr);
+      return result;
+    }
+
+    private void toggleBreakPointToolStripMenuItem_Click(object sender, EventArgs e) {
+      if (listView_Opcode.SelectedItems.Count > 0) {
+        ListViewItem lvitem = listView_Opcode.SelectedItems[0];
+        var opcode_addrr = lvitem.SubItems[1].Text;
+        UInt16 bp_addrr = Convert.ToUInt16(opcode_addrr, 16);
+        BpObj.Toggle(bp_addrr);
+        BpObj2UI();
+        VM_UpdateBPs();
+        RefreshCpuStatus();
+      }
+    }
   }
 }

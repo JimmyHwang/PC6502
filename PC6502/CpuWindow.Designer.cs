@@ -23,6 +23,7 @@
     /// the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent() {
+      this.components = new System.ComponentModel.Container();
       this.listView_Opcode = new System.Windows.Forms.ListView();
       this.columnHeader_IP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_Opcode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -42,11 +43,16 @@
       this.columnHeader_BPA = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_BPT = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_BPE = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.contextMenuStrip_Opcode = new System.Windows.Forms.ContextMenuStrip(this.components);
+      this.toggleBreakPointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.columnHeader_BP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.contextMenuStrip_Opcode.SuspendLayout();
       this.SuspendLayout();
       // 
       // listView_Opcode
       // 
       this.listView_Opcode.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_BP,
             this.columnHeader_IP,
             this.columnHeader_Opcode,
             this.columnHeader_Instruction});
@@ -60,6 +66,7 @@
       this.listView_Opcode.TabIndex = 0;
       this.listView_Opcode.UseCompatibleStateImageBehavior = false;
       this.listView_Opcode.View = System.Windows.Forms.View.Details;
+      this.listView_Opcode.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView_Opcode_MouseClick);
       // 
       // columnHeader_IP
       // 
@@ -68,12 +75,12 @@
       // columnHeader_Opcode
       // 
       this.columnHeader_Opcode.Text = "Opcode";
-      this.columnHeader_Opcode.Width = 96;
+      this.columnHeader_Opcode.Width = 103;
       // 
       // columnHeader_Instruction
       // 
       this.columnHeader_Instruction.Text = "Instruction";
-      this.columnHeader_Instruction.Width = 150;
+      this.columnHeader_Instruction.Width = 119;
       // 
       // button_Run
       // 
@@ -203,6 +210,25 @@
       this.columnHeader_BPE.Text = "En";
       this.columnHeader_BPE.Width = 37;
       // 
+      // contextMenuStrip_Opcode
+      // 
+      this.contextMenuStrip_Opcode.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toggleBreakPointToolStripMenuItem});
+      this.contextMenuStrip_Opcode.Name = "contextMenuStrip_Opcode";
+      this.contextMenuStrip_Opcode.Size = new System.Drawing.Size(170, 26);
+      // 
+      // toggleBreakPointToolStripMenuItem
+      // 
+      this.toggleBreakPointToolStripMenuItem.Name = "toggleBreakPointToolStripMenuItem";
+      this.toggleBreakPointToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+      this.toggleBreakPointToolStripMenuItem.Text = "Toggle BreakPoint";
+      this.toggleBreakPointToolStripMenuItem.Click += new System.EventHandler(this.toggleBreakPointToolStripMenuItem_Click);
+      // 
+      // columnHeader_BP
+      // 
+      this.columnHeader_BP.Text = "BP";
+      this.columnHeader_BP.Width = 27;
+      // 
       // CpuWindow
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -219,6 +245,7 @@
       this.Name = "CpuWindow";
       this.Text = "CPU";
       this.Load += new System.EventHandler(this.CpuWindow_Load);
+      this.contextMenuStrip_Opcode.ResumeLayout(false);
       this.ResumeLayout(false);
 
     }
@@ -244,5 +271,8 @@
     private System.Windows.Forms.ColumnHeader columnHeader_BPA;
     private System.Windows.Forms.ColumnHeader columnHeader_BPE;
     private System.Windows.Forms.ColumnHeader columnHeader_BPT;
+    private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Opcode;
+    private System.Windows.Forms.ToolStripMenuItem toggleBreakPointToolStripMenuItem;
+    private System.Windows.Forms.ColumnHeader columnHeader_BP;
   }
 }

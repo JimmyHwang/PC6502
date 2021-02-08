@@ -140,6 +140,8 @@ char *VM_CLASS::Talk(char *message) {
   if (target == "XIO") {
     status = this->FindDevice("XIO", &dev);
     jst = dev->Talk(j);
+  } else if (target == "CPU") {
+    jst = this->CPU->Talk(j);
   } else {
     jst["Status"] = "Failed";
     jst["Message"] = "Target not found";

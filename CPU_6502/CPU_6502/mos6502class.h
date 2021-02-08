@@ -7,10 +7,24 @@ class CHROMOSOME;
 #include "mos6502.h"
 #include "cpu_control_protocol.h"
 #include "memory_control_protocol.h"
+#include "nlohmann/json.hpp"
+using json = nlohmann::json;
+
+class BREAK_POINT {
+public:
+  UINT16 Address;
+  UINT8 Type;
+  UINT8 Enabled;
+};
 
 class CLASS_MOS6502: public mos6502 {
 private:
-	
+  UINT8 BreakPointBitmap[0x2000];
+  list<BREAK_POINT> BreakPoints;
+  void ClearBPs();
+  void ClearBP(UINT16 Address);
+  void AddBP(UINT16 Address);
+
 public:	
   CLASS_MOS6502();
   CPU_CONTROL_PROTOCOL CpuControl;
@@ -18,6 +32,7 @@ public:
 
   void Write(uint16_t ip, uint8_t data) override;
   uint8_t Read(uint16_t ip) override;
+  json Talk(json message);
 };
 
 #endif
