@@ -31,6 +31,7 @@ This is a 6502 Emulator for teach my children and people know what is assembly l
 
 You can download binary files to start the Emulator, also can download source code and built it by self.
 ### Download Binary
+ * [Build-20210209](https://www.dna64.com/PC6502/Files/20210209.zip)
 
 ### Built from Source Code
 
