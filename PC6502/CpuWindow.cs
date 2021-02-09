@@ -222,17 +222,39 @@ namespace PC6502 {
 
     private void button_Reset_Click(object sender, EventArgs e) {
       VM_Reset(VM);
-      RefreshCpuStatus();
+      SwitchRunStop("Stop");
     }
 
-    private void button_Run_Click(object sender, EventArgs e) {
-      if (Running) {
+    private void button_Reload_Click(object sender, EventArgs e) {
+      VM_Reload();
+      VM_Reset(VM);
+      SwitchRunStop("Stop");
+    }
+
+    // 
+    // Mode 0 = Stop
+    // Mode 1 = Run
+    //
+    void SwitchRunStop(string mode) {
+      if (mode == "Stop") {             // Stop
         Running = false;
         button_Run.Text = "Run";
         RefreshCpuStatus();
-      } else {
+        button_StepOver.Enabled = true;
+        button_Step.Enabled = true;
+      } else if (mode == "Run") {       // Run
         Running = true;
         button_Run.Text = "Stop";
+        button_StepOver.Enabled = false;
+        button_Step.Enabled = false;
+      }
+    }
+
+    private void button_Run_Click(object sender, EventArgs e) {
+      if (Running) {      // STOP
+        SwitchRunStop("Stop");
+      } else {            // RUN
+        SwitchRunStop("Run");
       }
     }
 
@@ -314,10 +336,5 @@ namespace PC6502 {
       return result;
     }
 
-    private void button_Reload_Click(object sender, EventArgs e) {
-      VM_Reload();
-      VM_Reset(VM);
-      RefreshCpuStatus();
-    }
   }
 }
