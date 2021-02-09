@@ -31,7 +31,7 @@ MemoryRead8(
   int wp = This->MemoryAccessIndex;
   MEMORY_ACCESS *record = &This->MemoryAccessHistory[wp];
   record->Mode = MEMORY_ACCESS_READ;
-  record->Address = Ip;
+  record->Address = (UINT16)Ip;
   record->Data = Data;
   wp = (wp + 1) & MEMORY_ACCESS_MASK;
   This->MemoryAccessIndex = wp;
@@ -78,7 +78,7 @@ MemoryWrite8(
   int wp = This->MemoryAccessIndex;
   MEMORY_ACCESS *record = &This->MemoryAccessHistory[wp];
   record->Mode = MEMORY_ACCESS_WRITE;
-  record->Address = Ip;
+  record->Address = (UINT16)Ip;
   record->Data = Data;
   wp = (wp + 1) & MEMORY_ACCESS_MASK;
   This->MemoryAccessIndex = wp;
@@ -132,16 +132,27 @@ char *VM_CLASS::Talk(char *message) {
   BASE_DEVICE_CLASS *dev;
   DNA_STATUS status;
   json jst;
+  string target;
+  string command;
 
   jst = {};
   jstr = message;
   auto j = json::parse(jstr);
-  string target = j["Target"];
+  target = j["Target"];
   if (target == "XIO") {
     status = this->FindDevice("XIO", &dev);
     jst = dev->Talk(j);
   } else if (target == "CPU") {
     jst = this->CPU->Talk(j);
+  } else if (target == "VM") {
+    command = j["Command"];
+    if (command == "Reload") {
+      jst = this->Reload();
+    } else {
+      jst["Status"] = "Failed";
+      jst["Message"] = "Command not found";
+    }
+    
   } else {
     jst["Status"] = "Failed";
     jst["Message"] = "Target not found";
@@ -158,6 +169,7 @@ void VM_CLASS::AddDevice(BASE_DEVICE_CLASS *Device, UINTN Address, UINTN Size) {
   UINTN addr;
 
   Device->VM = this;
+  Device->Base = Address;
   //
   // Add to device list for manager device resources
   //
@@ -197,6 +209,21 @@ DNA_STATUS VM_CLASS::AddDeviceROM(UINT16 base, UINT16 size, UINT8 *buffer) {
   return Status;
 }
 
+DNA_STATUS VM_CLASS::AddDeviceROM(UINT16 base, UINT16 size, string filename) {
+  DNA_STATUS Status;
+  ROM_DEVICE_CLASS *ROM;
+
+  ROM = new ROM_DEVICE_CLASS(size);
+  ROM->LoadFile(filename);
+  this->AddDevice(ROM, base, size);
+  if (this->ShadowMemory) {
+    memcpy(this->ShadowMemory + base, ROM->Buffer, size);
+  }
+  Status = DNA_SUCCESS;
+
+  return Status;
+}
+
 DNA_STATUS VM_CLASS::AddDeviceRAM(UINT16 base, UINT16 size) {
   DNA_STATUS Status;
   RAM_DEVICE_CLASS *RAM;
@@ -218,8 +245,11 @@ DNA_STATUS VM_CLASS::AddDeviceXIO(UINT16 base, UINT16 size) {
 
   return Status;
 }
-
 DNA_STATUS VM_CLASS::FindDevice(string Type, BASE_DEVICE_CLASS **Device) {
+  return FindDevice(Type, Device, 0);
+}
+
+DNA_STATUS VM_CLASS::FindDevice(string Type, BASE_DEVICE_CLASS **Device, int Index) {
   DNA_STATUS status;
   BASE_DEVICE_CLASS *dev;
   int i;
@@ -229,9 +259,13 @@ DNA_STATUS VM_CLASS::FindDevice(string Type, BASE_DEVICE_CLASS **Device) {
     if (this->DeviceList[i] != NULL) {
       dev = this->DeviceList[i];
       if (dev->Type == Type) {
-        *Device = dev;
-        status = DNA_SUCCESS;
-        break;
+        if (Index == 0) {
+          *Device = dev;
+          status = DNA_SUCCESS;
+          break;
+        } else {
+          Index--;
+        }
       }
     }
   }
@@ -242,6 +276,47 @@ DNA_STATUS VM_CLASS::FindDevice(string Type, BASE_DEVICE_CLASS **Device) {
 DNA_STATUS VM_CLASS::Reset() {
   DNA_STATUS Status;
 
+  //
+  // Clear Memory History
+  //
+  this->MemoryAccessIndex = 0;
+  this->MemoryAccessCount = 0;
+  //
+  // Reset Processor
+  //
+  this->CpuControl->Reset(this->CpuControl);
+  Status = DNA_SUCCESS;
+
+  return Status;
+}
+
+DNA_STATUS VM_CLASS::Reload() {
+  DNA_STATUS Status;
+  DNA_STATUS Result;
+  int i;
+  BASE_DEVICE_CLASS *Device;
+  ROM_DEVICE_CLASS *ROM;
+
+  Result = DNA_NOT_FOUND;
+  for (i = 0; i < 16; i++) {
+    Status = this->FindDevice("ROM", &Device, i);
+    if (Status == DNA_SUCCESS) {
+      Result = DNA_SUCCESS;
+      ROM = (ROM_DEVICE_CLASS *)Device;
+      Status = ROM->Reload();
+      if (Status == DNA_SUCCESS) {
+        if (this->ShadowMemory) {
+          memcpy(this->ShadowMemory + ROM->Base, ROM->Buffer, ROM->Size);
+        }
+      } else {
+        Result = Status;
+        break;
+      }
+    }
+
+    return Result;
+  }
+    
   //
   // Clear Memory History
   //

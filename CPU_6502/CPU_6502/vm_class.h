@@ -43,9 +43,12 @@ public:
   ~VM_CLASS();
 
   DNA_STATUS AddDeviceROM(UINT16 Base, UINT16 Size, UINT8 *Buffer);
+  DNA_STATUS AddDeviceROM(UINT16 Base, UINT16 Size, string filename);
   DNA_STATUS AddDeviceRAM(UINT16 Base, UINT16 Size);
   DNA_STATUS AddDeviceXIO(UINT16 Base, UINT16 Size);
   DNA_STATUS FindDevice(string Type, BASE_DEVICE_CLASS **Device);
+  DNA_STATUS FindDevice(string Type, BASE_DEVICE_CLASS **Device, int Index);
+  DNA_STATUS Reload();
   DNA_STATUS Reset();
   DNA_STATUS Run(int count);
   char *Talk(char *message);

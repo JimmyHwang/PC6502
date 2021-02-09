@@ -74,6 +74,8 @@ BASE_DEVICE_CLASS::BASE_DEVICE_CLASS(string Type, UINT16 Size) {
   this->Type = Type;
   this->AddressMask = Size - 1;
   this->ReadOnly = false;
+  this->Filename = "";
+  this->Base = 0;
 }
 
 BASE_DEVICE_CLASS::~BASE_DEVICE_CLASS() {

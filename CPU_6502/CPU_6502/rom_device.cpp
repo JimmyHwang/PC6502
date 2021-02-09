@@ -1,4 +1,4 @@
-#include "main.h"
+﻿#include "main.h"
 
 VOID ROM_DEVICE_CLASS::Write8(UINTN Address, UINT8 Data) {
 }
@@ -42,4 +42,31 @@ DNA_STATUS ROM_DEVICE_CLASS::LoadImage(UINT8 *buffer, UINT16 size) {
   }
 
   return Status;
+}
+
+DNA_STATUS ROM_DEVICE_CLASS::LoadFile(string filename) {
+  DNA_STATUS Status;
+  FILE *fp;
+  int fsize;
+  UINT8 *buffer;
+  size_t ret;
+
+  fp = fopen(filename.c_str(), "rb");
+  if (fp) {
+    this->Filename = filename;
+    fsize = filesize(fp);
+    buffer = (UINT8 *)malloc(fsize);      // 動態配置記憶體給Array
+    ret = fread(buffer, 1, fsize, fp);    // fread回傳讀取的byte數
+    fclose(fp);
+    this->LoadImage(buffer, fsize);
+    Status = DNA_SUCCESS;
+  } else {
+    Status = DNA_INVALID_PARAMETER;
+  }
+
+  return Status;
+}
+
+DNA_STATUS ROM_DEVICE_CLASS::Reload() {
+  return this->LoadFile(this->Filename);
 }

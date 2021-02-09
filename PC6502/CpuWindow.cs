@@ -126,6 +126,9 @@ namespace PC6502 {
     }
 
     void RefreshRegisterStatus(dynamic regs) {
+      byte flags = 0;
+      string flags_str1 = "NVssDIZC";
+      string flags_str2 = "";      
       listView_Registers.Items.Clear();
       foreach(var reg in regs) {
         var key = reg.Key;
@@ -134,7 +137,19 @@ namespace PC6502 {
         lvitem.Text = (string)key;
         lvitem.SubItems.Add(data.ToString("X2"));        
         listView_Registers.Items.Add(lvitem);
+        if (lvitem.Text == "Flags") {
+          flags = data;
+        }
       }
+      for (int b = 7; b >= 0; b--) {
+        byte bitmask = (byte)(1 << b);
+        if ((flags & bitmask) != 0) {
+          flags_str2 += "1";
+        } else {
+          flags_str2 += "0";
+        }
+      }
+      textBox_Status.Text = flags_str1 +"\r\n" + flags_str2;
     }
 
     void RefreshCpuStatus() {
@@ -283,6 +298,26 @@ namespace PC6502 {
         VM_UpdateBPs();
         RefreshCpuStatus();
       }
+    }
+
+    dynamic VM_Reload() {
+      dynamic args;
+      string jstr;
+      dynamic result;
+
+      args = new ExpandoObject();
+      args.Target = "VM";
+      args.Command = "Reload";      
+      jstr = json_encode(args);
+      jstr = Marshal.PtrToStringAnsi(VM_Talk(VM, jstr));
+      result = json_decode(jstr);
+      return result;
+    }
+
+    private void button_Reload_Click(object sender, EventArgs e) {
+      VM_Reload();
+      VM_Reset(VM);
+      RefreshCpuStatus();
     }
   }
 }

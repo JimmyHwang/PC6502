@@ -5,10 +5,6 @@
 #include "nlohmann/json.hpp"
 using json = nlohmann::json;
 
-#define DEVICE_FLAG_PAIR        0x0001        // 0:Single, 1:Pair (Only for BROM, BRAM)
-
-#define SPACE_FLAG_SHARED       0x0001        // 0:Allocated, 1:Shared
-
 class VM_CLASS;
 
 class BASE_DEVICE_CLASS {
@@ -20,7 +16,9 @@ class BASE_DEVICE_CLASS {
     UINTN Size;
     BOOLEAN ReadOnly;
     VM_CLASS *VM;
-    string Type;                            // ROM, RAM, XIO
+    string Type;                        // ROM, RAM, XIO
+    string Filename;                    // for Reload()
+    UINTN Base;                         // for Reload()
 
     BASE_DEVICE_CLASS(string Type, UINT16 Size);
     ~BASE_DEVICE_CLASS();

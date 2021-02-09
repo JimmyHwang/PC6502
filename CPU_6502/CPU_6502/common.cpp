@@ -25,9 +25,17 @@ char *ExportJsonString(json j) {
   char *result;
 
   string jstr = j.dump();
-  rlen = strlen(jstr.c_str()) + 1;
+  rlen = (int)strlen(jstr.c_str()) + 1;
   result = (char *)malloc(rlen);
   strcpy(result, jstr.c_str());
 
   return result;
+}
+
+int filesize(FILE *fp) {
+  int size;
+  fseek(fp, 0L, SEEK_END);
+  size = ftell(fp);
+  fseek(fp, 0L, SEEK_SET);
+  return size;
 }
