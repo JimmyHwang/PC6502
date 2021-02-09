@@ -9,7 +9,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/JimmyHwang/PC6502">
-    <img src="https://www.dna64.com/PC6502/images/logo.png" alt="Logo" width="80" height="80">
+    <img src="https://www.dna64.com/PC6502/Images/logo.png" alt="Logo" width="80" height="80">
   </a>
   <h1 align="center">PC6502</h1>
 </p>
@@ -24,7 +24,7 @@ This is a 6502 Emulator for teach my children and people know what is assembly l
 	I try to adopt modular design as much as possible, so it is can add other CPU if I got time.
 
 ## Screen-Shot
-[![Product Name Screen Shot][product-screenshot]](https://www.dna64.com/PC6502/ScreenShot.jpg)
+[![Product Name Screen Shot][product-screenshot]](https://www.dna64.com/PC6502/Images/screenshot.jpg)
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -42,19 +42,14 @@ This section should list any major software for build from source code
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+For more usage, please refer to the [Documentation](https://www.dna64.com/PC6502/Docs)
 
 <!-- ROADMAP -->
 ## Roadmap
-
 See the [open issues](https://github.com/JimmyHwang/PC6502/issues) for a list of proposed features (and known issues).
 
 <!-- CONTRIBUTING -->
 ## Contributing
-
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
@@ -71,8 +66,8 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Jimmy Hwang -  jimmyhwang.tw@gmail.com
-Project Link: [https://github.com/JimmyHwang/PC6502](https://github.com/JimmyHwang/PC6502)
+* Jimmy Hwang -  jimmyhwang.tw@gmail.com
+* Project Link: [https://github.com/JimmyHwang/PC6502](https://github.com/JimmyHwang/PC6502)
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
@@ -93,4 +88,4 @@ Project Link: [https://github.com/JimmyHwang/PC6502](https://github.com/JimmyHwa
 [license-url]: https://github.com/JimmyHwang/PC6502/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/jimmyhwang220/
-[product-screenshot]: https://www.dna64.com/PC6502/images/screenshot.jpg
+[product-screenshot]: https://www.dna64.com/PC6502/Images/screenshot.jpg
