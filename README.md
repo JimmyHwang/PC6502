@@ -17,13 +17,14 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://www.dna64.com/PC6502/ScreenShot.jpg)
-
 This is a 6502 Emulator for teach my children and people know what is assembly language and CPU how to start from RESET and work with different devices.
-1. 	Q:Why I choose this CPU as the teaching material?
-	A:I learn computer language from Apple II age, The 6502 is my most familiar CPU.
-2.	Q: Is it only support 6502?
-	A: I try to adopt modular design as much as possible, so it is can add other CPU if I got time.
+1. Why I choose this CPU as the teaching material? 
+	I learn computer language from Apple II age, The 6502 is my most familiar CPU.
+2. Is it only support 6502 CPU? 
+	I try to adopt modular design as much as possible, so it is can add other CPU if I got time.
+
+## Screen-Shot
+[![Product Name Screen Shot][product-screenshot]](https://www.dna64.com/PC6502/ScreenShot.jpg)
 
 <!-- GETTING STARTED -->
 ## Getting Started
