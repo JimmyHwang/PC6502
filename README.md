@@ -66,8 +66,8 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-* Jimmy Hwang -  jimmyhwang.tw@gmail.com
-* Project Link: [https://github.com/JimmyHwang/PC6502](https://github.com/JimmyHwang/PC6502)
+* Jimmy Hwang - jimmyhwang.tw@gmail.com
+* Project Link - [https://github.com/JimmyHwang/PC6502](https://github.com/JimmyHwang/PC6502)
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements

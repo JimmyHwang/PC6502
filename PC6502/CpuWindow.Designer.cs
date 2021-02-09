@@ -24,6 +24,7 @@
     /// </summary>
     private void InitializeComponent() {
       this.components = new System.ComponentModel.Container();
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CpuWindow));
       this.listView_Opcode = new System.Windows.Forms.ListView();
       this.columnHeader_BP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_IP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -266,6 +267,7 @@
       this.Controls.Add(this.button_Step);
       this.Controls.Add(this.button_Run);
       this.Controls.Add(this.listView_Opcode);
+      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.Name = "CpuWindow";
       this.Text = "CPU";
       this.Load += new System.EventHandler(this.CpuWindow_Load);

@@ -23,6 +23,7 @@
     /// the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent() {
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(XIO_LED7Sx4));
       this.sevenSegment1 = new DmitryBrant.CustomControls.SevenSegment();
       this.sevenSegment2 = new DmitryBrant.CustomControls.SevenSegment();
       this.sevenSegment3 = new DmitryBrant.CustomControls.SevenSegment();
@@ -178,6 +179,7 @@
       this.Controls.Add(this.sevenSegment3);
       this.Controls.Add(this.sevenSegment2);
       this.Controls.Add(this.sevenSegment1);
+      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.Name = "XIO_LED7Sx4";
       this.Text = "XIO_LED7Sx4";
       this.ResumeLayout(false);
