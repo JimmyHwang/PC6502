@@ -28,7 +28,7 @@ namespace PC6502 {
   public partial class XIO_LED7Sx4 : Form {
     [DllImport("winmm.DLL", EntryPoint = "PlaySound", SetLastError = true, CharSet = CharSet.Unicode, ThrowOnUnmappableChar = true)]
     private static extern bool PlaySound(string szSound, System.IntPtr hMod, PlaySoundFlags flags);
-    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe IntPtr VM_Talk(IntPtr VM, string msg);
 
     public IntPtr VM;

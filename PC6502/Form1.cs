@@ -18,23 +18,23 @@ using static DNA64.Library.Common;
 
 namespace PC6502 {
   public partial class Form1 : Form {
-    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe IntPtr CreateVM();
-    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe int FreeVM(IntPtr VM);
-    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe int VM_Reset(IntPtr VM);
-    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe int VM_Run(IntPtr VM, int Count);
-    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe int AddDeviceRAM(IntPtr VM, UInt16 Base, UInt16 Size);
-    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe int AddDeviceROM(IntPtr VM, UInt16 Base, UInt16 Size, string filename);
-    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe int AddDeviceXIO(IntPtr VM, UInt16 Base, UInt16 Size);
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
     public delegate void VM_Callback(string jstr);
-    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll")]
+    [DllImport(@"CPU_6502.dll")]
     public static extern int VM_SetCallback(IntPtr VM, [MarshalAs(UnmanagedType.FunctionPtr)] VM_Callback callbackPointer);
 
     string ConfigFile;

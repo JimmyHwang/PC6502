@@ -14,17 +14,17 @@ using static DNA64.Library.Common;
 
 namespace PC6502 {
   public partial class CpuWindow : Form {
-    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe int VM_Reset(IntPtr VM);
-    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe int VM_Run(IntPtr VM, int Count);
-    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe IntPtr VM_GetRegisters(IntPtr VM);
-    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe IntPtr VM_Disassembly(IntPtr VM, UInt16 Base, int lines);
-    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe IntPtr VM_GetMemoryHistory(IntPtr VM);
-    [DllImport(@"D:\MyGIT\PC6502\x64\Debug\CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe IntPtr VM_Talk(IntPtr VM, string msg);
 
     public IntPtr VM;
