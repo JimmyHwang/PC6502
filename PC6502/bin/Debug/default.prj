@@ -1,0 +1,23 @@
+{
+  "Device": [
+    {
+      "UUID": "3891b3d1-3b63-4e7e-ae04-0595e4586e9c",
+      "Type": "RAM",
+      "Base": "0x0000",
+      "Size": "0x2000"
+    },
+    {
+      "UUID": "2d9a5ac3-ff12-4318-9fc9-24c08734500f",
+      "Type": "XIO",
+      "Base": "0xC000",
+      "Size": "0x2000"
+    },
+    {
+      "UUID": "6553f2b8-eab6-41c9-b5f5-7f0e39b96fed",
+      "Type": "ROM",
+      "Base": "0xE000",
+      "Size": "0x2000",
+      "File": "default.bin"
+    }
+  ]
+}
