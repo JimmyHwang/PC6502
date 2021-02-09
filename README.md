@@ -74,6 +74,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Acknowledgements
 * [Seven-segment LED Control for .NET](https://www.codeproject.com/Articles/37800/Seven-segment-LED-Control-for-NET)
 * [MOS6502 Emulator in C++](https://github.com/gianlucag/mos6502)
+* [6502 Disassembler](https://github.com/kpmiller/emulator101/tree/master/6502Disassembler)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->

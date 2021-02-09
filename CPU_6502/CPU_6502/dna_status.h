@@ -15,6 +15,7 @@ typedef int DNA_STATUS;
 #define DNA_NOT_STARTED         0x0006
 #define DNA_OUT_OF_RESOURCES    0x0007
 #define DNA_ACCESS_DENIED       0x0008
+#define DNA_BREAK_POINT         0x0010
 
 #define DNA_ERROR(a)              (((INTN) (a)) != DNA_SUCCESS)
 #define DNA_ASSERT(a)             (assert(a == DNA_SUCCESS))

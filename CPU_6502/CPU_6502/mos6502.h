@@ -153,9 +153,7 @@ private:
 	void Op_TYA(uint16_t src);
 	
 	void Op_ILLEGAL(uint16_t src);
-	
-	
-	
+		
 	// stack operations
 	inline void StackPush(uint8_t byte);
 	inline uint8_t StackPop();
@@ -175,11 +173,15 @@ public:
   // status register
   uint8_t status;
 
+  // break point bitmap table
+  uint8_t BreakPointBitmap[0x2000];
+  int IgnoreBPs;
+
 	mos6502();
 	void NMI();
 	void IRQ();
 	void Reset();
-	void Run(uint32_t n);
+	int Run(uint32_t n);
   virtual void Write(uint16_t ip, uint8_t data);
   virtual uint8_t Read(uint16_t ip);
 };

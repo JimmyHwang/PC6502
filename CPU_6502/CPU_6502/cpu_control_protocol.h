@@ -40,7 +40,7 @@ VOID
 );
 
 typedef
-VOID
+int
 (*CPU_CONTROL_PROTOCOL_RUN)(
   CPU_CONTROL_PROTOCOL *This,
   UINTN Count

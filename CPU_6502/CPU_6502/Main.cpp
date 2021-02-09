@@ -44,8 +44,7 @@ int VM_Run(void *vm, int count) {
   DNA_STATUS Status;
   VM_CLASS *VM = (VM_CLASS *)vm;
 
-  VM->Run(count);
-  Status = DNA_SUCCESS;
+  Status = VM->Run(count);
 
   return Status;
 }

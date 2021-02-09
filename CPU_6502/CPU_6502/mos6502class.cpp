@@ -24,11 +24,10 @@ MOS6502_Reset (
   CLASS_MOS6502 *This;
   
   This = _CR(Protocol, CLASS_MOS6502, CpuControl);
-  //printf("<CLASS_MOS6502::reset()=0x%lX>", (char*)This - (char*)0);  
   This->Reset();  
 }
 
-VOID
+int
 MOS6502_Run (
   CPU_CONTROL_PROTOCOL *Protocol,
   UINTN Count
@@ -37,8 +36,7 @@ MOS6502_Run (
   CLASS_MOS6502 *This;
   
   This = _CR(Protocol, CLASS_MOS6502, CpuControl);
-  //printf("<CLASS_MOS6502::reset()=0x%lX>", (char*)This - (char*)0);  
-  This->Run((int)Count);  
+  return This->Run((int)Count);  
 }
 
 VOID
@@ -84,30 +82,41 @@ void CLASS_MOS6502::Write(uint16_t ip, uint8_t data) {
 //-----------------------------------------------------------------------------
 void CLASS_MOS6502::ClearBPs() {
   std::list<BREAK_POINT>::iterator bp;
-  UINT16 addr;
-  UINT16 index;
-  UINT8 mask;
 
   for (bp = this->BreakPoints.begin(); bp != this->BreakPoints.end(); ++bp) {
-    addr = bp->Address;
-    index = addr >> 3;
-    mask = 0xFF ^ (1 << (addr & 3));
-    this->BreakPointBitmap[index] &= mask;
+    UpdateBpBitmap(bp->Address, false);
   }    
   this->BreakPoints.clear();
+}
+
+void CLASS_MOS6502::UpdateBpBitmap(UINT16 Address, bool State) {
+  int index;
+  int or_bits;
+  int and_bits;
+
+  index = Address >> 3;
+  if (State) {
+    or_bits = 1 << (Address & 7);
+    and_bits = 0xFF;
+  } else {
+    or_bits = 0;
+    and_bits = 0xFF ^ (1 << (Address & 7));
+  }
+  this->BreakPointBitmap[index] = (this->BreakPointBitmap[index] | or_bits) & and_bits;  
 }
 
 void CLASS_MOS6502::AddBP(UINT16 Address) {
   BREAK_POINT bp;
   bp.Address = Address;
   this->BreakPoints.push_back(bp);  
+  this->UpdateBpBitmap(Address, true);
 }
 
 //-----------------------------------------------------------------------------
 //
 //-----------------------------------------------------------------------------
 json CLASS_MOS6502::Talk(json args) {
-  json result;
+  json result = {};
   string command;
   json items;
 
@@ -121,6 +130,13 @@ json CLASS_MOS6502::Talk(json args) {
       UINT16 addr = item["Address"];
       this->AddBP(addr);
     }
+    result["Status"] = "Success";
+  } else if (command == "SetIgnoreBPs") {
+    IgnoreBPs = args["Count"];
+    result["Status"] = "Success";
+  } else {
+    result["Status"] = "Failed";
+    result["Message"] = "Unknow command";
   }
 
   return result;
@@ -130,16 +146,9 @@ json CLASS_MOS6502::Talk(json args) {
 // Class Constructor
 //-----------------------------------------------------------------------------
 CLASS_MOS6502::CLASS_MOS6502():mos6502() {
-  //printf("<CLASS_MOS6502::CLASS_MOS6502()=0x%lX>", (char*)this - (char*)0);
   this->CpuControl.Run = MOS6502_Run;
   this->CpuControl.Reset = MOS6502_Reset;
   this->CpuControl.IRQ = MOS6502_IRQ;
   this->CpuControl.NMI = MOS6502_NMI;
-  //
-  // Clear BreakPoint bitmap
-  //
-  int i;
-  for (i = 0; i < 0x2000; i++) {
-    this->BreakPointBitmap[i] = 0;
-  }
+
 }

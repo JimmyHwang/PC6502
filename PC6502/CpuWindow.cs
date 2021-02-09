@@ -27,10 +27,15 @@ namespace PC6502 {
     [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe IntPtr VM_Talk(IntPtr VM, string msg);
 
+    public const int DNA_SUCCESS = 0x00;
+    public const int DNA_BREAK_POINT = 0x10;
+    public const int VM_STEP_OVER_FLAG = 0x1000000;
+
     public IntPtr VM;
     List<UInt16> InstructionAddress = new List<UInt16>();
     bool Running = false;
-    BREAK_POINT_CLASS BpObj = new BREAK_POINT_CLASS(); 
+    BREAK_POINT_CLASS BpObj = new BREAK_POINT_CLASS();
+    int VM_OperationFlags = 0;
 
     public CpuWindow() {
       InitializeComponent();
@@ -211,12 +216,14 @@ namespace PC6502 {
     }
 
     private void button_Step_Click(object sender, EventArgs e) {
-      VM_Run(VM, 1);
+      VM_SetIgnoreBPs(1);
+      VM_Run(VM, VM_OperationFlags + 1);
       RefreshCpuStatus();
     }
 
     private void button_StepOver_Click(object sender, EventArgs e) {
-      VM_Run(VM, 0x1000000+1);
+      VM_SetIgnoreBPs(1);
+      VM_Run(VM, VM_OperationFlags + VM_STEP_OVER_FLAG + 1);
       RefreshCpuStatus();
     }
 
@@ -250,17 +257,38 @@ namespace PC6502 {
       }
     }
 
+    dynamic VM_SetIgnoreBPs(int count) {
+      dynamic args;
+      string jstr;
+      dynamic result;
+
+      args = new ExpandoObject();
+      args.Target = "CPU";
+      args.Command = "SetIgnoreBPs";
+      args.Count = count;
+      jstr = json_encode(args);
+      jstr = Marshal.PtrToStringAnsi(VM_Talk(VM, jstr));
+      result = json_decode(jstr);
+      return result;
+    }
+
+
     private void button_Run_Click(object sender, EventArgs e) {
-      if (Running) {      // STOP
+      VM_SetIgnoreBPs(1);
+      if (Running) {                    // Switch to STOP
         SwitchRunStop("Stop");
-      } else {            // RUN
+      } else {                          // Switch to RUN
         SwitchRunStop("Run");
       }
     }
 
     public void Timer() {
+      int Status;
       if (Running) {
-        VM_Run(VM, 10);
+        Status = VM_Run(VM, VM_OperationFlags + 16);
+        if (Status == DNA_BREAK_POINT) {
+          SwitchRunStop("Stop");
+        }
       }      
     }
 

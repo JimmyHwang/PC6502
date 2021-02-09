@@ -41,7 +41,6 @@ MemoryRead8(
 
 #ifdef DEBUG_ADDRESSS_DECODER
   DebugOut(L"R8,0x%lX=0x%08X", Ip, Data);
-  //printf("R8,0x%lX=0x%08X", Ip, Data);
 #endif  
   return Data;
 }
@@ -58,7 +57,6 @@ MemoryWrite8(
 
 #ifdef DEBUG_ADDRESSS_DECODER  
   DebugOut(L"W8,0x%lX=0x%08X", Ip, Data);
-  //printf("W8,0x%lX=0x%08X", Ip, Data);
 #endif  
   This = _CR(Protocol, VM_CLASS, MemoryControl);
   Index = (Ip >> ADDRESS_MASK_BITS) & ADDRESS_INDEX_MASK;
@@ -151,8 +149,7 @@ char *VM_CLASS::Talk(char *message) {
     } else {
       jst["Status"] = "Failed";
       jst["Message"] = "Command not found";
-    }
-    
+    }    
   } else {
     jst["Status"] = "Failed";
     jst["Message"] = "Target not found";
@@ -339,27 +336,30 @@ DNA_STATUS VM_CLASS::Run(int count) {
   DNA_STATUS Status;
   int flag;
 
-  flag = (count >> 24);
+  flag = count & 0xFF000000;
   count &= 0xFFFFFF;
 
-  if (flag & 1) {
+  Status = DNA_SUCCESS;
+  if (flag & VM_STEP_OVER_FLAG) {
     UINT16 pc;
     UINT16 target_pc;
     UINT8 opcode;
     pc = CPU->pc;
     opcode = this->ShadowMemory[pc];
-    if (opcode == 0x20) {     // is JSR instruction
+    if (opcode == 0x20) {               // is JSR instruction
       target_pc = pc + 3;
       do {
-        this->CpuControl->Run(this->CpuControl, 1);
+        Status = this->CpuControl->Run(this->CpuControl, 1);
+        if (Status == DNA_BREAK_POINT) {
+          break;
+        }
       } while (CPU->pc != target_pc);
     } else {
-      this->CpuControl->Run(this->CpuControl, 1);
+      Status = this->CpuControl->Run(this->CpuControl, 1);
     }
   } else {
-    this->CpuControl->Run(this->CpuControl, count);
+    Status = this->CpuControl->Run(this->CpuControl, count);
   }
-  Status = DNA_SUCCESS;
 
   return Status;
 }

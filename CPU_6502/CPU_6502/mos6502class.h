@@ -19,11 +19,11 @@ public:
 
 class CLASS_MOS6502: public mos6502 {
 private:
-  UINT8 BreakPointBitmap[0x2000];
   list<BREAK_POINT> BreakPoints;
   void ClearBPs();
   void ClearBP(UINT16 Address);
   void AddBP(UINT16 Address);
+  void UpdateBpBitmap(UINT16 Address, bool State);
 
 public:	
   CLASS_MOS6502();

@@ -1,8 +1,17 @@
 #include "mos6502.h"
-  
+#include "dna_status.h"
+
 mos6502::mos6502()
 {
   Instr instr;
+
+  //
+  // Clear BreakPoint bitmap
+  //
+  for (int i = 0; i < 0x2000; i++) {
+    this->BreakPointBitmap[i] = 0;
+  }
+  IgnoreBPs = 0;
   //
   // fill jump table with ILLEGALs
   //
@@ -717,25 +726,37 @@ void mos6502::NMI()
   return;
 }
 
-void mos6502::Run(uint32_t n)
-{
+int mos6502::Run(uint32_t count) {
   uint32_t start = cycles;
   uint8_t opcode;
   Instr instr;
+  int index;
+  int bitmask;
+  int status = DNA_SUCCESS;
 
-  while(start + n > cycles && !illegalOpcode)
-  {
-    // fetch
-    opcode = Read(pc++);
-    
-    // decode
-    instr = InstrTable[opcode];
-    
-    // execute
-    Exec(instr);
-    
-    cycles++;
+  while(start + count > cycles && !illegalOpcode) {
+    index = pc >> 3;
+    bitmask = 1 << (pc & 7);
+    if ((IgnoreBPs == 0) && ((BreakPointBitmap[index] & bitmask) != 0)) {
+      status = DNA_BREAK_POINT;
+      break;
+    } else {
+      if (IgnoreBPs > 0) {
+        IgnoreBPs--;
+      }
+      // fetch
+      opcode = Read(pc++);
+
+      // decode
+      instr = InstrTable[opcode];
+
+      // execute
+      Exec(instr);
+
+      cycles++;
+    }
   }
+  return status;
 }
 
 void mos6502::Exec(Instr i)
@@ -749,7 +770,6 @@ void mos6502::Op_ILLEGAL(uint16_t src)
 {
   illegalOpcode = true;
 }
-
 
 void mos6502::Op_ADC(uint16_t src)
 {
