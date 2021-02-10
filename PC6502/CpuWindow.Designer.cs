@@ -43,13 +43,18 @@
       this.button_StepOver = new System.Windows.Forms.Button();
       this.listView_BPs = new System.Windows.Forms.ListView();
       this.columnHeader_BPA = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_BPT = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-      this.columnHeader_BPE = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+      this.columnHeader_BPC = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.contextMenuStrip_Opcode = new System.Windows.Forms.ContextMenuStrip(this.components);
       this.toggleBreakPointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.textBox_Status = new System.Windows.Forms.TextBox();
       this.button_Reload = new System.Windows.Forms.Button();
+      this.contextMenuStrip_BP = new System.Windows.Forms.ContextMenuStrip(this.components);
+      this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.button_AddBP = new System.Windows.Forms.Button();
       this.contextMenuStrip_Opcode.SuspendLayout();
+      this.contextMenuStrip_BP.SuspendLayout();
       this.SuspendLayout();
       // 
       // listView_Opcode
@@ -191,8 +196,7 @@
       // 
       this.listView_BPs.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader_BPA,
-            this.columnHeader_BPT,
-            this.columnHeader_BPE});
+            this.columnHeader_BPC});
       this.listView_BPs.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.listView_BPs.FullRowSelect = true;
       this.listView_BPs.HideSelection = false;
@@ -202,21 +206,18 @@
       this.listView_BPs.TabIndex = 12;
       this.listView_BPs.UseCompatibleStateImageBehavior = false;
       this.listView_BPs.View = System.Windows.Forms.View.Details;
+      this.listView_BPs.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView_BPs_MouseClick);
+      this.listView_BPs.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_BPs_MouseDoubleClick);
       // 
       // columnHeader_BPA
       // 
-      this.columnHeader_BPA.Text = "Address";
-      this.columnHeader_BPA.Width = 66;
+      this.columnHeader_BPA.Text = "Addr";
+      this.columnHeader_BPA.Width = 44;
       // 
-      // columnHeader_BPT
+      // columnHeader_BPC
       // 
-      this.columnHeader_BPT.Text = "Type";
-      this.columnHeader_BPT.Width = 41;
-      // 
-      // columnHeader_BPE
-      // 
-      this.columnHeader_BPE.Text = "En";
-      this.columnHeader_BPE.Width = 37;
+      this.columnHeader_BPC.Text = "Condition";
+      this.columnHeader_BPC.Width = 102;
       // 
       // contextMenuStrip_Opcode
       // 
@@ -252,11 +253,50 @@
       this.button_Reload.UseVisualStyleBackColor = true;
       this.button_Reload.Click += new System.EventHandler(this.button_Reload_Click);
       // 
+      // contextMenuStrip_BP
+      // 
+      this.contextMenuStrip_BP.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addToolStripMenuItem,
+            this.removeToolStripMenuItem,
+            this.editToolStripMenuItem});
+      this.contextMenuStrip_BP.Name = "contextMenuStrip_BP";
+      this.contextMenuStrip_BP.Size = new System.Drawing.Size(181, 92);
+      // 
+      // addToolStripMenuItem
+      // 
+      this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+      this.addToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+      this.addToolStripMenuItem.Text = "Add";
+      // 
+      // removeToolStripMenuItem
+      // 
+      this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+      this.removeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+      this.removeToolStripMenuItem.Text = "Remove";
+      // 
+      // editToolStripMenuItem
+      // 
+      this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+      this.editToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.editToolStripMenuItem.Text = "Edit";
+      this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
+      // 
+      // button_AddBP
+      // 
+      this.button_AddBP.Location = new System.Drawing.Point(339, 157);
+      this.button_AddBP.Name = "button_AddBP";
+      this.button_AddBP.Size = new System.Drawing.Size(75, 23);
+      this.button_AddBP.TabIndex = 15;
+      this.button_AddBP.Text = "Add BP";
+      this.button_AddBP.UseVisualStyleBackColor = true;
+      this.button_AddBP.Click += new System.EventHandler(this.button_AddBP_Click);
+      // 
       // CpuWindow
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(800, 540);
+      this.Controls.Add(this.button_AddBP);
       this.Controls.Add(this.button_Reload);
       this.Controls.Add(this.textBox_Status);
       this.Controls.Add(this.listView_BPs);
@@ -272,6 +312,7 @@
       this.Text = "CPU";
       this.Load += new System.EventHandler(this.CpuWindow_Load);
       this.contextMenuStrip_Opcode.ResumeLayout(false);
+      this.contextMenuStrip_BP.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -296,12 +337,16 @@
     private System.Windows.Forms.Button button_StepOver;
     private System.Windows.Forms.ListView listView_BPs;
     private System.Windows.Forms.ColumnHeader columnHeader_BPA;
-    private System.Windows.Forms.ColumnHeader columnHeader_BPE;
-    private System.Windows.Forms.ColumnHeader columnHeader_BPT;
+    private System.Windows.Forms.ColumnHeader columnHeader_BPC;
     private System.Windows.Forms.ContextMenuStrip contextMenuStrip_Opcode;
     private System.Windows.Forms.ToolStripMenuItem toggleBreakPointToolStripMenuItem;
     private System.Windows.Forms.ColumnHeader columnHeader_BP;
     private System.Windows.Forms.TextBox textBox_Status;
     private System.Windows.Forms.Button button_Reload;
+    private System.Windows.Forms.ContextMenuStrip contextMenuStrip_BP;
+    private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+    private System.Windows.Forms.Button button_AddBP;
   }
 }

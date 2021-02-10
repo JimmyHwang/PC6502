@@ -65,6 +65,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BpEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BpEditor.Designer.cs">
+      <DependentUpon>BpEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="BreakPointClass.cs" />
     <Compile Include="DeviceEditor.cs">
       <SubType>Form</SubType>
@@ -99,6 +105,9 @@
     <Compile Include="XIO_TextScreen.Designer.cs">
       <DependentUpon>XIO_TextScreen.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="BpEditor.resx">
+      <DependentUpon>BpEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DeviceEditor.resx">
       <DependentUpon>DeviceEditor.cs</DependentUpon>
     </EmbeddedResource>

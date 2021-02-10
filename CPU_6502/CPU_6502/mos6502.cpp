@@ -5,13 +5,7 @@ mos6502::mos6502()
 {
   Instr instr;
 
-  //
-  // Clear BreakPoint bitmap
-  //
-  for (int i = 0; i < 0x2000; i++) {
-    this->BreakPointBitmap[i] = 0;
-  }
-  IgnoreBPs = 0;
+  InitBreakPointSystem();
   //
   // fill jump table with ILLEGALs
   //
@@ -1328,11 +1322,19 @@ void mos6502::Op_TYA(uint16_t src)
   return;
 }
 
-uint8_t mos6502::Read(uint16_t ip)
-{
+uint8_t mos6502::Read(uint16_t ip) {
   return 0;
 }
 
-void mos6502::Write(uint16_t ip, uint8_t data)
-{
+void mos6502::Write(uint16_t ip, uint8_t data) {
+}
+
+void mos6502::InitBreakPointSystem() {
+  //
+  // Clear BreakPoint bitmap
+  //
+  for (int i = 0; i < 0x2000; i++) {
+    this->BreakPointBitmap[i] = 0;
+  }
+  IgnoreBPs = 0;
 }

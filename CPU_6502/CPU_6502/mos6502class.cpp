@@ -105,11 +105,27 @@ void CLASS_MOS6502::UpdateBpBitmap(UINT16 Address, bool State) {
   this->BreakPointBitmap[index] = (this->BreakPointBitmap[index] | or_bits) & and_bits;  
 }
 
-void CLASS_MOS6502::AddBP(UINT16 Address) {
+void CLASS_MOS6502::AddBP(json item) {
   BREAK_POINT bp;
-  bp.Address = Address;
+  bp.Address = item["Address"];
+  bp.Data = 0;
+  bp.Access = 0;
+  bp.Register = 0;
+  bp.Compare = 0;
+  if (item.contains("Data")) {
+    bp.Data = item["Data"];
+  }
+  if (item.contains("Access")) {
+    bp.Access = item["Access"];
+  }
+  if (item.contains("Register")) {
+    bp.Register = item["Register"];
+  }
+  if (item.contains("Compare")) {
+    bp.Compare = item["Compare"];
+  }
   this->BreakPoints.push_back(bp);  
-  this->UpdateBpBitmap(Address, true);
+  this->UpdateBpBitmap(bp.Address, true);
 }
 
 //-----------------------------------------------------------------------------
@@ -126,9 +142,7 @@ json CLASS_MOS6502::Talk(json args) {
     items = args["Items"];
     for (auto& el : items.items()) {
       json item = el.value();
-      int type = item["Type"];
-      UINT16 addr = item["Address"];
-      this->AddBP(addr);
+      this->AddBP(item);
     }
     result["Status"] = "Success";
   } else if (command == "SetIgnoreBPs") {

@@ -271,8 +271,7 @@ namespace PC6502 {
       result = json_decode(jstr);
       return result;
     }
-
-
+    
     private void button_Run_Click(object sender, EventArgs e) {
       VM_SetIgnoreBPs(1);
       if (Running) {                    // Switch to STOP
@@ -306,9 +305,51 @@ namespace PC6502 {
       for (i=0; i<BpObj.Items.Count; i++) {
         BREAK_POINT bp = BpObj.Items[i];
         ListViewItem lvitem = new ListViewItem();
-        lvitem.Text = bp.Address.ToString("X");
-        lvitem.SubItems.Add(bp.Type.ToString());
-        lvitem.SubItems.Add(bp.Enabled.ToString());
+        lvitem.Text = bp.Data.Address.ToString("X");
+        string cond_str = "";
+        bool show_data = false;
+        if ((bp.Data.Access & 1) != 0) {
+          cond_str += "E";
+        }
+        if ((bp.Data.Access & 2) != 0) {
+          cond_str += "R";
+        }
+        if ((bp.Data.Access & 4) != 0) {
+          cond_str += "W";
+        }
+        if ((bp.Data.Access & 1) != 0) {
+          if ((bp.Data.Register & 1) != 0) {
+            cond_str += "A";
+          }
+          if ((bp.Data.Register & 2) != 0) {
+            cond_str += "X";
+          }
+          if ((bp.Data.Register & 4) != 0) {
+            cond_str += "Y";
+          }
+        }
+        if ((bp.Data.Compare & 1) != 0) {
+          cond_str += "=";
+        }
+        if ((bp.Data.Compare & 2) != 0) {
+          cond_str += ">";
+        }
+        if ((bp.Data.Compare & 4) != 0) {
+          cond_str += "<";
+        }
+        if ((bp.Data.Access & 1) != 0 &&    // Need reg & compare for Execution break
+            bp.Data.Register != 0 &&
+            bp.Data.Compare != 0) {
+          show_data = true;
+        }
+        if ((bp.Data.Access & 6) != 0 &&    // Need compare for mR/mW break
+            bp.Data.Compare != 0) {
+          show_data = true;
+        }
+        if (show_data) {
+          cond_str += bp.Data.Data.ToString("X");
+        }        
+        lvitem.SubItems.Add(cond_str);
         listView_BPs.Items.Add(lvitem);
       }
     }
@@ -321,10 +362,7 @@ namespace PC6502 {
       var items = new JArray();
       for (int i = 0; i < BpObj.Items.Count; i++) {
         var bp_item = BpObj.Items[i];
-        JObject item = new JObject();
-        item["Address"] = bp_item.Address;
-        item["Type"] = bp_item.Type;
-        item["Enabled"] = bp_item.Enabled;
+        JObject item = json_decode(json_encode(bp_item.Data));
         items.Add(item);
       }
 
@@ -341,9 +379,9 @@ namespace PC6502 {
     private void toggleBreakPointToolStripMenuItem_Click(object sender, EventArgs e) {
       if (listView_Opcode.SelectedItems.Count > 0) {
         ListViewItem lvitem = listView_Opcode.SelectedItems[0];
-        var opcode_addrr = lvitem.SubItems[1].Text;
-        UInt16 bp_addrr = Convert.ToUInt16(opcode_addrr, 16);
-        BpObj.Toggle(bp_addrr);
+        var opcode_addr = lvitem.SubItems[1].Text;
+        UInt16 bp_addr = Convert.ToUInt16(opcode_addr, 16);
+        BpObj.Toggle(bp_addr);
         BpObj2UI();
         VM_UpdateBPs();
         RefreshCpuStatus();
@@ -364,5 +402,48 @@ namespace PC6502 {
       return result;
     }
 
+    private void listView_BPs_MouseClick(object sender, MouseEventArgs e) {
+      if (e.Button == MouseButtons.Right) {
+        if (listView_BPs.FocusedItem.Bounds.Contains(e.Location)) {
+          contextMenuStrip_BP.Show(Cursor.Position);
+        }
+      }
+    }
+
+    private void listView_BPs_MouseDoubleClick(object sender, MouseEventArgs e) {
+      editToolStripMenuItem_Click(sender, e);
+    }
+
+    private void button_AddBP_Click(object sender, EventArgs e) {
+      var f = new BpEditor();
+      var result = f.ShowDialog();
+      if (result == DialogResult.OK) {
+        dynamic Data = f.Data;
+        BREAK_POINT bp = BpObj.Toggle(Data.Address);
+        if (bp != null) {
+          bp.Data = f.Data;
+          BpObj2UI();
+          VM_UpdateBPs();
+          RefreshCpuStatus();
+        }
+      }
+    }
+
+    private void editToolStripMenuItem_Click(object sender, EventArgs e) {
+      var f = new BpEditor();
+      if (listView_BPs.SelectedItems.Count > 0) {
+        ListViewItem lvitem = listView_BPs.SelectedItems[0];
+        UInt16 addr = Convert.ToUInt16(lvitem.Text, 16);
+        BREAK_POINT bp = BpObj.Find(addr);
+        f.Data = bp.Data;
+        var result = f.ShowDialog();
+        if (result == DialogResult.OK) {
+          bp.Data = f.Data;
+          BpObj2UI();
+          VM_UpdateBPs();
+          RefreshCpuStatus();
+        }
+      }
+    }
   }
 }

@@ -13,8 +13,10 @@ using json = nlohmann::json;
 class BREAK_POINT {
 public:
   UINT16 Address;
-  UINT8 Type;
-  UINT8 Enabled;
+  UINT8 Data;
+  UINT8 Access;       // Execution, MemRead, MemWrite
+  UINT8 Register;     // A, X, Y
+  UINT8 Compare;      // =, >, <
 };
 
 class CLASS_MOS6502: public mos6502 {
@@ -22,7 +24,7 @@ private:
   list<BREAK_POINT> BreakPoints;
   void ClearBPs();
   void ClearBP(UINT16 Address);
-  void AddBP(UINT16 Address);
+  void AddBP(json item);
   void UpdateBpBitmap(UINT16 Address, bool State);
 
 public:	

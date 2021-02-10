@@ -177,13 +177,14 @@ public:
   uint8_t BreakPointBitmap[0x2000];
   int IgnoreBPs;
 
-	mos6502();
-	void NMI();
-	void IRQ();
-	void Reset();
-	int Run(uint32_t n);
+  mos6502();
+  void NMI();
+  void IRQ();
+  void Reset();
+  int Run(uint32_t n);
   virtual void Write(uint16_t ip, uint8_t data);
   virtual uint8_t Read(uint16_t ip);
+  void InitBreakPointSystem();
 };
 
 #endif

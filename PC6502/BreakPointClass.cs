@@ -1,31 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PC6502 {
   class BREAK_POINT {
-    public UInt16 Address;
-    public int Type;
-    public int Enabled;
+    public dynamic Data = new ExpandoObject();
 
     public BREAK_POINT(UInt16 Addr) {
-      Address = Addr;
-      Type = 0;
-      Enabled = 1;
+      Data.Address = Addr;
+      Data.Data = 0;
+      Data.Access = 0;
+      Data.Register = 0;
+      Data.Compare = 0;
     }
   }
 
   class BREAK_POINT_CLASS {
-    byte[] BitmapTable = new byte[0x2000];
     public List<BREAK_POINT> Items = new List<BREAK_POINT>();
 
     public BREAK_POINT_CLASS() {
-      int i;
-      for (i = 0; i < 0x2000; i++) {
-        BitmapTable[i] = 0;
-      }
     }
 
     public void Clear() {
@@ -34,21 +30,39 @@ namespace PC6502 {
 
     public bool IsExists(UInt16 Address) {
       bool st = false;
-      int index = Items.FindIndex(x => x.Address == Address);
+      int index = Items.FindIndex(x => x.Data.Address == Address);
       if (index != -1) {
         st = true;
       }
       return st;
     }
 
-    public void Toggle(UInt16 Address) {
-      int index = Items.FindIndex(x => x.Address == Address);
+    public BREAK_POINT Find(UInt16 Address) {
+      BREAK_POINT result;
+
+      result = null;
+      int index = Items.FindIndex(x => x.Data.Address == Address);
+      if (index != -1) {
+        result = Items[index];        
+      }
+
+      return result;
+    }
+
+    public BREAK_POINT Toggle(UInt16 Address) {
+      BREAK_POINT result;
+
+      result = null;
+      int index = Items.FindIndex(x => x.Data.Address == Address);
       if (index == -1) {
         BREAK_POINT bp = new BREAK_POINT(Address);
         Items.Add(bp);
+        result = bp;
       } else {
         Items.RemoveAt(index);
       }
+
+      return result;
     }
   }
 }
