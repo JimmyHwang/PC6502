@@ -66,15 +66,21 @@ MOS6502_NMI (
 // Class Method Defination
 //
 uint8_t CLASS_MOS6502::Read(uint16_t ip) {
-  UINT8 Data;
+  UINT8 data;
   
-  Data = this->MemoryControl->Read8(this->MemoryControl, (UINTN)ip);
-  
-  return Data;
+  data = this->MemoryControl->Read8(this->MemoryControl, (UINTN)ip);
+  if (this->BP_IsMemoryHit(ip, data, false)) {
+    this->bp_flag = true;
+  }
+
+  return data;
 }
 
 void CLASS_MOS6502::Write(uint16_t ip, uint8_t data) {
   this->MemoryControl->Write8(this->MemoryControl, (UINTN)ip, (UINT8)data);
+  if (this->BP_IsMemoryHit(ip, data, false)) {
+    this->bp_flag = true;
+  }
 }
 
 //-----------------------------------------------------------------------------

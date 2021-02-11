@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <stdint.h>
+#include <list>
 using namespace std;
 
 #define NEGATIVE  0x80
@@ -46,7 +47,16 @@ using namespace std;
 #define rstVectorL 0xFFFC
 #define nmiVectorH 0xFFFB
 #define nmiVectorL 0xFFFA
-  
+
+class BREAK_POINT {
+public:
+  uint16_t Address;
+  uint8_t Data;
+  uint8_t Access;       // Execution, MemRead, MemWrite
+  uint8_t Register;     // A, X, Y
+  uint8_t Compare;      // =, >, <
+};
+
 class mos6502
 {
 private:
@@ -157,7 +167,11 @@ private:
 	// stack operations
 	inline void StackPush(uint8_t byte);
 	inline uint8_t StackPop();
-	
+
+  // Break-Point
+  bool BP_IsExecutionHit(uint16_t pc);
+  bool BP_DataCompare(BREAK_POINT *bp, uint8_t data);
+
 public:
   // registers
   uint8_t A; // accumulator
@@ -173,9 +187,12 @@ public:
   // status register
   uint8_t status;
 
-  // break point bitmap table
+  // Break-Point
   uint8_t BreakPointBitmap[0x2000];
+  list<BREAK_POINT> BreakPoints;
+  bool BP_IsMemoryHit(uint16_t addr, uint8_t data, bool write);
   int IgnoreBPs;
+  bool bp_flag;
 
   mos6502();
   void NMI();
