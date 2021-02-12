@@ -175,6 +175,12 @@ namespace PC6502 {
       } else {
         ConfigData = new JObject();
       }
+      //
+      // Preferences
+      //
+      if (!isset(ConfigData, "Preferences")) {
+        ConfigData.Preferences = new JObject();
+      }
     }
 
     void SaveConfig() {
@@ -405,6 +411,15 @@ namespace PC6502 {
       }
       if (CPU_Form != null) {
         CPU_Form.Timer();
+      }
+    }
+
+    private void preferencesToolStripMenuItem_Click(object sender, EventArgs e) {
+      var f = new PreferencesForm();
+      f.Data = ConfigData.Preferences;
+      var result = f.ShowDialog();
+      if (result == DialogResult.OK) {
+        ConfigData.Preferences = f.Data;
       }
     }
   }

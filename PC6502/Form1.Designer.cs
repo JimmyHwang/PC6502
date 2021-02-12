@@ -37,8 +37,6 @@
       this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.systemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.cPUToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.memoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.button1 = new System.Windows.Forms.Button();
@@ -51,6 +49,7 @@
       this.button_Remove = new System.Windows.Forms.Button();
       this.button_Edit = new System.Windows.Forms.Button();
       this.timer1 = new System.Windows.Forms.Timer(this.components);
+      this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStrip1.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -143,23 +142,10 @@
       // systemToolStripMenuItem
       // 
       this.systemToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cPUToolStripMenuItem,
-            this.memoryToolStripMenuItem});
+            this.preferencesToolStripMenuItem});
       this.systemToolStripMenuItem.Name = "systemToolStripMenuItem";
-      this.systemToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
-      this.systemToolStripMenuItem.Text = "System";
-      // 
-      // cPUToolStripMenuItem
-      // 
-      this.cPUToolStripMenuItem.Name = "cPUToolStripMenuItem";
-      this.cPUToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
-      this.cPUToolStripMenuItem.Text = "CPU";
-      // 
-      // memoryToolStripMenuItem
-      // 
-      this.memoryToolStripMenuItem.Name = "memoryToolStripMenuItem";
-      this.memoryToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
-      this.memoryToolStripMenuItem.Text = "Memory";
+      this.systemToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+      this.systemToolStripMenuItem.Text = "Options";
       // 
       // helpToolStripMenuItem
       // 
@@ -261,6 +247,13 @@
       // 
       this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
       // 
+      // preferencesToolStripMenuItem
+      // 
+      this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
+      this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.preferencesToolStripMenuItem.Text = "Preferences";
+      this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -312,9 +305,8 @@
     private System.Windows.Forms.Button button_Remove;
     private System.Windows.Forms.Button button_Edit;
     private System.Windows.Forms.ToolStripMenuItem systemToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem cPUToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem memoryToolStripMenuItem;
     private System.Windows.Forms.Timer timer1;
+    private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
   }
 }
 

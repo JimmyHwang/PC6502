@@ -260,7 +260,7 @@
             this.removeToolStripMenuItem,
             this.editToolStripMenuItem});
       this.contextMenuStrip_BP.Name = "contextMenuStrip_BP";
-      this.contextMenuStrip_BP.Size = new System.Drawing.Size(181, 92);
+      this.contextMenuStrip_BP.Size = new System.Drawing.Size(118, 70);
       // 
       // addToolStripMenuItem
       // 
@@ -277,7 +277,7 @@
       // editToolStripMenuItem
       // 
       this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-      this.editToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.editToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
       this.editToolStripMenuItem.Text = "Edit";
       this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
       // 
@@ -295,7 +295,7 @@
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(800, 540);
+      this.ClientSize = new System.Drawing.Size(750, 411);
       this.Controls.Add(this.button_AddBP);
       this.Controls.Add(this.button_Reload);
       this.Controls.Add(this.textBox_Status);
