@@ -35,7 +35,7 @@ MemoryRead8(
   record->Data = Data;
   wp = (wp + 1) & MEMORY_ACCESS_MASK;
   This->MemoryAccessIndex = wp;
-  if (This->MemoryAccessIndex < MEMORY_ACCESS_MAX) {
+  if (This->MemoryAccessCount < MEMORY_ACCESS_MAX) {
     This->MemoryAccessCount++;
   }
 
@@ -80,7 +80,7 @@ MemoryWrite8(
   record->Data = Data;
   wp = (wp + 1) & MEMORY_ACCESS_MASK;
   This->MemoryAccessIndex = wp;
-  if (This->MemoryAccessIndex < MEMORY_ACCESS_MAX) {
+  if (This->MemoryAccessCount < MEMORY_ACCESS_MAX) {
     This->MemoryAccessCount++;
   }
 }
