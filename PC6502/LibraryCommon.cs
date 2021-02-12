@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System.Collections.Specialized;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
+using System.Data;
 
 namespace DNA64.Library {
   public static class Common {
@@ -74,6 +75,14 @@ namespace DNA64.Library {
           .ToUpper();
         return md5;
       }
+    }
+
+    public static double Evaluate(string expression) {
+      var loDataTable = new DataTable();
+      var loDataColumn = new DataColumn("Eval", typeof(double), expression);
+      loDataTable.Columns.Add(loDataColumn);
+      loDataTable.Rows.Add(0);
+      return (double)(loDataTable.Rows[0]["Eval"]);
     }
   }
 }

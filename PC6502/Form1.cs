@@ -38,9 +38,9 @@ namespace PC6502 {
     public static extern int VM_SetCallback(IntPtr VM, [MarshalAs(UnmanagedType.FunctionPtr)] VM_Callback callbackPointer);
 
     string ConfigFile;
-    dynamic ConfigData;
+    public dynamic ConfigData;
     string ProjectFile;
-    dynamic ProjectData;
+    public dynamic ProjectData;
     IntPtr VM;
     static Queue<string> CallbackQueue = new Queue<string>();
     CpuWindow CPU_Form;
@@ -168,6 +168,14 @@ namespace PC6502 {
       }
     }
 
+    void Config2SYS() {
+      var pref = ConfigData.Preferences;
+      if (isset(pref, "GuiRefreshTime")) {
+        double GuiRefreshTime = Evaluate((string)pref.GuiRefreshTime);
+        timer1.Interval = (int)(GuiRefreshTime * 1000);
+      }
+    }
+
     void LoadConfig() {
       if (File.Exists(ConfigFile)) {
         string json_data = File.ReadAllText(@ConfigFile);
@@ -181,6 +189,7 @@ namespace PC6502 {
       if (!isset(ConfigData, "Preferences")) {
         ConfigData.Preferences = new JObject();
       }
+      Config2SYS();
     }
 
     void SaveConfig() {
@@ -381,9 +390,11 @@ namespace PC6502 {
       VM_Reset(VM);
       timer1.Enabled = true;
       CPU_Form = new CpuWindow();
-      CPU_Form.VM = VM;
+      CPU_Form.Master = this;
+      CPU_Form.VM = VM;      
       CPU_Form.Show();
       XIO_Form = new XIO_LED7Sx4();
+      XIO_Form.Master = this;
       XIO_Form.VM = VM;
       XIO_Form.Show();
     }
@@ -420,6 +431,7 @@ namespace PC6502 {
       var result = f.ShowDialog();
       if (result == DialogResult.OK) {
         ConfigData.Preferences = f.Data;
+        Config2SYS();
       }
     }
   }

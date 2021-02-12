@@ -310,6 +310,7 @@
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.Name = "CpuWindow";
       this.Text = "CPU";
+      this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CpuWindow_FormClosing);
       this.Load += new System.EventHandler(this.CpuWindow_Load);
       this.contextMenuStrip_Opcode.ResumeLayout(false);
       this.contextMenuStrip_BP.ResumeLayout(false);

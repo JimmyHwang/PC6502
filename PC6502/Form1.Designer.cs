@@ -25,7 +25,6 @@
     private void InitializeComponent() {
       this.components = new System.ComponentModel.Container();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-      this.button_Test = new System.Windows.Forms.Button();
       this.menuStrip1 = new System.Windows.Forms.MenuStrip();
       this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -37,9 +36,9 @@
       this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.systemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.button1 = new System.Windows.Forms.Button();
       this.listView_Device = new System.Windows.Forms.ListView();
       this.columnHeader_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
       this.columnHeader_Base = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -49,19 +48,8 @@
       this.button_Remove = new System.Windows.Forms.Button();
       this.button_Edit = new System.Windows.Forms.Button();
       this.timer1 = new System.Windows.Forms.Timer(this.components);
-      this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStrip1.SuspendLayout();
       this.SuspendLayout();
-      // 
-      // button_Test
-      // 
-      this.button_Test.Location = new System.Drawing.Point(713, 415);
-      this.button_Test.Name = "button_Test";
-      this.button_Test.Size = new System.Drawing.Size(75, 23);
-      this.button_Test.TabIndex = 0;
-      this.button_Test.Text = "Test";
-      this.button_Test.UseVisualStyleBackColor = true;
-      this.button_Test.Click += new System.EventHandler(this.button_Test_Click);
       // 
       // menuStrip1
       // 
@@ -72,7 +60,7 @@
             this.helpToolStripMenuItem});
       this.menuStrip1.Location = new System.Drawing.Point(0, 0);
       this.menuStrip1.Name = "menuStrip1";
-      this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+      this.menuStrip1.Size = new System.Drawing.Size(415, 24);
       this.menuStrip1.TabIndex = 1;
       this.menuStrip1.Text = "menuStrip1";
       // 
@@ -147,6 +135,13 @@
       this.systemToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
       this.systemToolStripMenuItem.Text = "Options";
       // 
+      // preferencesToolStripMenuItem
+      // 
+      this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
+      this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+      this.preferencesToolStripMenuItem.Text = "Preferences";
+      this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
+      // 
       // helpToolStripMenuItem
       // 
       this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -160,16 +155,6 @@
       this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
       this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
       this.aboutToolStripMenuItem.Text = "About";
-      // 
-      // button1
-      // 
-      this.button1.Location = new System.Drawing.Point(713, 386);
-      this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(75, 23);
-      this.button1.TabIndex = 2;
-      this.button1.Text = "button1";
-      this.button1.UseVisualStyleBackColor = true;
-      this.button1.Click += new System.EventHandler(this.button1_Click);
       // 
       // listView_Device
       // 
@@ -247,25 +232,16 @@
       // 
       this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
       // 
-      // preferencesToolStripMenuItem
-      // 
-      this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
-      this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-      this.preferencesToolStripMenuItem.Text = "Preferences";
-      this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
-      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(800, 450);
+      this.ClientSize = new System.Drawing.Size(415, 316);
       this.Controls.Add(this.button_Edit);
       this.Controls.Add(this.button_Remove);
       this.Controls.Add(this.button_Add);
       this.Controls.Add(this.button_Launch);
       this.Controls.Add(this.listView_Device);
-      this.Controls.Add(this.button1);
-      this.Controls.Add(this.button_Test);
       this.Controls.Add(this.menuStrip1);
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.MainMenuStrip = this.menuStrip1;
@@ -281,8 +257,6 @@
     }
 
     #endregion
-
-    private System.Windows.Forms.Button button_Test;
     private System.Windows.Forms.MenuStrip menuStrip1;
     private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
@@ -290,7 +264,6 @@
     private System.Windows.Forms.ToolStripMenuItem recentFilesToolStripMenuItem;
     private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
     private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-    private System.Windows.Forms.Button button1;
     private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;

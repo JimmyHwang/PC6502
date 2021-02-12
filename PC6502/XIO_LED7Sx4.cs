@@ -31,9 +31,10 @@ namespace PC6502 {
     [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe IntPtr VM_Talk(IntPtr VM, string msg);
 
+    public Form1 Master;
     public IntPtr VM;
 
-    public XIO_LED7Sx4() {
+    public XIO_LED7Sx4() {      
       InitializeComponent();
       sevenSegment1.ColorLight = Color.LightGreen;
       sevenSegment1.ColorDark = Color.Gray;

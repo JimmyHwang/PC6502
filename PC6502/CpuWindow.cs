@@ -38,6 +38,7 @@ namespace PC6502 {
     public const int RUNNING_FLAGS_THREAD = 2;
     public const int DEFAULT_RUN_COUNT = 0x10;
 
+    public Form1 Master;
     public IntPtr VM;
     List<UInt16> InstructionAddress = new List<UInt16>();
     int Running = 0;                    // 0: Stop, 1: Run, 3: Run with Thread
@@ -63,7 +64,6 @@ namespace PC6502 {
           listView_Opcode.Items.Add(lvitem);
         }
       }
-      //Console.WriteLine("CPU Form:"+jstr);      
     }
 
     void ClearBreakPointBitmap() {
@@ -288,8 +288,12 @@ namespace PC6502 {
     private void button_Run_Click(object sender, EventArgs e) {
       VM_SetIgnoreBPs(1);
       if (Running == 0) {               // Stop to Run
-        //SwitchRunStop(RUNNING_FLAGS_START);
-        SwitchRunStop(RUNNING_FLAGS_START | RUNNING_FLAGS_THREAD);
+        Form1 master = this.Master;
+        if (master.ConfigData.Preferences.ExecutionMode == "Multi-Thread") {
+          SwitchRunStop(RUNNING_FLAGS_START | RUNNING_FLAGS_THREAD);
+        } else {
+          SwitchRunStop(RUNNING_FLAGS_START);
+        }
       } else {                          // Run to Stop
         SwitchRunStop(RUNNING_FLAGS_STOP);
       }
@@ -460,6 +464,12 @@ namespace PC6502 {
           VM_UpdateBPs();
           RefreshCpuStatus();
         }
+      }
+    }
+
+    private void CpuWindow_FormClosing(object sender, FormClosingEventArgs e) {
+      if (Running != RUNNING_FLAGS_STOP) {
+        SwitchRunStop(RUNNING_FLAGS_STOP);
       }
     }
   }
