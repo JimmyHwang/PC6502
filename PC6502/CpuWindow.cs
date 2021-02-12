@@ -17,7 +17,9 @@ namespace PC6502 {
     [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe int VM_Reset(IntPtr VM);
     [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
-    public static extern unsafe int VM_Run(IntPtr VM, int Count);
+    public static extern unsafe int VM_Run(IntPtr VM, UInt32 Count);
+    [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
+    public static extern unsafe int VM_Halt(IntPtr VM);
     [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
     public static extern unsafe IntPtr VM_GetRegisters(IntPtr VM);
     [DllImport(@"CPU_6502.dll", CallingConvention = CallingConvention.StdCall)]
@@ -29,13 +31,18 @@ namespace PC6502 {
 
     public const int DNA_SUCCESS = 0x00;
     public const int DNA_BREAK_POINT = 0x10;
-    public const int VM_STEP_OVER_FLAG = 0x1000000;
+    public const UInt32 VM_THREAD_FLAG = 0x80000000;
+    public const UInt32 VM_STEP_OVER_FLAG = 0x01000000;
+    public const int RUNNING_FLAGS_STOP = 0;
+    public const int RUNNING_FLAGS_START = 1;
+    public const int RUNNING_FLAGS_THREAD = 2;
+    public const int DEFAULT_RUN_COUNT = 0x10;
 
     public IntPtr VM;
     List<UInt16> InstructionAddress = new List<UInt16>();
-    bool Running = false;
+    int Running = 0;                    // 0: Stop, 1: Run, 3: Run with Thread
     BREAK_POINT_CLASS BpObj = new BREAK_POINT_CLASS();
-    int VM_OperationFlags = 0;
+    UInt32 VM_OperationFlags = 0;
 
     public CpuWindow() {
       InitializeComponent();
@@ -229,28 +236,34 @@ namespace PC6502 {
 
     private void button_Reset_Click(object sender, EventArgs e) {
       VM_Reset(VM);
-      SwitchRunStop("Stop");
+      SwitchRunStop(RUNNING_FLAGS_STOP);
     }
 
     private void button_Reload_Click(object sender, EventArgs e) {
       VM_Reload();
       VM_Reset(VM);
-      SwitchRunStop("Stop");
+      SwitchRunStop(RUNNING_FLAGS_STOP);
     }
 
     // 
-    // Mode 0 = Stop
-    // Mode 1 = Run
+    // Bit 0 = Run Flag
+    // Bit 1 = Thread Flag
     //
-    void SwitchRunStop(string mode) {
-      if (mode == "Stop") {             // Stop
-        Running = false;
+    void SwitchRunStop(int run_mode) {
+      if (run_mode == RUNNING_FLAGS_STOP) {               // Stop
+        if ((Running & RUNNING_FLAGS_THREAD) != 0) {
+          VM_Halt(VM);
+        }
+        Running = run_mode;
         button_Run.Text = "Run";
         RefreshCpuStatus();
         button_StepOver.Enabled = true;
         button_Step.Enabled = true;
-      } else if (mode == "Run") {       // Run
-        Running = true;
+      } else if ((run_mode & RUNNING_FLAGS_START) != 0) { // Run
+        if ((run_mode & RUNNING_FLAGS_THREAD) != 0) {
+          VM_Run(VM, VM_THREAD_FLAG + 0);
+        }
+        Running = run_mode;
         button_Run.Text = "Stop";
         button_StepOver.Enabled = false;
         button_Step.Enabled = false;
@@ -274,21 +287,25 @@ namespace PC6502 {
     
     private void button_Run_Click(object sender, EventArgs e) {
       VM_SetIgnoreBPs(1);
-      if (Running) {                    // Switch to STOP
-        SwitchRunStop("Stop");
-      } else {                          // Switch to RUN
-        SwitchRunStop("Run");
+      if (Running == 0) {               // Stop to Run
+        //SwitchRunStop(RUNNING_FLAGS_START);
+        SwitchRunStop(RUNNING_FLAGS_START | RUNNING_FLAGS_THREAD);
+      } else {                          // Run to Stop
+        SwitchRunStop(RUNNING_FLAGS_STOP);
       }
     }
 
     public void Timer() {
       int Status;
-      if (Running) {
-        Status = VM_Run(VM, VM_OperationFlags + 16);
+      //
+      // Running with Timer only work with START=1 and THREAD=0
+      //
+      if ((Running & RUNNING_FLAGS_THREAD) == 0 && (Running & RUNNING_FLAGS_START) != 0) {
+        Status = VM_Run(VM, VM_OperationFlags + DEFAULT_RUN_COUNT);
         if (Status == DNA_BREAK_POINT) {
-          SwitchRunStop("Stop");
+          SwitchRunStop(RUNNING_FLAGS_STOP);
         }
-      }      
+      }
     }
 
     private void listView_Opcode_MouseClick(object sender, MouseEventArgs e) {

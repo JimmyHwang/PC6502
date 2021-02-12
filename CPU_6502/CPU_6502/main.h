@@ -2,6 +2,8 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
+#include <windows.h>
+#include <process.h>
 #include "typedef.h"
 #include "nlohmann/json.hpp"
 using json = nlohmann::json;
@@ -32,6 +34,7 @@ extern "C"
   __declspec(dllexport) int __stdcall FreeVM(void *vm);
   __declspec(dllexport) int __stdcall VM_Reset(void *vm);
   __declspec(dllexport) int __stdcall VM_Run(void *vm, int count);
+  __declspec(dllexport) int __stdcall VM_Halt(void *vm);
   __declspec(dllexport) int __stdcall AddDeviceRAM(void *vm, UINT16 Base, UINT16 Size);
   __declspec(dllexport) int __stdcall AddDeviceROM(void *vm, UINT16 Base, UINT16 Size, char *filename);
   __declspec(dllexport) int __stdcall AddDeviceXIO(void *vm, UINT16 Base, UINT16 Size);

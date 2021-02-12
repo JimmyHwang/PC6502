@@ -193,11 +193,16 @@ public:
   bool BP_IsMemoryHit(uint16_t addr, uint8_t data, bool write);
   int IgnoreBPs;
   bool bp_flag;
+  
+  // Thread
+  bool halt_flag;
+  bool running_flag;
 
   mos6502();
   void NMI();
   void IRQ();
   void Reset();
+  int Halt();
   int Run(uint32_t n);
   virtual void Write(uint16_t ip, uint8_t data);
   virtual uint8_t Read(uint16_t ip);

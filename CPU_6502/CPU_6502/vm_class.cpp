@@ -357,8 +357,35 @@ DNA_STATUS VM_CLASS::Run(int count) {
     } else {
       Status = this->CpuControl->Run(this->CpuControl, 1);
     }
+  } else if (flag & VM_THREAD_FLAG) {
+    ThreadRunningFlag = true;
+    if (count == 0) {
+      ThreadContinueFlag = true;
+      count = 0x1000;
+    } else {
+      ThreadContinueFlag = false;
+    }
+    do {
+      Status = this->CpuControl->Run(this->CpuControl, count);
+      if (Status == DNA_BREAK_POINT) {
+        break;
+      }
+    } while (ThreadContinueFlag);
+    ThreadRunningFlag = false;
   } else {
     Status = this->CpuControl->Run(this->CpuControl, count);
+  }
+
+  return Status;
+}
+
+DNA_STATUS VM_CLASS::Halt() {
+  DNA_STATUS Status;
+
+  if (ThreadRunningFlag) {
+    Status = this->CpuControl->Halt (this->CpuControl);  
+  } else {
+    Status = DNA_NOT_FOUND;
   }
 
   return Status;

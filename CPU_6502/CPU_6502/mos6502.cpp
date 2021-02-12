@@ -1,11 +1,16 @@
 #include "mos6502.h"
 #include "dna_status.h"
+#include "debug.h"
 
 mos6502::mos6502()
 {
   Instr instr;
 
+  //
+  // Initialize Break-Point
+  //
   InitBreakPointSystem();
+  halt_flag = false;
   //
   // fill jump table with ILLEGALs
   //
@@ -832,7 +837,8 @@ int mos6502::Run(uint32_t count) {
   Instr instr;
   int status = DNA_SUCCESS;
 
-  while(start + count > cycles && !illegalOpcode) {
+  running_flag = true;
+  while (start + count > cycles && !illegalOpcode) {
     if (BP_IsExecutionHit(pc)) {        // Check execuation break
       status = DNA_BREAK_POINT;
       break;
@@ -852,11 +858,30 @@ int mos6502::Run(uint32_t count) {
         bp_flag = false;
         status = DNA_BREAK_POINT;
         break;
+      } else if (halt_flag) {
+        break;
       }
     }
   }
+  running_flag = false;
 
   return status;
+}
+
+int mos6502::Halt() {
+  DNA_STATUS Status;
+
+  if (running_flag) {
+    halt_flag = true;
+    while (running_flag) {
+    }
+    halt_flag = false;
+    Status = DNA_SUCCESS;
+  } else {
+    Status = DNA_NOT_FOUND;
+  }
+
+  return Status;
 }
 
 void mos6502::Exec(Instr i)

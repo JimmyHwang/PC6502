@@ -34,7 +34,7 @@ VOID
 );
 
 typedef
-VOID
+int
 (*CPU_CONTROL_PROTOCOL_HALT)(
   CPU_CONTROL_PROTOCOL *This
 );
@@ -46,22 +46,6 @@ int
   UINTN Count
 );
 
-typedef
-DNA_STATUS
-(*CPU_CONTROL_PROTOCOL_SET)(
-  CPU_CONTROL_PROTOCOL *This,
-  int Index,
-  UINTN Data
-);
-
-typedef
-DNA_STATUS
-(*CPU_CONTROL_PROTOCOL_GET)(
-  CPU_CONTROL_PROTOCOL *This,
-  int Index,
-  UINTN *Data
-);
-
 //
 // Services to access to images in the images database.
 //
@@ -71,8 +55,6 @@ struct _CPU_CONTROL_PROTOCOL {
   CPU_CONTROL_PROTOCOL_IRQ                  IRQ;
   CPU_CONTROL_PROTOCOL_NMI                  NMI;
   CPU_CONTROL_PROTOCOL_HALT                 Halt;
-  CPU_CONTROL_PROTOCOL_SET                  Set;
-  CPU_CONTROL_PROTOCOL_GET                  Get;
 };
 
 //extern EFI_GUID gEfiHpHiiImage2ProtocolGuid;

@@ -23,10 +23,6 @@ typedef const WCHAR* LPCWSTR;
 #define LPCTSTR LPCSTR
 #endif   
 
-void OutputDebugStringW(
-	LPCWSTR lpOutputString
-);
-
 void DebugOut(const wchar_t *fmt, ...);
 
 #endif

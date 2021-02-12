@@ -62,6 +62,16 @@ MOS6502_NMI (
   This->NMI();
 }
 
+int
+MOS6502_Halt (
+  CPU_CONTROL_PROTOCOL *Protocol
+) {
+  CLASS_MOS6502 *This;
+
+  This = _CR(Protocol, CLASS_MOS6502, CpuControl);
+  return This->Halt();
+}
+
 //
 // Class Method Defination
 //
@@ -170,5 +180,5 @@ CLASS_MOS6502::CLASS_MOS6502():mos6502() {
   this->CpuControl.Reset = MOS6502_Reset;
   this->CpuControl.IRQ = MOS6502_IRQ;
   this->CpuControl.NMI = MOS6502_NMI;
-
+  this->CpuControl.Halt = MOS6502_Halt;
 }

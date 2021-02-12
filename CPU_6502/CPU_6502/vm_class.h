@@ -15,7 +15,8 @@ typedef void(__stdcall *VM_Callback)(char *);
 #define MEMORY_ACCESS_READ  0
 #define MEMORY_ACCESS_WRITE 1
 
-#define VM_STEP_OVER_FLAG   0x1000000
+#define VM_THREAD_FLAG      0x80000000
+#define VM_STEP_OVER_FLAG   0x01000000
 
 typedef struct {
   bool Mode;                    // 0:Read, 1:Write
@@ -35,6 +36,13 @@ public:
   int DeviceCount;
   BASE_DEVICE_CLASS *DeviceMappingTable[16];
 
+  //
+  // Thread
+  //
+  HANDLE Thread;
+  bool ThreadRunningFlag;
+  bool ThreadContinueFlag;
+
   UINT8 *ShadowMemory;
   MEMORY_ACCESS MemoryAccessHistory[MEMORY_ACCESS_MAX];
   int MemoryAccessIndex = 0;
@@ -53,6 +61,7 @@ public:
   DNA_STATUS Reload();
   DNA_STATUS Reset();
   DNA_STATUS Run(int count);
+  DNA_STATUS Halt();
   char *Talk(char *message);
 };
 #endif

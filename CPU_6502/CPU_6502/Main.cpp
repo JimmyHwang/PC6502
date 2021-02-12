@@ -40,11 +40,54 @@ int VM_Reset(void *vm) {
   return Status;
 }
 
-int VM_Run(void *vm, int count) {
+typedef struct  {
+  VM_CLASS *VM;
+  UINT32 Count;
+} VM_RUN_ARGS;
+
+DWORD WINAPI VM_RunThread(LPVOID lpParameter) {
   DNA_STATUS Status;
+  VM_RUN_ARGS *Args;
+  VM_CLASS *VM;
+  UINT32 Count;
+
+  Args = (VM_RUN_ARGS *)lpParameter;
+  VM = Args->VM;
+  Count = Args->Count;
+  Status = VM->Run(Count);
+  return 0;
+}
+
+int VM_Run(void *vm, int count) {
+  DNA_STATUS Status = DNA_SUCCESS;
   VM_CLASS *VM = (VM_CLASS *)vm;
 
-  Status = VM->Run(count);
+  if (count & VM_THREAD_FLAG) {
+    VM_RUN_ARGS *Args;
+    Args = (VM_RUN_ARGS*)malloc(sizeof(VM_RUN_ARGS));
+    Args->VM = VM;
+    Args->Count = count;
+    VM->Thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)VM_RunThread, Args, 0, NULL);
+  } else {
+    Status = VM->Run(count);
+  }
+
+  return Status;
+}
+
+int VM_Halt(void *vm) {
+  DNA_STATUS Status = DNA_SUCCESS;
+  VM_CLASS *VM = (VM_CLASS *)vm;
+
+  if (VM->Thread != NULL) {
+    Status = VM->Halt();
+    TerminateThread(VM->Thread, 0);
+    WaitForSingleObject(VM->Thread, INFINITE);
+    CloseHandle(VM->Thread);
+    VM->Thread = NULL;
+  } else {
+    Status = DNA_NOT_FOUND;
+  }
 
   return Status;
 }

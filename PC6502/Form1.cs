@@ -388,19 +388,19 @@ namespace PC6502 {
     }
 
     static VM_Callback callback = (jstr) => {
-      //Console.WriteLine("The result of the C++ function is {0}", jstr);
       CallbackQueue.Enqueue(jstr);
     };
 
     private void timer1_Tick(object sender, EventArgs e) {
-      if (CallbackQueue.Count > 0) {
+      while (CallbackQueue.Count > 0) {
         var jstr = CallbackQueue.Dequeue();
-        //Console.WriteLine("timer1=" + jstr);
-        var data = json_decode(jstr);
-        if (data.Target == "CPU") {
-          CPU_Form.Callback(data);
-        } else if (data.Target == "XIO") {
-          XIO_Form.Callback(data);
+        if (jstr != null) {
+          var data = json_decode(jstr);
+          if (data.Target == "CPU") {
+            CPU_Form.Callback(data);
+          } else if (data.Target == "XIO") {
+            XIO_Form.Callback(data);
+          }
         }
       }
       if (CPU_Form != null) {
