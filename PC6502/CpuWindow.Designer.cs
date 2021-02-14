@@ -53,6 +53,7 @@
       this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.button_AddBP = new System.Windows.Forms.Button();
+      this.timer_CPU = new System.Windows.Forms.Timer(this.components);
       this.contextMenuStrip_Opcode.SuspendLayout();
       this.contextMenuStrip_BP.SuspendLayout();
       this.SuspendLayout();
@@ -67,10 +68,10 @@
       this.listView_Opcode.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.listView_Opcode.FullRowSelect = true;
       this.listView_Opcode.HideSelection = false;
-      this.listView_Opcode.Location = new System.Drawing.Point(12, 12);
+      this.listView_Opcode.Location = new System.Drawing.Point(12, 13);
       this.listView_Opcode.MultiSelect = false;
       this.listView_Opcode.Name = "listView_Opcode";
-      this.listView_Opcode.Size = new System.Drawing.Size(321, 389);
+      this.listView_Opcode.Size = new System.Drawing.Size(321, 421);
       this.listView_Opcode.TabIndex = 0;
       this.listView_Opcode.UseCompatibleStateImageBehavior = false;
       this.listView_Opcode.View = System.Windows.Forms.View.Details;
@@ -97,9 +98,9 @@
       // 
       // button_Run
       // 
-      this.button_Run.Location = new System.Drawing.Point(339, 320);
+      this.button_Run.Location = new System.Drawing.Point(339, 347);
       this.button_Run.Name = "button_Run";
-      this.button_Run.Size = new System.Drawing.Size(75, 23);
+      this.button_Run.Size = new System.Drawing.Size(75, 25);
       this.button_Run.TabIndex = 2;
       this.button_Run.Text = "Run";
       this.button_Run.UseVisualStyleBackColor = true;
@@ -107,9 +108,9 @@
       // 
       // button_Step
       // 
-      this.button_Step.Location = new System.Drawing.Point(339, 378);
+      this.button_Step.Location = new System.Drawing.Point(339, 410);
       this.button_Step.Name = "button_Step";
-      this.button_Step.Size = new System.Drawing.Size(75, 23);
+      this.button_Step.Size = new System.Drawing.Size(75, 25);
       this.button_Step.TabIndex = 3;
       this.button_Step.Text = "Step Into";
       this.button_Step.UseVisualStyleBackColor = true;
@@ -117,9 +118,9 @@
       // 
       // button_Reset
       // 
-      this.button_Reset.Location = new System.Drawing.Point(339, 12);
+      this.button_Reset.Location = new System.Drawing.Point(339, 13);
       this.button_Reset.Name = "button_Reset";
-      this.button_Reset.Size = new System.Drawing.Size(75, 23);
+      this.button_Reset.Size = new System.Drawing.Size(75, 25);
       this.button_Reset.TabIndex = 4;
       this.button_Reset.Text = "Reset";
       this.button_Reset.UseVisualStyleBackColor = true;
@@ -134,10 +135,10 @@
       this.listView_MemoryHistory.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.listView_MemoryHistory.FullRowSelect = true;
       this.listView_MemoryHistory.HideSelection = false;
-      this.listView_MemoryHistory.Location = new System.Drawing.Point(582, 12);
+      this.listView_MemoryHistory.Location = new System.Drawing.Point(582, 13);
       this.listView_MemoryHistory.Name = "listView_MemoryHistory";
       this.listView_MemoryHistory.Scrollable = false;
-      this.listView_MemoryHistory.Size = new System.Drawing.Size(156, 389);
+      this.listView_MemoryHistory.Size = new System.Drawing.Size(156, 421);
       this.listView_MemoryHistory.TabIndex = 9;
       this.listView_MemoryHistory.UseCompatibleStateImageBehavior = false;
       this.listView_MemoryHistory.View = System.Windows.Forms.View.Details;
@@ -165,9 +166,9 @@
       this.listView_Registers.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.listView_Registers.FullRowSelect = true;
       this.listView_Registers.HideSelection = false;
-      this.listView_Registers.Location = new System.Drawing.Point(420, 12);
+      this.listView_Registers.Location = new System.Drawing.Point(420, 13);
       this.listView_Registers.Name = "listView_Registers";
-      this.listView_Registers.Size = new System.Drawing.Size(156, 139);
+      this.listView_Registers.Size = new System.Drawing.Size(156, 150);
       this.listView_Registers.TabIndex = 10;
       this.listView_Registers.UseCompatibleStateImageBehavior = false;
       this.listView_Registers.View = System.Windows.Forms.View.Details;
@@ -184,9 +185,9 @@
       // 
       // button_StepOver
       // 
-      this.button_StepOver.Location = new System.Drawing.Point(339, 349);
+      this.button_StepOver.Location = new System.Drawing.Point(339, 378);
       this.button_StepOver.Name = "button_StepOver";
-      this.button_StepOver.Size = new System.Drawing.Size(75, 23);
+      this.button_StepOver.Size = new System.Drawing.Size(75, 25);
       this.button_StepOver.TabIndex = 11;
       this.button_StepOver.Text = "Step Over";
       this.button_StepOver.UseVisualStyleBackColor = true;
@@ -200,9 +201,9 @@
       this.listView_BPs.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.listView_BPs.FullRowSelect = true;
       this.listView_BPs.HideSelection = false;
-      this.listView_BPs.Location = new System.Drawing.Point(420, 157);
+      this.listView_BPs.Location = new System.Drawing.Point(420, 170);
       this.listView_BPs.Name = "listView_BPs";
-      this.listView_BPs.Size = new System.Drawing.Size(156, 244);
+      this.listView_BPs.Size = new System.Drawing.Size(156, 264);
       this.listView_BPs.TabIndex = 12;
       this.listView_BPs.UseCompatibleStateImageBehavior = false;
       this.listView_BPs.View = System.Windows.Forms.View.Details;
@@ -224,30 +225,30 @@
       this.contextMenuStrip_Opcode.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toggleBreakPointToolStripMenuItem});
       this.contextMenuStrip_Opcode.Name = "contextMenuStrip_Opcode";
-      this.contextMenuStrip_Opcode.Size = new System.Drawing.Size(170, 26);
+      this.contextMenuStrip_Opcode.Size = new System.Drawing.Size(179, 26);
       // 
       // toggleBreakPointToolStripMenuItem
       // 
       this.toggleBreakPointToolStripMenuItem.Name = "toggleBreakPointToolStripMenuItem";
-      this.toggleBreakPointToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+      this.toggleBreakPointToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
       this.toggleBreakPointToolStripMenuItem.Text = "Toggle BreakPoint";
       this.toggleBreakPointToolStripMenuItem.Click += new System.EventHandler(this.toggleBreakPointToolStripMenuItem_Click);
       // 
       // textBox_Status
       // 
       this.textBox_Status.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.textBox_Status.Location = new System.Drawing.Point(339, 114);
+      this.textBox_Status.Location = new System.Drawing.Point(339, 124);
       this.textBox_Status.Multiline = true;
       this.textBox_Status.Name = "textBox_Status";
       this.textBox_Status.ReadOnly = true;
-      this.textBox_Status.Size = new System.Drawing.Size(75, 37);
+      this.textBox_Status.Size = new System.Drawing.Size(75, 40);
       this.textBox_Status.TabIndex = 13;
       // 
       // button_Reload
       // 
-      this.button_Reload.Location = new System.Drawing.Point(339, 41);
+      this.button_Reload.Location = new System.Drawing.Point(339, 44);
       this.button_Reload.Name = "button_Reload";
-      this.button_Reload.Size = new System.Drawing.Size(75, 23);
+      this.button_Reload.Size = new System.Drawing.Size(75, 25);
       this.button_Reload.TabIndex = 14;
       this.button_Reload.Text = "Reload";
       this.button_Reload.UseVisualStyleBackColor = true;
@@ -260,42 +261,46 @@
             this.removeToolStripMenuItem,
             this.editToolStripMenuItem});
       this.contextMenuStrip_BP.Name = "contextMenuStrip_BP";
-      this.contextMenuStrip_BP.Size = new System.Drawing.Size(118, 70);
+      this.contextMenuStrip_BP.Size = new System.Drawing.Size(122, 70);
       // 
       // addToolStripMenuItem
       // 
       this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-      this.addToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+      this.addToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
       this.addToolStripMenuItem.Text = "Add";
       // 
       // removeToolStripMenuItem
       // 
       this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-      this.removeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+      this.removeToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
       this.removeToolStripMenuItem.Text = "Remove";
       // 
       // editToolStripMenuItem
       // 
       this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-      this.editToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+      this.editToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
       this.editToolStripMenuItem.Text = "Edit";
       this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
       // 
       // button_AddBP
       // 
-      this.button_AddBP.Location = new System.Drawing.Point(339, 157);
+      this.button_AddBP.Location = new System.Drawing.Point(339, 170);
       this.button_AddBP.Name = "button_AddBP";
-      this.button_AddBP.Size = new System.Drawing.Size(75, 23);
+      this.button_AddBP.Size = new System.Drawing.Size(75, 25);
       this.button_AddBP.TabIndex = 15;
       this.button_AddBP.Text = "Add BP";
       this.button_AddBP.UseVisualStyleBackColor = true;
       this.button_AddBP.Click += new System.EventHandler(this.button_AddBP_Click);
       // 
+      // timer_CPU
+      // 
+      this.timer_CPU.Tick += new System.EventHandler(this.timer_CPU_Tick);
+      // 
       // CpuWindow
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(750, 411);
+      this.ClientSize = new System.Drawing.Size(750, 445);
       this.Controls.Add(this.button_AddBP);
       this.Controls.Add(this.button_Reload);
       this.Controls.Add(this.textBox_Status);
@@ -349,5 +354,6 @@
     private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
     private System.Windows.Forms.Button button_AddBP;
+    private System.Windows.Forms.Timer timer_CPU;
   }
 }

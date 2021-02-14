@@ -36,14 +36,13 @@ namespace PC6502 {
     public const int RUNNING_FLAGS_STOP = 0;
     public const int RUNNING_FLAGS_START = 1;
     public const int RUNNING_FLAGS_THREAD = 2;
-    public const int DEFAULT_RUN_COUNT = 0x10;
 
     public Form1 Master;
     public IntPtr VM;
     List<UInt16> InstructionAddress = new List<UInt16>();
     int Running = 0;                    // 0: Stop, 1: Run, 3: Run with Thread
     BREAK_POINT_CLASS BpObj = new BREAK_POINT_CLASS();
-    UInt32 VM_OperationFlags = 0;
+    UInt16 ExecutionCount = 0x10;
 
     public CpuWindow() {
       InitializeComponent();
@@ -51,6 +50,11 @@ namespace PC6502 {
 
     private void CpuWindow_Load(object sender, EventArgs e) {
       RefreshCpuStatus();
+      Form1 master = this.Master;
+      dynamic pref = master.ConfigData.Preferences;
+      double exec_inteleaved = Evaluate((string)pref.ExecutionInterleaved);
+      timer_CPU.Interval = (int)(exec_inteleaved * 1000);
+      ExecutionCount = (UInt16)Convert.ToUInt16((string)pref.ExecutionCount, 16);
     }
 
     public void Callback(dynamic cmd) {
@@ -224,13 +228,13 @@ namespace PC6502 {
 
     private void button_Step_Click(object sender, EventArgs e) {
       VM_SetIgnoreBPs(1);
-      VM_Run(VM, VM_OperationFlags + 1);
+      VM_Run(VM, 1);
       RefreshCpuStatus();
     }
 
     private void button_StepOver_Click(object sender, EventArgs e) {
       VM_SetIgnoreBPs(1);
-      VM_Run(VM, VM_OperationFlags + VM_STEP_OVER_FLAG + 1);
+      VM_Run(VM, VM_STEP_OVER_FLAG + 1);
       RefreshCpuStatus();
     }
 
@@ -253,6 +257,8 @@ namespace PC6502 {
       if (run_mode == RUNNING_FLAGS_STOP) {               // Stop
         if ((Running & RUNNING_FLAGS_THREAD) != 0) {
           VM_Halt(VM);
+        } else {
+          timer_CPU.Enabled = false;
         }
         Running = run_mode;
         button_Run.Text = "Run";
@@ -262,6 +268,8 @@ namespace PC6502 {
       } else if ((run_mode & RUNNING_FLAGS_START) != 0) { // Run
         if ((run_mode & RUNNING_FLAGS_THREAD) != 0) {
           VM_Run(VM, VM_THREAD_FLAG + 0);
+        } else {
+          timer_CPU.Enabled = true;
         }
         Running = run_mode;
         button_Run.Text = "Stop";
@@ -299,18 +307,6 @@ namespace PC6502 {
       }
     }
 
-    public void Timer() {
-      int Status;
-      //
-      // Running with Timer only work with START=1 and THREAD=0
-      //
-      if ((Running & RUNNING_FLAGS_THREAD) == 0 && (Running & RUNNING_FLAGS_START) != 0) {
-        Status = VM_Run(VM, VM_OperationFlags + DEFAULT_RUN_COUNT);
-        if (Status == DNA_BREAK_POINT) {
-          SwitchRunStop(RUNNING_FLAGS_STOP);
-        }
-      }
-    }
 
     private void listView_Opcode_MouseClick(object sender, MouseEventArgs e) {
       if (e.Button == MouseButtons.Right) {
@@ -471,6 +467,23 @@ namespace PC6502 {
       if (Running != RUNNING_FLAGS_STOP) {
         SwitchRunStop(RUNNING_FLAGS_STOP);
       }
+    }
+
+    public void Timer() {
+      int Status;
+      //
+      // Running with Timer only work with START=1 and THREAD=0
+      //
+      if ((Running & RUNNING_FLAGS_THREAD) == 0 && (Running & RUNNING_FLAGS_START) != 0) {
+        Status = VM_Run(VM, ExecutionCount);
+        if (Status == DNA_BREAK_POINT) {
+          SwitchRunStop(RUNNING_FLAGS_STOP);
+        }
+      }
+    }
+
+    private void timer_CPU_Tick(object sender, EventArgs e) {
+      Timer();
     }
   }
 }

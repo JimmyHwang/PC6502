@@ -187,7 +187,10 @@ namespace PC6502 {
       // Preferences
       //
       if (!isset(ConfigData, "Preferences")) {
-        ConfigData.Preferences = new JObject();
+        PreferencesForm pform = new PreferencesForm();
+        pform.Data = new JObject();
+        pform.DefaultConfig();
+        ConfigData.Preferences = pform.Data;
       }
       Config2SYS();
     }
@@ -419,9 +422,6 @@ namespace PC6502 {
             XIO_Form.Callback(data);
           }
         }
-      }
-      if (CPU_Form != null) {
-        CPU_Form.Timer();
       }
     }
 

@@ -17,6 +17,11 @@ namespace PC6502 {
       InitializeComponent();
     }
 
+    public void DefaultConfig() {
+      Config2UI();
+      UI2Config();
+    }
+
     void UI2Config() {
       //
       // System
