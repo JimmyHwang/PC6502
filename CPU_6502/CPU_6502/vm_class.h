@@ -15,8 +15,9 @@ typedef void(__stdcall *VM_Callback)(char *);
 #define MEMORY_ACCESS_READ  0
 #define MEMORY_ACCESS_WRITE 1
 
-#define VM_THREAD_FLAG      0x80000000
-#define VM_STEP_OVER_FLAG   0x01000000
+#define VM_THREAD_FLAG                  0x80000000
+#define VM_THREAD_COUNT_FLAG            0x40000000
+#define VM_STEP_OVER_FLAG               0x01000000
 
 typedef struct {
   bool Mode;                    // 0:Read, 1:Write

@@ -359,7 +359,9 @@ DNA_STATUS VM_CLASS::Run(int count) {
     }
   } else if (flag & VM_THREAD_FLAG) {
     ThreadRunningFlag = true;
-    if (count == 0) {
+    if (flag & VM_THREAD_COUNT_FLAG) {
+      ThreadContinueFlag = true;
+    } else if (count == 0) {
       ThreadContinueFlag = true;
       count = 0x1000;
     } else {

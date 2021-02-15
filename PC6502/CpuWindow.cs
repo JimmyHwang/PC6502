@@ -32,6 +32,7 @@ namespace PC6502 {
     public const int DNA_SUCCESS = 0x00;
     public const int DNA_BREAK_POINT = 0x10;
     public const UInt32 VM_THREAD_FLAG = 0x80000000;
+    public const UInt32 VM_THREAD_COUNT_FLAG = 0x40000000;
     public const UInt32 VM_STEP_OVER_FLAG = 0x01000000;
     public const int RUNNING_FLAGS_STOP = 0;
     public const int RUNNING_FLAGS_START = 1;
@@ -42,7 +43,8 @@ namespace PC6502 {
     List<UInt16> InstructionAddress = new List<UInt16>();
     int Running = 0;                    // 0: Stop, 1: Run, 3: Run with Thread
     BREAK_POINT_CLASS BpObj = new BREAK_POINT_CLASS();
-    UInt16 ExecutionCount = 0x10;
+    UInt16 ExecutionCount = 0x1000;
+    UInt16 MtExecutionCount = 0x1000;
 
     public CpuWindow() {
       InitializeComponent();
@@ -55,6 +57,7 @@ namespace PC6502 {
       double exec_inteleaved = Evaluate((string)pref.ExecutionInterleaved);
       timer_CPU.Interval = (int)(exec_inteleaved * 1000);
       ExecutionCount = (UInt16)Convert.ToUInt16((string)pref.ExecutionCount, 16);
+      MtExecutionCount = (UInt16)Convert.ToUInt16((string)pref.MtExecutionCount, 16);
     }
 
     public void Callback(dynamic cmd) {
@@ -267,7 +270,7 @@ namespace PC6502 {
         button_Step.Enabled = true;
       } else if ((run_mode & RUNNING_FLAGS_START) != 0) { // Run
         if ((run_mode & RUNNING_FLAGS_THREAD) != 0) {
-          VM_Run(VM, VM_THREAD_FLAG + 0);
+          VM_Run(VM, VM_THREAD_FLAG | VM_THREAD_COUNT_FLAG | MtExecutionCount);
         } else {
           timer_CPU.Enabled = true;
         }
